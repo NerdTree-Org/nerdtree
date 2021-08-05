@@ -8,3 +8,16 @@ authors = ["The NerdTree Root Node Developers"]
 
 [dependencies]
 actix-web = "3"
+derive_more = "0.99.0"
+serde = { version = "1", features = ["derive"] }
+dotenv = "0.15.0"
+actix-web-validator = "2.1.1"
+validator = { version = "0.12", features = ["derive"] }
+diesel = { version = "1.4.5", features = ["postgres", "chrono", "r2d2", "uuidv07"] }
+r2d2 = "0.8.9"
+actix-ratelimit = "0.3.1"
+rust-argon2 = "0.8"
+rand = "0.8.4"
+uuid = { version = "0.8.2", features = ["serde", "v1", "v4"] }
+jsonwebtoken = "7"
+chrono = { version = "0.4", features = ["serde"] }
