@@ -31,3 +31,16 @@ pub fn insert_user(
         .get_result::<UserModel>(&conn)
         .map_or_else(|_| Err(Errors::InternalServerError), Ok)
 }
+
+pub fn update_user_password(
+    user_id: &uuid::Uuid,
+    new_password: &str,
+    conn_pool: &Pool
+) -> Result<UserModel, Errors> {
+    let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
+
+    diesel::update(users.filter(id.eq(user_id)))
+        .set(password.eq(new_password))
+        .get_result::<UserModel>(&conn)
+        .map_or_else(|_| Err(Errors::InternalServerError), Ok)
+}

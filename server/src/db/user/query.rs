@@ -30,6 +30,20 @@ pub fn get_users_by_username(
     Ok(results)
 }
 
+pub fn get_user_by_id(
+    user_id: &uuid::Uuid,
+    conn_pool: &Pool
+) -> Result<Vec<UserModel>, Errors> {
+    let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
+
+    let results = users.filter(id.eq(user_id))
+        .limit(1)
+        .load::<UserModel>(&conn)
+        .map_err(|_| Errors::InternalServerError)?;
+
+    Ok(results)
+}
+
 pub fn is_unique_user(
     user_email: &str,
     user_username: &str,

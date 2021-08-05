@@ -48,3 +48,14 @@ pub struct RefreshAccessTokenPayload {
 pub struct RefreshAccessTokenReturnPayload {
     pub access_token: String
 }
+
+#[derive(Deserialize)]
+pub struct PasswordResetRequestPayload {
+    pub email: String
+}
+
+#[derive(Deserialize)]
+pub struct PasswordResetTokenPayload {
+    pub reset_token: String,
+    pub password: String
+}
