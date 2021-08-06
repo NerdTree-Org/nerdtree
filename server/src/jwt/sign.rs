@@ -44,7 +44,7 @@ pub fn generate_passwordresettoken(user_id: uuid::Uuid, secret: &str) -> Result<
 pub fn generate_refreshtoken(user_id: uuid::Uuid) -> Result<String> {
     let claims = Token {
         id: user_id.to_string(),
-        exp: (chrono::Utc::now() + chrono::Duration::minutes(5)).timestamp(),
+        exp: (chrono::Utc::now() + chrono::Duration::days(30)).timestamp(),
         token_type: TokenType::RefreshToken
     };
 

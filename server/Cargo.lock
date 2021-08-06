@@ -1423,6 +1423,7 @@ dependencies = [
  "derive_more",
  "diesel",
  "dotenv",
+ "futures-util",
  "jsonwebtoken",
  "lettre",
  "r2d2",

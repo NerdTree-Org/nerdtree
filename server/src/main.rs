@@ -9,6 +9,7 @@ pub mod db;
 pub mod jwt;
 pub mod env;
 pub mod email;
+pub mod guards;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
