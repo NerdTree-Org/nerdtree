@@ -14,6 +14,7 @@ pub mod guards;
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     dotenv::dotenv().ok();
+    env::check_env();
 
     HttpServer::new(|| {
         App::new()
@@ -34,6 +35,7 @@ async fn main() -> std::io::Result<()> {
                             .route("/lastname", web::post().to(services::user::data_update::update_lastname_handler))
                             .route("/email", web::post().to(services::user::data_update::update_email_handler))
                             .route("/password", web::post().to(services::user::data_update::update_password_handler))
+                            .route("/profile_pic", web::post().to(services::user::data_update::upload_profile_pic_handler))
                     )
                     .service(
                         web::scope("/query")
@@ -51,6 +53,7 @@ async fn main() -> std::io::Result<()> {
                             .route("/user", web::post().to(services::user::data_update::delete_user_handler))
                     )
             )
+            .service(actix_files::Files::new("/static", &std::env::var("IMAGE_PATH").unwrap()).show_files_listing())
     })
     .bind("0.0.0.0:8080")?
     .run()

@@ -15,7 +15,7 @@ pub async fn register_handler(
 ) -> Result<impl Responder, Errors> {
     // check for existing user
     if !is_unique_user(&payload.email, &payload.username, &conn_pool)? {
-        return Err(Errors::BadRequest("User is not unique!"));
+        return Err(Errors::BadRequest("User is not unique!".to_string()));
     }
 
     let config = Config::default();

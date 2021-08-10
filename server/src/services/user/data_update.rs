@@ -1,16 +1,18 @@
 use crate::guards::login_required::LoginRequired;
 use actix_web_validator::Json as validate;
 use actix_web::{web::{Json, Data}, Responder};
-use crate::services::user::payload::{UpdateFirstnamePayload, StatusPayload, UpdateLastnamePayload, UpdateEmailPayload, UpdatePasswordPayload, DeleteUserPayload};
+use crate::services::user::payload::{UpdateFirstnamePayload, StatusPayload, UpdateLastnamePayload, UpdateEmailPayload, UpdatePasswordPayload, DeleteUserPayload, QueriedUser};
 use crate::db::Pool;
 use crate::errors::Errors;
-use crate::db::user::mutation::{update_user_firstname, update_user_lastname, update_user_email, update_user_password, delete_user};
+use crate::db::user::mutation::{update_user_firstname, update_user_lastname, update_user_email, update_user_password, delete_user, update_user_profile_pic};
 use rand::RngCore;
 use argon2::Config;
 use uuid::Uuid;
 use std::str::FromStr;
 use crate::guards::admin_only::AdminOnly;
 use crate::db::user::query::get_users_by_email;
+use actix_multipart::Multipart;
+use futures_util::{TryStreamExt, StreamExt};
 
 pub async fn update_firstname_handler(
     user: LoginRequired,
@@ -41,7 +43,7 @@ pub async fn update_email_handler(
     let users = get_users_by_email(&payload.email, &conn_pool)?;
     if users.len() >= 1 {
         if users[0].id != user.user.id {
-            return Err(Errors::BadRequest("Invalid email"))
+            return Err(Errors::BadRequest("Invalid email".to_string()))
         }
     }
 
@@ -67,7 +69,7 @@ pub async fn update_password_handler(
         })))
     }
     else {
-        Err(Errors::BadRequest("Wrong Password"))
+        Err(Errors::BadRequest("Wrong Password".to_string()))
     }
 }
 
@@ -76,8 +78,46 @@ pub async fn delete_user_handler(
     _: AdminOnly,
     conn_pool: Data<Pool>
 ) -> Result<impl Responder, Errors> {
-    let user_id = Uuid::from_str(&payload.user_id).map_err(|_| Errors::BadRequest("Invalid uuid"))?;
+    let user_id = Uuid::from_str(&payload.user_id).map_err(|_| Errors::BadRequest("Invalid uuid".to_string()))?;
     delete_user(&user_id, &conn_pool).map(|_| Json(StatusPayload {
         success: true
     }))
+}
+
+pub async fn upload_profile_pic_handler(
+    mut payload: Multipart,
+    user: LoginRequired,
+    conn_pool: Data<Pool>
+) -> Result<impl Responder, Errors> {
+    // only care about the first field, cause we don't give a fuck
+    let mut field = payload.try_next().await.map_err(|e| Errors::BadRequest(e.to_string()))?.unwrap();
+    let mut file_bytes: Vec<u8> = vec![];
+
+    while let Some(chunk) = field.next().await {
+        let data = chunk.unwrap();
+        file_bytes.extend(data.to_vec());
+    }
+
+    // check file size
+    // as u8 is 8 bits or 1 byte, we can just count the length of the bytes array
+    if file_bytes.len() > 1024*2048 {
+        return Err(Errors::BadRequest("Too big file".to_string()));
+    }
+
+    // write the image to image dir
+    let img_filename = Uuid::new_v4().to_string() + ".png";
+    let img_dir = std::env::var("IMAGE_PATH").unwrap();
+    let img_dir = std::path::Path::new(&img_dir);
+
+    // we should have all the bytes collected
+    let _ = image::load_from_memory(&file_bytes).map_err(|e| Errors::BadRequest(e.to_string()))?.save(img_dir.join(&img_filename))
+        .map_err(|_| Errors::InternalServerError);
+
+    // try deleting the previous avatar
+    if let Some(previous_pic) = user.user.profile_pic {
+        let _ = std::fs::remove_file(img_dir.join(previous_pic));
+    }
+
+    // try update the avatar in db
+    Ok(Json(QueriedUser::new(update_user_profile_pic(&user.user.id, &img_filename, &conn_pool)?)))
 }

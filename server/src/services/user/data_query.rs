@@ -11,11 +11,11 @@ pub async fn get_user_by_id_handler(
     payload: Json<GetUserByIdPayload>,
     conn_pool: Data<Pool>
 ) -> Result<impl Responder, Errors> {
-    let user_id = Uuid::from_str(&payload.id).map_err(|_| Errors::BadRequest("Invalid uuid"))?;
+    let user_id = Uuid::from_str(&payload.id).map_err(|_| Errors::BadRequest("Invalid uuid".to_string()))?;
     let user = get_user_by_id(&user_id, &conn_pool)?;
 
     if user.len() == 0 {
-        return Err(Errors::BadRequest("No such user"));
+        return Err(Errors::BadRequest("No such user".to_string()));
     }
 
     Ok(Json(QueriedUser::new(user[0].clone())))
@@ -27,7 +27,7 @@ pub async fn get_user_by_email_handler(
 ) -> Result<impl Responder, Errors> {
     let user = get_users_by_email(&payload.email, &conn_pool)?;
     if user.len() == 0 {
-        return Err(Errors::BadRequest("No such user"));
+        return Err(Errors::BadRequest("No such user".to_string()));
     }
 
     Ok(Json(QueriedUser::new(user[0].clone())))
@@ -39,7 +39,7 @@ pub async fn get_user_by_username_handler(
 ) -> Result<impl Responder, Errors> {
     let user = get_users_by_username(&payload.username, &conn_pool)?;
     if user.len() == 0 {
-        return Err(Errors::BadRequest("No such user"));
+        return Err(Errors::BadRequest("No such user".to_string()));
     }
 
     Ok(Json(QueriedUser::new(user[0].clone())))

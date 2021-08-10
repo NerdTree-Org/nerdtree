@@ -20,7 +20,7 @@ pub async fn password_reset_request_handler(
 
     if users.len() == 0 {
         // no such user with email
-        return Err(Errors::BadRequest("No such user"));
+        return Err(Errors::BadRequest("No such user".to_string()));
     }
 
     let user = users[0].clone();
@@ -48,19 +48,19 @@ pub async fn password_reset_token_handler(
     // check if token type is password reset token
     match decoded_token.token_type {
         TokenType::PasswordResetToken => (),
-        _ => return Err(Errors::BadRequest("Invalid token"))
+        _ => return Err(Errors::BadRequest("Invalid token".to_string()))
     };
 
     let users = get_user_by_id(&uuid::Uuid::from_str(&decoded_token.id).unwrap(), &conn_pool)?;
     if users.len() == 0 {
         // no such user
-        return Err(Errors::BadRequest("Malformed token"));
+        return Err(Errors::BadRequest("Malformed token".to_string()));
     }
     let user = users[0].clone();
 
     // now verify the token
     verify_token_with_custom_secret(&payload.reset_token, &(user.password + &std::env::var("JWT_SECRET_KEY").unwrap()))
-        .map_err(|_| Errors::BadRequest("Malformed token"))?;
+        .map_err(|_| Errors::BadRequest("Malformed token".to_string()))?;
 
     // now change the password
     let config = Config::default();

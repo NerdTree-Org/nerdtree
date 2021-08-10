@@ -11,7 +11,7 @@ pub async fn login_handler(
 ) -> Result<impl Responder, Errors> {
     let users = get_users_by_username(&payload.username, &conn_pool)?;
     if users.len() == 0 {
-        return Err(Errors::BadRequest("Wrong Credentials"));
+        return Err(Errors::BadRequest("Wrong Credentials".to_string()));
     }
 
     let user = users[0].clone();
@@ -20,7 +20,7 @@ pub async fn login_handler(
     let matches = argon2::verify_encoded(&hashed_password, (&payload.password).as_ref()).map_err(|_| Errors::InternalServerError)?;
 
     if !matches {
-        return Err(Errors::BadRequest("Wrong Credentials"));
+        return Err(Errors::BadRequest("Wrong Credentials".to_string()));
     }
 
     let accesstoken = generate_accesstoken(user.id).map_err(|_| Errors::InternalServerError)?;

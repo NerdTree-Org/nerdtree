@@ -7,11 +7,11 @@ use crate::jwt::sign::generate_accesstoken;
 
 pub async fn refresh_accesstoken(payload: Json<RefreshAccessTokenPayload>) -> Result<impl Responder, Errors> {
     let refresh_token = payload.refresh_token.clone();
-    let token_payload = verify_token(&refresh_token).map_err(|_| Errors::BadRequest("Invalid token"))?;
+    let token_payload = verify_token(&refresh_token).map_err(|_| Errors::BadRequest("Invalid token".to_string()))?;
 
     match token_payload.token_type {
         TokenType::RefreshToken => (),
-        _ => return Err(Errors::BadRequest("Invalid token"))
+        _ => return Err(Errors::BadRequest("Invalid token".to_string()))
     }
 
     let new_accesstoken = generate_accesstoken(token_payload.id.parse().unwrap()).map_err(|_| Errors::InternalServerError)?;

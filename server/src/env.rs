@@ -8,4 +8,5 @@ pub fn check_env() {
     var("SMTP_EMAIL").unwrap();
     var("SMTP_PASSWORD").unwrap();
     var("SMTP_SERVER").unwrap();
+    var("IMAGE_PATH").unwrap();
 }

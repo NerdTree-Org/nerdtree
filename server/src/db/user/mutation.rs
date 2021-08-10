@@ -84,6 +84,19 @@ pub fn update_user_email(
         .map_or_else(|_| Err(Errors::InternalServerError), Ok)
 }
 
+pub fn update_user_profile_pic(
+    user_id: &uuid::Uuid,
+    new_profile_pic: &str,
+    conn_pool: &Pool
+) -> Result<UserModel, Errors> {
+    let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
+
+    diesel::update(users.filter(id.eq(user_id)))
+        .set(profile_pic.eq(new_profile_pic))
+        .get_result::<UserModel>(&conn)
+        .map_or_else(|_| Err(Errors::InternalServerError), Ok)
+}
+
 pub fn delete_user(
     user_id: &uuid::Uuid,
     conn_pool: &Pool
@@ -92,5 +105,5 @@ pub fn delete_user(
 
     diesel::delete(users.filter(id.eq(user_id)))
         .execute(&conn)
-        .map_err(|_| Errors::BadRequest("Failed to delete user as it may not exist"))
+        .map_err(|_| Errors::BadRequest("Failed to delete user as it may not exist".to_string()))
 }

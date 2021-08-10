@@ -13,7 +13,7 @@ pub enum Errors {
     InternalServerError,
 
     #[display(fmt = "Bad Request: {}", _0)]
-    BadRequest(&'static str),
+    BadRequest(String),
 
     #[display(fmt = "Access Forbidden")]
     AccessForbidden
@@ -22,7 +22,7 @@ pub enum Errors {
 #[derive(Serialize)]
 struct ReturnPayload {
     pub success: bool,
-    pub error: &'static str
+    pub error: String
 }
 
 impl ResponseError for Errors {
@@ -39,16 +39,16 @@ impl ResponseError for Errors {
             Errors::InternalServerError => {
                 HttpResponse::InternalServerError().json(ReturnPayload {
                     success: false,
-                    error: "Internal Server Error"
+                    error: String::from("Internal Server Error")
                 })
             },
-            Errors::BadRequest(message) => HttpResponse::BadRequest().json(ReturnPayload {
+            Errors::BadRequest(ref message) => HttpResponse::BadRequest().json(ReturnPayload {
                 success: false,
-                error: message
+                error: message.clone()
             }),
             Errors::AccessForbidden => HttpResponse::Forbidden().json(ReturnPayload {
                 success: false,
-                error: "Access forbidden"
+                error: String::from("Access forbidden")
             })
         }
     }
