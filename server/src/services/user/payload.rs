@@ -1,20 +1,20 @@
 use crate::db::user::models::UserModel;
+use serde::{Deserialize, Serialize};
 use validator::Validate;
-use serde::{Serialize, Deserialize};
 
 #[derive(Deserialize)]
 pub struct GetUserByIdPayload {
-    pub id: String
+    pub id: String,
 }
 
 #[derive(Deserialize)]
 pub struct GetUserByEmailPayload {
-    pub email: String
+    pub email: String,
 }
 
 #[derive(Deserialize)]
 pub struct GetUserByUsernamePayload {
-    pub username: String
+    pub username: String,
 }
 
 #[derive(Serialize)]
@@ -26,13 +26,11 @@ pub struct QueriedUser {
     pub email: String,
     pub profile_pic: Option<String>,
     pub is_admin: bool,
-    pub facebook_id: String
+    pub facebook_id: String,
 }
 
 impl QueriedUser {
-    pub fn new(
-        unsafe_user: UserModel
-    ) -> Self {
+    pub fn new(unsafe_user: UserModel) -> Self {
         QueriedUser {
             id: unsafe_user.id,
             firstname: unsafe_user.firstname,
@@ -41,7 +39,7 @@ impl QueriedUser {
             username: unsafe_user.username,
             facebook_id: unsafe_user.facebook_id,
             is_admin: unsafe_user.is_admin,
-            profile_pic: unsafe_user.profile_pic
+            profile_pic: unsafe_user.profile_pic,
         }
     }
 }
@@ -49,19 +47,19 @@ impl QueriedUser {
 #[derive(Deserialize, Validate)]
 pub struct UpdateFirstnamePayload {
     #[validate(length(min = 3, max = 255))]
-    pub firstname: String
+    pub firstname: String,
 }
 
 #[derive(Deserialize, Validate)]
 pub struct UpdateLastnamePayload {
     #[validate(length(min = 3, max = 255))]
-    pub lastname: String
+    pub lastname: String,
 }
 
 #[derive(Deserialize, Validate)]
 pub struct UpdateEmailPayload {
     #[validate(email)]
-    pub email: String
+    pub email: String,
 }
 
 #[derive(Deserialize, Validate)]
@@ -69,15 +67,15 @@ pub struct UpdatePasswordPayload {
     pub old_password: String,
 
     #[validate(length(min = 8, max = 80))]
-    pub new_password: String
+    pub new_password: String,
 }
 
 #[derive(Serialize)]
 pub struct StatusPayload {
-    pub success: bool
+    pub success: bool,
 }
 
 #[derive(Deserialize)]
 pub struct DeleteUserPayload {
-    pub user_id: String
+    pub user_id: String,
 }

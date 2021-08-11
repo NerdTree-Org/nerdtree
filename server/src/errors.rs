@@ -1,11 +1,7 @@
-use actix_web::{
-    error::ResponseError,
-    HttpResponse,
-    http::StatusCode
-};
+use actix_web::{error::ResponseError, http::StatusCode, HttpResponse};
 
-use serde::Serialize;
 use derive_more::Display;
+use serde::Serialize;
 
 #[derive(Debug, Display)]
 pub enum Errors {
@@ -16,13 +12,13 @@ pub enum Errors {
     BadRequest(String),
 
     #[display(fmt = "Access Forbidden")]
-    AccessForbidden
+    AccessForbidden,
 }
 
 #[derive(Serialize)]
 struct ReturnPayload {
     pub success: bool,
-    pub error: String
+    pub error: String,
 }
 
 impl ResponseError for Errors {
@@ -30,7 +26,7 @@ impl ResponseError for Errors {
         match *self {
             Errors::InternalServerError => StatusCode::INTERNAL_SERVER_ERROR,
             Errors::BadRequest(_) => StatusCode::BAD_REQUEST,
-            Errors::AccessForbidden => StatusCode::FORBIDDEN
+            Errors::AccessForbidden => StatusCode::FORBIDDEN,
         }
     }
 
@@ -39,17 +35,17 @@ impl ResponseError for Errors {
             Errors::InternalServerError => {
                 HttpResponse::InternalServerError().json(ReturnPayload {
                     success: false,
-                    error: String::from("Internal Server Error")
+                    error: String::from("Internal Server Error"),
                 })
-            },
+            }
             Errors::BadRequest(ref message) => HttpResponse::BadRequest().json(ReturnPayload {
                 success: false,
-                error: message.clone()
+                error: message.clone(),
             }),
             Errors::AccessForbidden => HttpResponse::Forbidden().json(ReturnPayload {
                 success: false,
-                error: String::from("Access forbidden")
-            })
+                error: String::from("Access forbidden"),
+            }),
         }
     }
 }

@@ -1,2 +1,2 @@
-pub mod login_required;
 pub mod admin_only;
+pub mod login_required;

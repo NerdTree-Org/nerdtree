@@ -1,5 +1,5 @@
-pub mod register;
-pub mod payloads;
 pub mod login;
-pub mod refresh_accesstoken;
 pub mod password_reset;
+pub mod payloads;
+pub mod refresh_accesstoken;
+pub mod register;

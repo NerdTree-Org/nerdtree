@@ -1,10 +1,10 @@
-use crate::db::Pool;
-use crate::db::get_conn;
-use super::models::NewUser;
 use super::super::schema::users::dsl::*;
-use diesel::prelude::*;
+use super::models::NewUser;
+use crate::db::get_conn;
 use crate::db::user::models::UserModel;
+use crate::db::Pool;
 use crate::errors::Errors;
+use diesel::prelude::*;
 
 pub fn insert_user(
     user_username: &str,
@@ -13,7 +13,7 @@ pub fn insert_user(
     user_password_hash: &str,
     user_email: &str,
     user_facebook_id: &str,
-    conn_pool: &Pool
+    conn_pool: &Pool,
 ) -> Result<UserModel, Errors> {
     let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
 
@@ -23,7 +23,7 @@ pub fn insert_user(
         lastname: user_lastname,
         password: user_password_hash,
         email: user_email,
-        facebook_id: user_facebook_id
+        facebook_id: user_facebook_id,
     };
 
     diesel::insert_into(users)
@@ -35,7 +35,7 @@ pub fn insert_user(
 pub fn update_user_password(
     user_id: &uuid::Uuid,
     new_password: &str,
-    conn_pool: &Pool
+    conn_pool: &Pool,
 ) -> Result<UserModel, Errors> {
     let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
 
@@ -48,7 +48,7 @@ pub fn update_user_password(
 pub fn update_user_firstname(
     user_id: &uuid::Uuid,
     new_firstname: &str,
-    conn_pool: &Pool
+    conn_pool: &Pool,
 ) -> Result<UserModel, Errors> {
     let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
 
@@ -61,7 +61,7 @@ pub fn update_user_firstname(
 pub fn update_user_lastname(
     user_id: &uuid::Uuid,
     new_lastname: &str,
-    conn_pool: &Pool
+    conn_pool: &Pool,
 ) -> Result<UserModel, Errors> {
     let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
 
@@ -74,7 +74,7 @@ pub fn update_user_lastname(
 pub fn update_user_email(
     user_id: &uuid::Uuid,
     new_email: &str,
-    conn_pool: &Pool
+    conn_pool: &Pool,
 ) -> Result<UserModel, Errors> {
     let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
 
@@ -87,7 +87,7 @@ pub fn update_user_email(
 pub fn update_user_profile_pic(
     user_id: &uuid::Uuid,
     new_profile_pic: &str,
-    conn_pool: &Pool
+    conn_pool: &Pool,
 ) -> Result<UserModel, Errors> {
     let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
 
@@ -97,10 +97,7 @@ pub fn update_user_profile_pic(
         .map_or_else(|_| Err(Errors::InternalServerError), Ok)
 }
 
-pub fn delete_user(
-    user_id: &uuid::Uuid,
-    conn_pool: &Pool
-) -> Result<usize, Errors> {
+pub fn delete_user(user_id: &uuid::Uuid, conn_pool: &Pool) -> Result<usize, Errors> {
     let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
 
     diesel::delete(users.filter(id.eq(user_id)))

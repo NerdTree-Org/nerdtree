@@ -40,8 +40,4 @@ joinable!(comments -> posts (post_id));
 joinable!(comments -> users (author_id));
 joinable!(posts -> users (post_author));
 
-allow_tables_to_appear_in_same_query!(
-    comments,
-    posts,
-    users,
-);
+allow_tables_to_appear_in_same_query!(comments, posts, users,);

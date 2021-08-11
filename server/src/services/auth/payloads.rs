@@ -1,4 +1,4 @@
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 use validator::Validate;
 
 #[derive(Deserialize, Validate)]
@@ -19,43 +19,43 @@ pub struct RegisterRequest {
     pub password: String,
 
     #[validate(length(max = 80))]
-    pub facebook_id: String
+    pub facebook_id: String,
 }
 
 #[derive(Deserialize)]
 pub struct LoginRequest {
     pub username: String,
-    pub password: String
+    pub password: String,
 }
 
 #[derive(Serialize, Deserialize)]
 pub struct StatusPayload {
-    pub success: bool
+    pub success: bool,
 }
 
 #[derive(Serialize)]
 pub struct TokensPayload {
     pub refreshtoken: String,
-    pub accesstoken: String
+    pub accesstoken: String,
 }
 
 #[derive(Serialize, Deserialize)]
 pub struct RefreshAccessTokenPayload {
-    pub refresh_token: String
+    pub refresh_token: String,
 }
 
 #[derive(Serialize, Deserialize)]
 pub struct RefreshAccessTokenReturnPayload {
-    pub access_token: String
+    pub access_token: String,
 }
 
 #[derive(Deserialize)]
 pub struct PasswordResetRequestPayload {
-    pub email: String
+    pub email: String,
 }
 
 #[derive(Deserialize)]
 pub struct PasswordResetTokenPayload {
     pub reset_token: String,
-    pub password: String
+    pub password: String,
 }

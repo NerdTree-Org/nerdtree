@@ -1,6 +1,6 @@
+use lettre::transport::smtp::authentication::Credentials;
 use lettre::{Message, SmtpTransport, Transport};
 use std::env::var;
-use lettre::transport::smtp::authentication::Credentials;
 
 /// Tries to send email and returns boolean value indicating whether it's successful or not
 pub fn send_email(subject: &str, body: &str, receiver: &str) -> bool {

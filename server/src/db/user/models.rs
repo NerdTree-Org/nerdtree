@@ -11,7 +11,7 @@ pub struct UserModel {
     pub profile_pic: Option<String>,
     pub is_admin: bool,
     pub facebook_id: String,
-    pub discord_token: uuid::Uuid
+    pub discord_token: uuid::Uuid,
 }
 
 #[derive(Insertable)]
@@ -22,5 +22,5 @@ pub struct NewUser<'a> {
     pub lastname: &'a str,
     pub password: &'a str,
     pub email: &'a str,
-    pub facebook_id: &'a str
+    pub facebook_id: &'a str,
 }
