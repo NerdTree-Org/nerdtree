@@ -2,6 +2,7 @@ use diesel::r2d2::{ConnectionManager, PooledConnection};
 use diesel::PgConnection;
 use r2d2::Error;
 
+pub mod post;
 pub mod schema;
 pub mod user;
 

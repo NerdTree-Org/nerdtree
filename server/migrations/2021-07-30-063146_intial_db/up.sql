@@ -35,16 +35,49 @@ CREATE TABLE "comments"
 (
     "id"            UUID PRIMARY KEY            DEFAULT uuid_generate_v1mc(),
     "post_id"       UUID                        NOT NULL,
-    "author_id"     UUID                        NOT NULL,
+    "author_id"     UUID,
     "body"          VARCHAR(500)                NOT NULL,
-    "upvotes"       INTEGER                     NOT NULL DEFAULT 0,
 
     CONSTRAINT fk0_post
         FOREIGN KEY (post_id)
             REFERENCES posts(id)
-            ON DELETE SET NULL,
+            ON DELETE CASCADE,
     CONSTRAINT fk1_author
         FOREIGN KEY (author_id)
             REFERENCES users(id)
             ON DELETE SET NULL
-)
+);
+
+CREATE TABLE "upvotes"
+(
+    "id"            UUID PRIMARY KEY                    DEFAULT uuid_generate_v1mc(),
+    "post_id"       UUID                                NOT NULL,
+    "user_id"       UUID                                NOT NULL,
+
+    CONSTRAINT fk1_post
+        FOREIGN KEY (post_id)
+            REFERENCES posts(id)
+            ON DELETE CASCADE,
+
+    CONSTRAINT fk2_author
+        FOREIGN KEY (user_id)
+            REFERENCES users(id)
+            ON DELETE CASCADE
+);
+
+CREATE TABLE "downvotes"
+(
+    "id"            UUID PRIMARY KEY                    DEFAULT uuid_generate_v1mc(),
+    "post_id"       UUID                                NOT NULL,
+    "user_id"       UUID                                NOT NULL,
+
+    CONSTRAINT fk2_post
+        FOREIGN KEY (post_id)
+            REFERENCES posts(id)
+            ON DELETE CASCADE,
+
+    CONSTRAINT fk3_author
+        FOREIGN KEY (user_id)
+            REFERENCES users(id)
+            ON DELETE CASCADE
+);

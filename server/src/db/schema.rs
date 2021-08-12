@@ -2,9 +2,16 @@ table! {
     comments (id) {
         id -> Uuid,
         post_id -> Uuid,
-        author_id -> Uuid,
+        author_id -> Nullable<Uuid>,
         body -> Varchar,
-        upvotes -> Int4,
+    }
+}
+
+table! {
+    downvotes (id) {
+        id -> Uuid,
+        post_id -> Uuid,
+        user_id -> Uuid,
     }
 }
 
@@ -18,6 +25,14 @@ table! {
         creation_date -> Timestamp,
         approval_date -> Nullable<Timestamp>,
         post_author -> Nullable<Uuid>,
+    }
+}
+
+table! {
+    upvotes (id) {
+        id -> Uuid,
+        post_id -> Uuid,
+        user_id -> Uuid,
     }
 }
 
@@ -38,6 +53,16 @@ table! {
 
 joinable!(comments -> posts (post_id));
 joinable!(comments -> users (author_id));
+joinable!(downvotes -> posts (post_id));
+joinable!(downvotes -> users (user_id));
 joinable!(posts -> users (post_author));
+joinable!(upvotes -> posts (post_id));
+joinable!(upvotes -> users (user_id));
 
-allow_tables_to_appear_in_same_query!(comments, posts, users,);
+allow_tables_to_appear_in_same_query!(
+    comments,
+    downvotes,
+    posts,
+    upvotes,
+    users,
+);

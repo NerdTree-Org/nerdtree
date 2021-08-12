@@ -104,6 +104,10 @@ async fn main() -> std::io::Result<()> {
                         web::post().to(services::user::data_update::delete_user_handler),
                     )),
             )
+            .service(web::scope("/post").route(
+                "/new",
+                web::post().to(services::blog::data_update::new_post_handler),
+            ))
             .service(
                 actix_files::Files::new("/static", &std::env::var("IMAGE_PATH").unwrap())
                     .show_files_listing(),
