@@ -6,7 +6,6 @@ use diesel::RunQueryDsl;
 
 pub fn insert_post(
     post_title: &str,
-    post_thumbnail: &str,
     post_body: &str,
     post_creator: &uuid::Uuid,
     conn_pool: &Pool,
@@ -15,7 +14,6 @@ pub fn insert_post(
 
     let new_post = NewPost {
         title: post_title,
-        thumbnail: post_thumbnail,
         body: post_body,
         post_author: post_creator,
     };

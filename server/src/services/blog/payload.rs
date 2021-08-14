@@ -6,8 +6,5 @@ pub struct NewPostPayload {
     #[validate(length(min = 3, max = 255))]
     pub title: String,
 
-    pub body: String,
-
-    #[validate(length(min = 40, max = 41))]
-    pub thumbnail: String,
+    pub body: String
 }

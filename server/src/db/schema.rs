@@ -20,7 +20,7 @@ table! {
         id -> Uuid,
         is_approved -> Bool,
         title -> Varchar,
-        thumbnail -> Varchar,
+        thumbnail -> Nullable<Varchar>,
         body -> Text,
         creation_date -> Timestamp,
         approval_date -> Nullable<Timestamp>,

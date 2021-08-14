@@ -17,7 +17,6 @@ pub async fn new_post_handler(
     // insert new post
     Ok(Json(insert_post(
         &payload.title,
-        &payload.thumbnail,
         &payload.body,
         &user.user.id,
         &conn_pool,

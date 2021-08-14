@@ -20,7 +20,7 @@ CREATE TABLE "posts"
     "id"            UUID PRIMARY KEY            DEFAULT uuid_generate_v1mc(),
     "is_approved"   BOOLEAN                     NOT NULL DEFAULT false,
     "title"         VARCHAR(255)                NOT NULL,
-    "thumbnail"     VARCHAR(255)                NOT NULL,
+    "thumbnail"     VARCHAR(255),
     "body"          TEXT                        NOT NULL,
     "creation_date" TIMESTAMP                   NOT NULL DEFAULT current_timestamp,
     "approval_date" TIMESTAMP,
