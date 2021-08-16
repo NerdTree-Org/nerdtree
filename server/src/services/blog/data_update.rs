@@ -1,8 +1,8 @@
-use crate::db::post::mutation::{insert_post, update_thumbnail, update_post_body, update_approval_status};
+use crate::db::post::mutation::{insert_post, update_thumbnail, update_post_body, update_approval_status, delete_post};
 use crate::db::Pool;
 use crate::errors::Errors;
 use crate::guards::login_required::LoginRequired;
-use crate::services::blog::payload::{NewPostPayload, UploadThumbnailForm, UpdateBodyPayload, ApprovePostPayload};
+use crate::services::blog::payload::{NewPostPayload, UploadThumbnailForm, UpdateBodyPayload, ApprovePostPayload, DeletePostPayload, StatusPayload};
 use actix_web::{
     web::{Data, Json},
     Responder,
@@ -123,4 +123,26 @@ pub async fn approve_post_handler(
     let post = post[0].clone();
 
     Ok(Json(update_approval_status(payload.approval_state, &post.id, &conn_pool)?))
+}
+
+pub async fn delete_post_handler(
+    payload: Json<DeletePostPayload>,
+    user: LoginRequired,
+    conn_pool: Data<Pool>
+) -> Result<impl Responder, Errors> {
+    let post = get_post_by_uuid(Uuid::from_str(&payload.post_id).map_err(|e| Errors::BadRequest(e.to_string()))?, &conn_pool)?;
+    if post.len() == 0 {
+        return Err(Errors::BadRequest(String::from("No such post!")));
+    }
+    let post = post[0].clone();
+
+    // check if user is allowed
+    return if post.post_author.is_some() && post.post_author.unwrap() != user.user.id {
+        Err(Errors::AccessForbidden)
+    } else if !user.user.is_admin {
+        Err(Errors::AccessForbidden)
+    } else {
+        // delete the post
+        delete_post(&post.id, &conn_pool).map(|_| Json(StatusPayload { success: true }))
+    }
 }

@@ -28,3 +28,13 @@ pub struct ApprovePostPayload {
     pub post_id: String,
     pub approval_state: bool
 }
+
+#[derive(Serialize, Deserialize)]
+pub struct DeletePostPayload {
+    pub post_id: String
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct StatusPayload {
+    pub success: bool
+}

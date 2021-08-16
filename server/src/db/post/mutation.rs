@@ -68,3 +68,14 @@ pub fn update_approval_status(
         .get_result::<PostModel>(&conn)
         .map_err(|_| Errors::InternalServerError)
 }
+
+pub fn delete_post(
+    post_id: &Uuid,
+    conn_pool: &Pool
+) -> Result<usize, Errors> {
+    let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
+
+    diesel::delete(posts.filter(id.eq(post_id)))
+        .execute(&conn)
+        .map_err(|_| Errors::BadRequest("Failed to delete post as it may not exist".to_string()))
+}
