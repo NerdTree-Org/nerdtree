@@ -123,7 +123,7 @@ pub async fn upload_profile_pic_handler(
     let _ = image::load_from_memory(&file_bytes)
         .map_err(|e| Errors::BadRequest(e.to_string()))?
         .save(img_dir.join(&img_filename))
-        .map_err(|_| Errors::InternalServerError);
+        .map_err(|_| Errors::InternalServerError)?;
 
     // try deleting the previous avatar
     if let Some(previous_pic) = user.user.profile_pic {

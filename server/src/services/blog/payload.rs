@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 use validator::Validate;
+use awmpde::{FromActixMultipart, File};
 
 #[derive(Serialize, Deserialize, Validate)]
 pub struct NewPostPayload {
@@ -7,4 +8,11 @@ pub struct NewPostPayload {
     pub title: String,
 
     pub body: String
+}
+
+#[derive(FromActixMultipart)]
+pub struct UploadThumbnailForm {
+    pub post_id: String,
+
+    pub thumbnail: File<Vec<u8>>
 }

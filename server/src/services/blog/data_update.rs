@@ -1,13 +1,15 @@
-use crate::db::post::mutation::insert_post;
+use crate::db::post::mutation::{insert_post, update_thumbnail};
 use crate::db::Pool;
 use crate::errors::Errors;
 use crate::guards::login_required::LoginRequired;
-use crate::services::blog::payload::NewPostPayload;
+use crate::services::blog::payload::{NewPostPayload, UploadThumbnailForm};
 use actix_web::{
     web::{Data, Json},
     Responder,
 };
 use actix_web_validator::Json as Validate;
+use uuid::Uuid;
+use crate::db::post::query::get_post_by_uuid;
 
 pub async fn new_post_handler(
     payload: Validate<NewPostPayload>,
@@ -21,4 +23,59 @@ pub async fn new_post_handler(
         &user.user.id,
         &conn_pool,
     )?))
+}
+
+pub async fn upload_thumbnail_thumbnail(
+    payload: awmpde::Multipart<UploadThumbnailForm>,
+    user: LoginRequired,
+    conn_pool: Data<Pool>
+) -> Result<impl Responder, Errors> {
+    let UploadThumbnailForm {
+        thumbnail: awmpde::File { inner, .. },
+        post_id,
+    } = payload.into_inner().await.map_err(|e| Errors::BadRequest(e.to_string()))?;
+
+    let post = get_post_by_uuid(post_id.parse().unwrap(), &conn_pool)?;
+
+    // check if post exists
+    if post.len() == 0 {
+        return Err(Errors::BadRequest(String::from("No such post")));
+    }
+
+    let post = post[0].clone();
+
+    // check if the user is the actual author
+    match post.post_author {
+        Some(id) => {
+            if !id.eq(&user.user.id) && !user.user.is_admin {
+                return Err(Errors::AccessForbidden)
+            }
+        },
+        None => {
+            if !user.user.is_admin {
+                return Err(Errors::AccessForbidden)
+            }
+        }
+    }
+
+    // check size (max 10MB)
+    if inner.len() > 1024 * 10240 {
+        return Err(Errors::BadRequest(String::from("Too big file")))
+    }
+
+    let image_path = std::env::var("IMAGE_PATH").unwrap();
+    let img_filename = Uuid::new_v4().to_string() + ".png";
+    let image_path = std::path::Path::new(&image_path);
+
+    image::load_from_memory(&inner)
+        .map_err(|e| Errors::BadRequest(String::from(e.to_string())))?
+        .save(image_path.join(&img_filename))
+        .map_err(|_| Errors::InternalServerError)?;
+
+    // try deleting the previous thumbnail
+    if let Some(thumbnail) = post.thumbnail {
+        let _ = std::fs::remove_file(image_path.join(thumbnail));
+    }
+
+    Ok(Json(update_thumbnail(&img_filename, &post.id, &conn_pool)?))
 }
