@@ -28,7 +28,7 @@ pub fn insert_post(
 pub fn update_thumbnail(
     post_thumbnail: &str,
     post_id: &Uuid,
-    conn_pool: &Pool
+    conn_pool: &Pool,
 ) -> Result<PostModel, Errors> {
     let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
 
@@ -41,7 +41,7 @@ pub fn update_thumbnail(
 pub fn update_post_body(
     post_body: &str,
     post_id: &Uuid,
-    conn_pool: &Pool
+    conn_pool: &Pool,
 ) -> Result<PostModel, Errors> {
     let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
 
@@ -54,7 +54,7 @@ pub fn update_post_body(
 pub fn update_approval_status(
     post_approval_state: bool,
     post_id: &Uuid,
-    conn_pool: &Pool
+    conn_pool: &Pool,
 ) -> Result<PostModel, Errors> {
     let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
 
@@ -69,10 +69,7 @@ pub fn update_approval_status(
         .map_err(|_| Errors::InternalServerError)
 }
 
-pub fn delete_post(
-    post_id: &Uuid,
-    conn_pool: &Pool
-) -> Result<usize, Errors> {
+pub fn delete_post(post_id: &Uuid, conn_pool: &Pool) -> Result<usize, Errors> {
     let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
 
     diesel::delete(posts.filter(id.eq(post_id)))

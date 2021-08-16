@@ -104,29 +104,30 @@ async fn main() -> std::io::Result<()> {
                         web::post().to(services::user::data_update::delete_user_handler),
                     )),
             )
-            .service(web::scope("/post")
-                .service(web::scope("/update")
-                    .route(
-                        "/new",
-                        web::post().to(services::blog::data_update::new_post_handler),
-                    )
-                    .route(
-                        "/thumbnail",
-                        web::post().to(services::blog::data_update::upload_thumbnail_thumbnail)
-                    )
-                    .route(
-                        "/body",
-                        web::post().to(services::blog::data_update::update_post_body_handler)
-                    )
-                    .route(
-                        "/update_approval",
-                        web::post().to(services::blog::data_update::approve_post_handler)
-                    )
-                    .route(
-                        "/delete",
-                        web::post().to(services::blog::data_update::delete_post_handler)
-                    )
-                )
+            .service(
+                web::scope("/post").service(
+                    web::scope("/update")
+                        .route(
+                            "/new",
+                            web::post().to(services::blog::data_update::new_post_handler),
+                        )
+                        .route(
+                            "/thumbnail",
+                            web::post().to(services::blog::data_update::upload_thumbnail_thumbnail),
+                        )
+                        .route(
+                            "/body",
+                            web::post().to(services::blog::data_update::update_post_body_handler),
+                        )
+                        .route(
+                            "/update_approval",
+                            web::post().to(services::blog::data_update::approve_post_handler),
+                        )
+                        .route(
+                            "/delete",
+                            web::post().to(services::blog::data_update::delete_post_handler),
+                        ),
+                ),
             )
             .service(
                 actix_files::Files::new("/static", &std::env::var("IMAGE_PATH").unwrap())
