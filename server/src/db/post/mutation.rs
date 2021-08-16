@@ -37,3 +37,34 @@ pub fn update_thumbnail(
         .get_result::<PostModel>(&conn)
         .map_err(|_| Errors::InternalServerError)
 }
+
+pub fn update_post_body(
+    post_body: &str,
+    post_id: &Uuid,
+    conn_pool: &Pool
+) -> Result<PostModel, Errors> {
+    let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
+
+    diesel::update(posts.filter(id.eq(post_id)))
+        .set(body.eq(post_body))
+        .get_result::<PostModel>(&conn)
+        .map_err(|_| Errors::InternalServerError)
+}
+
+pub fn update_approval_status(
+    post_approval_state: bool,
+    post_id: &Uuid,
+    conn_pool: &Pool
+) -> Result<PostModel, Errors> {
+    let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
+
+    diesel::update(posts.filter(id.eq(post_id)))
+        .set(approval_date.eq(chrono::Utc::now().naive_utc()))
+        .get_result::<PostModel>(&conn)
+        .map_err(|_| Errors::InternalServerError)?;
+
+    diesel::update(posts.filter(id.eq(post_id)))
+        .set(is_approved.eq(post_approval_state))
+        .get_result::<PostModel>(&conn)
+        .map_err(|_| Errors::InternalServerError)
+}

@@ -114,6 +114,14 @@ async fn main() -> std::io::Result<()> {
                         "/thumbnail",
                         web::post().to(services::blog::data_update::upload_thumbnail_thumbnail)
                     )
+                    .route(
+                        "/body",
+                        web::post().to(services::blog::data_update::update_post_body_handler)
+                    )
+                    .route(
+                        "/update_approval",
+                        web::post().to(services::blog::data_update::approve_post_handler)
+                    )
                 )
             )
             .service(

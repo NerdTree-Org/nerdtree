@@ -1,8 +1,8 @@
-use crate::db::post::mutation::{insert_post, update_thumbnail};
+use crate::db::post::mutation::{insert_post, update_thumbnail, update_post_body, update_approval_status};
 use crate::db::Pool;
 use crate::errors::Errors;
 use crate::guards::login_required::LoginRequired;
-use crate::services::blog::payload::{NewPostPayload, UploadThumbnailForm};
+use crate::services::blog::payload::{NewPostPayload, UploadThumbnailForm, UpdateBodyPayload, ApprovePostPayload};
 use actix_web::{
     web::{Data, Json},
     Responder,
@@ -10,6 +10,8 @@ use actix_web::{
 use actix_web_validator::Json as Validate;
 use uuid::Uuid;
 use crate::db::post::query::get_post_by_uuid;
+use std::str::FromStr;
+use crate::guards::admin_only::AdminOnly;
 
 pub async fn new_post_handler(
     payload: Validate<NewPostPayload>,
@@ -35,7 +37,7 @@ pub async fn upload_thumbnail_thumbnail(
         post_id,
     } = payload.into_inner().await.map_err(|e| Errors::BadRequest(e.to_string()))?;
 
-    let post = get_post_by_uuid(post_id.parse().unwrap(), &conn_pool)?;
+    let post = get_post_by_uuid(Uuid::from_str(&post_id).map_err(|e| Errors::BadRequest(e.to_string()))?, &conn_pool)?;
 
     // check if post exists
     if post.len() == 0 {
@@ -78,4 +80,47 @@ pub async fn upload_thumbnail_thumbnail(
     }
 
     Ok(Json(update_thumbnail(&img_filename, &post.id, &conn_pool)?))
+}
+
+pub async fn update_post_body_handler(
+    payload: Json<UpdateBodyPayload>,
+    user: LoginRequired,
+    conn_pool: Data<Pool>
+) -> Result<impl Responder, Errors> {
+    let post = get_post_by_uuid(Uuid::from_str(&payload.post_id).map_err(|e| Errors::BadRequest(e.to_string()))?, &conn_pool)?;
+    if post.len() == 0 {
+        return Err(Errors::BadRequest(String::from("No such post!")));
+    }
+
+    let post = post[0].clone();
+
+    // check if user is allowed to do that
+    match post.post_author {
+        Some(id) => {
+            if !id.eq(&user.user.id) && !user.user.is_admin {
+                return Err(Errors::AccessForbidden)
+            }
+        },
+        None => {
+            if !user.user.is_admin {
+                return Err(Errors::AccessForbidden)
+            }
+        }
+    }
+
+    Ok(Json(update_post_body(&payload.body, &post.id, &conn_pool)?))
+}
+
+pub async fn approve_post_handler(
+    payload: Json<ApprovePostPayload>,
+    _: AdminOnly,
+    conn_pool: Data<Pool>
+) -> Result<impl Responder, Errors> {
+    let post = get_post_by_uuid(Uuid::from_str(&payload.post_id).map_err(|e| Errors::BadRequest(e.to_string()))?, &conn_pool)?;
+    if post.len() == 0 {
+        return Err(Errors::BadRequest(String::from("No such post!")));
+    }
+    let post = post[0].clone();
+
+    Ok(Json(update_approval_status(payload.approval_state, &post.id, &conn_pool)?))
 }
