@@ -38,3 +38,11 @@ pub struct DeletePostPayload {
 pub struct StatusPayload {
     pub success: bool,
 }
+
+#[derive(Serialize, Deserialize, Validate)]
+pub struct UpdateTitlePayload {
+    #[validate(length(min = 3, max = 255))]
+    pub new_title: String,
+
+    pub post_id: String
+}

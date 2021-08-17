@@ -126,6 +126,10 @@ async fn main() -> std::io::Result<()> {
                         .route(
                             "/delete",
                             web::post().to(services::blog::data_update::delete_post_handler),
+                        )
+                        .route(
+                            "/title",
+                            web::post().to(services::blog::data_update::update_post_title_handler)
                         ),
                 ),
             )

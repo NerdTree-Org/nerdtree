@@ -76,3 +76,16 @@ pub fn delete_post(post_id: &Uuid, conn_pool: &Pool) -> Result<usize, Errors> {
         .execute(&conn)
         .map_err(|_| Errors::BadRequest("Failed to delete post as it may not exist".to_string()))
 }
+
+pub fn update_title(
+    new_title: &str,
+    post_id: &Uuid,
+    conn_pool: &Pool
+) -> Result<PostModel, Errors> {
+    let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
+
+    diesel::update(posts.filter(id.eq(post_id)))
+        .set(title.eq(new_title))
+        .get_result::<PostModel>(&conn)
+        .map_err(|_| Errors::InternalServerError)
+}
