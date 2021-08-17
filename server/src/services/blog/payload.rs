@@ -1,6 +1,7 @@
 use awmpde::{File, FromActixMultipart};
 use serde::{Deserialize, Serialize};
 use validator::Validate;
+use crate::db::post::models::PostModel;
 
 #[derive(Serialize, Deserialize, Validate)]
 pub struct NewPostPayload {
@@ -45,4 +46,30 @@ pub struct UpdateTitlePayload {
     pub new_title: String,
 
     pub post_id: String
+}
+
+#[derive(Serialize, Deserialize, Validate)]
+pub struct PaginatePostsPayload {
+    #[validate(range(min = 1))]
+    pub page: usize,
+
+    #[validate(range(min = 1))]
+    pub per_page: usize
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct PaginatePostsReturnPayload {
+    pub current_page: usize,
+    pub max_page: usize,
+    pub page: Vec<PostModel>
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct GetPostByIdPayload {
+    pub post_id: String
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct GetPostsByAuthorId {
+    pub author_id: String
 }

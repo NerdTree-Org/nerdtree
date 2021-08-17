@@ -105,7 +105,8 @@ async fn main() -> std::io::Result<()> {
                     )),
             )
             .service(
-                web::scope("/post").service(
+                web::scope("/post")
+                    .service(
                     web::scope("/update")
                         .route(
                             "/new",
@@ -130,8 +131,23 @@ async fn main() -> std::io::Result<()> {
                         .route(
                             "/title",
                             web::post().to(services::blog::data_update::update_post_title_handler)
-                        ),
-                ),
+                        )
+                    )
+                    .service(
+                        web::scope("/query")
+                            .route(
+                                "/paginate",
+                                web::post().to(services::blog::data_query::paginate_posts_handler)
+                            )
+                            .route(
+                                "/id",
+                                web::post().to(services::blog::data_query::get_post_by_id_handler)
+                            )
+                            .route(
+                                "/author_id",
+                                web::post().to(services::blog::data_query::get_posts_by_author_id_handler)
+                            )
+                    ),
             )
             .service(
                 actix_files::Files::new("/static", &std::env::var("IMAGE_PATH").unwrap())

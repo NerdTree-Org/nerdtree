@@ -167,7 +167,7 @@ pub async fn delete_post_handler(
 }
 
 pub async fn update_post_title_handler(
-    payload: Json<UpdateTitlePayload>,
+    payload: Validate<UpdateTitlePayload>,
     user: LoginRequired,
     conn_pool: Data<Pool>
 ) -> Result<impl Responder, Errors> {
