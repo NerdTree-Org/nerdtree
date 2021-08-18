@@ -73,3 +73,18 @@ pub struct GetPostByIdPayload {
 pub struct GetPostsByAuthorId {
     pub author_id: String
 }
+
+#[derive(Serialize, Deserialize)]
+pub struct AddUpvotePayload {
+    pub post_id: String
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct GetVotesPayload {
+    pub post_id: String
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct GetVotesReturnPayload {
+    pub votes: i64
+}

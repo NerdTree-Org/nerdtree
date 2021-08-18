@@ -5,6 +5,7 @@ use r2d2::Error;
 pub mod post;
 pub mod schema;
 pub mod user;
+pub mod voting;
 
 pub type Pool = r2d2::Pool<ConnectionManager<PgConnection>>;
 

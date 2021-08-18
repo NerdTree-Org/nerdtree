@@ -147,6 +147,21 @@ async fn main() -> std::io::Result<()> {
                                 "/author_id",
                                 web::post().to(services::blog::data_query::get_posts_by_author_id_handler)
                             )
+                    )
+                    .service(
+                        web::scope("/vote")
+                            .route(
+                                "/upvote",
+                                web::post().to(services::blog::voting::add_upvote_handler)
+                            )
+                            .route(
+                                "/downvote",
+                                web::post().to(services::blog::voting::add_downvote_handler)
+                            )
+                            .route(
+                                "/votes",
+                                web::post().to(services::blog::voting::get_votes)
+                            )
                     ),
             )
             .service(
