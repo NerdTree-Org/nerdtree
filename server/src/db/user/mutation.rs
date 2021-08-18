@@ -104,3 +104,15 @@ pub fn delete_user(user_id: &uuid::Uuid, conn_pool: &Pool) -> Result<usize, Erro
         .execute(&conn)
         .map_err(|_| Errors::BadRequest("Failed to delete user as it may not exist".to_string()))
 }
+
+pub fn invalidate_discord_token(
+    user_id: &uuid::Uuid,
+    conn_pool: &Pool
+) -> Result<UserModel, Errors> {
+    let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
+
+    diesel::update(users.filter(id.eq(user_id)))
+        .set(is_discord_token_used.eq(true))
+        .get_result::<UserModel>(&conn)
+        .map_err(|_| Errors::InternalServerError)
+}

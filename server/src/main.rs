@@ -165,6 +165,13 @@ async fn main() -> std::io::Result<()> {
                     ),
             )
             .service(
+                web::scope("/discord")
+                    .route(
+                        "/verify",
+                        web::post().to(services::discord::verify_token)
+                    )
+            )
+            .service(
                 actix_files::Files::new("/static", &std::env::var("IMAGE_PATH").unwrap())
                     .show_files_listing(),
             )

@@ -12,7 +12,8 @@ CREATE TABLE "users"
     "profile_pic"   VARCHAR(255)                        ,
     "is_admin"      BOOLEAN                     NOT NULL DEFAULT false,
     "facebook_id"   VARCHAR(255)                NOT NULL,
-    "discord_token" UUID                        NOT NULL DEFAULT uuid_generate_v4()
+    "discord_token" UUID                        NOT NULL DEFAULT uuid_generate_v4(),
+    "is_discord_token_used" BOOLEAN             NOT NULL DEFAULT false
 );
 
 CREATE TABLE "posts"
