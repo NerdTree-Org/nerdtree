@@ -7,35 +7,7 @@ use crate::db::post::query::{get_all_posts, get_post_by_uuid, get_posts_by_autho
 use actix_web_validator::Json as Validate;
 use uuid::Uuid;
 use std::str::FromStr;
-
-struct PaginatedVec<'a, T: 'a> {
-    per_page: usize,
-    pages: Vec<Vec<&'a T>>
-}
-
-impl<'a, T> PaginatedVec<'a, T> {
-    pub fn from_vec(vec: &'a Vec<T>, per_page: usize) -> PaginatedVec<T> {
-        PaginatedVec {
-            per_page,
-            pages: vec.chunks(per_page).map(|page| {
-                page.iter().collect::<Vec<&'a T>>()
-            }).collect::<Vec<Vec<&'a T>>>()
-        }
-    }
-
-    pub fn page(&'a self, index: usize) -> Option<(usize, &Vec<&'a T>)> {
-        self.pages.get(index).map(|page| {
-            (
-                index % self.per_page,
-                page
-            )
-        })
-    }
-
-    pub fn get_max_pages(&self) -> usize {
-        self.pages.len()
-    }
-}
+use crate::paginated_vec::PaginatedVec;
 
 pub async fn paginate_posts_handler(
     payload: Validate<PaginatePostsPayload>,

@@ -9,6 +9,7 @@ pub mod env;
 pub mod errors;
 pub mod guards;
 pub mod jwt;
+pub mod paginated_vec;
 mod services;
 
 #[actix_web::main]
@@ -169,6 +170,35 @@ async fn main() -> std::io::Result<()> {
                     .route(
                         "/verify",
                         web::post().to(services::discord::verify_token)
+                    )
+            )
+            .service(
+                web::scope("/comment")
+                    .service(
+                        web::scope("/update")
+                            .route(
+                                "/new",
+                                web::post().to(services::comment::data_update::new_comment_handler)
+                            )
+                            .route(
+                                "/edit",
+                                web::post().to(services::comment::data_update::edit_comment_handler)
+                            )
+                            .route(
+                                "/delete",
+                                web::post().to(services::comment::data_update::delete_comment_handler)
+                            )
+                    )
+                    .service(
+                        web::scope("/query")
+                            .route(
+                                "/by_post",
+                                web::post().to(services::comment::data_query::get_comments_by_post_handler)
+                            )
+                            .route(
+                                "/by_user",
+                                web::post().to(services::comment::data_query::get_comments_by_user_handler)
+                            )
                     )
             )
             .service(

@@ -37,7 +37,7 @@ CREATE TABLE "comments"
     "id"            UUID PRIMARY KEY            DEFAULT uuid_generate_v1mc(),
     "post_id"       UUID                        NOT NULL,
     "author_id"     UUID,
-    "body"          VARCHAR(500)                NOT NULL,
+    "body"          VARCHAR(8000)                NOT NULL,
 
     CONSTRAINT fk0_post
         FOREIGN KEY (post_id)
