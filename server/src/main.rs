@@ -17,13 +17,6 @@ async fn main() -> std::io::Result<()> {
     dotenv::dotenv().ok();
     env::check_env();
 
-    let port;
-    if std::env::var("PRODUCTION").is_ok() {
-        port = 80;
-    } else {
-        port = 8080
-    }
-
     HttpServer::new(|| {
         App::new()
             .data(create_db_pool())
@@ -217,7 +210,7 @@ async fn main() -> std::io::Result<()> {
                     .show_files_listing(),
             )
     })
-    .bind(format!("0.0.0.0:{}", port))?
+    .bind("0.0.0.0:8080")?
     .run()
     .await
 }
