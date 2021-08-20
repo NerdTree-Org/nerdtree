@@ -7,7 +7,7 @@ pub struct CommentModel {
     pub id: Uuid,
     pub post_id: Uuid,
     pub author_id: Option<Uuid>,
-    pub body: String
+    pub body: String,
 }
 
 #[derive(Insertable)]
@@ -15,5 +15,5 @@ pub struct CommentModel {
 pub struct NewComment<'a> {
     pub post_id: &'a Uuid,
     pub author_id: &'a Uuid,
-    pub body: &'a str
+    pub body: &'a str,
 }

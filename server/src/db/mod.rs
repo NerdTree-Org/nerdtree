@@ -2,11 +2,11 @@ use diesel::r2d2::{ConnectionManager, PooledConnection};
 use diesel::PgConnection;
 use r2d2::Error;
 
+pub mod comment;
 pub mod post;
 pub mod schema;
 pub mod user;
 pub mod voting;
-pub mod comment;
 
 pub type Pool = r2d2::Pool<ConnectionManager<PgConnection>>;
 

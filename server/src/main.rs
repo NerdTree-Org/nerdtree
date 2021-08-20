@@ -115,69 +115,67 @@ async fn main() -> std::io::Result<()> {
             .service(
                 web::scope("/post")
                     .service(
-                    web::scope("/update")
-                        .route(
-                            "/new",
-                            web::post().to(services::blog::data_update::new_post_handler),
-                        )
-                        .route(
-                            "/thumbnail",
-                            web::post().to(services::blog::data_update::upload_thumbnail_thumbnail),
-                        )
-                        .route(
-                            "/body",
-                            web::post().to(services::blog::data_update::update_post_body_handler),
-                        )
-                        .route(
-                            "/update_approval",
-                            web::post().to(services::blog::data_update::approve_post_handler),
-                        )
-                        .route(
-                            "/delete",
-                            web::post().to(services::blog::data_update::delete_post_handler),
-                        )
-                        .route(
-                            "/title",
-                            web::post().to(services::blog::data_update::update_post_title_handler)
-                        )
+                        web::scope("/update")
+                            .route(
+                                "/new",
+                                web::post().to(services::blog::data_update::new_post_handler),
+                            )
+                            .route(
+                                "/thumbnail",
+                                web::post()
+                                    .to(services::blog::data_update::upload_thumbnail_thumbnail),
+                            )
+                            .route(
+                                "/body",
+                                web::post()
+                                    .to(services::blog::data_update::update_post_body_handler),
+                            )
+                            .route(
+                                "/update_approval",
+                                web::post().to(services::blog::data_update::approve_post_handler),
+                            )
+                            .route(
+                                "/delete",
+                                web::post().to(services::blog::data_update::delete_post_handler),
+                            )
+                            .route(
+                                "/title",
+                                web::post()
+                                    .to(services::blog::data_update::update_post_title_handler),
+                            ),
                     )
                     .service(
                         web::scope("/query")
                             .route(
                                 "/paginate",
-                                web::post().to(services::blog::data_query::paginate_posts_handler)
+                                web::post().to(services::blog::data_query::paginate_posts_handler),
                             )
                             .route(
                                 "/id",
-                                web::post().to(services::blog::data_query::get_post_by_id_handler)
+                                web::post().to(services::blog::data_query::get_post_by_id_handler),
                             )
                             .route(
                                 "/author_id",
-                                web::post().to(services::blog::data_query::get_posts_by_author_id_handler)
-                            )
+                                web::post()
+                                    .to(services::blog::data_query::get_posts_by_author_id_handler),
+                            ),
                     )
                     .service(
                         web::scope("/vote")
                             .route(
                                 "/upvote",
-                                web::post().to(services::blog::voting::add_upvote_handler)
+                                web::post().to(services::blog::voting::add_upvote_handler),
                             )
                             .route(
                                 "/downvote",
-                                web::post().to(services::blog::voting::add_downvote_handler)
+                                web::post().to(services::blog::voting::add_downvote_handler),
                             )
-                            .route(
-                                "/votes",
-                                web::post().to(services::blog::voting::get_votes)
-                            )
+                            .route("/votes", web::post().to(services::blog::voting::get_votes)),
                     ),
             )
             .service(
                 web::scope("/discord")
-                    .route(
-                        "/verify",
-                        web::post().to(services::discord::verify_token)
-                    )
+                    .route("/verify", web::post().to(services::discord::verify_token)),
             )
             .service(
                 web::scope("/comment")
@@ -185,28 +183,34 @@ async fn main() -> std::io::Result<()> {
                         web::scope("/update")
                             .route(
                                 "/new",
-                                web::post().to(services::comment::data_update::new_comment_handler)
+                                web::post().to(services::comment::data_update::new_comment_handler),
                             )
                             .route(
                                 "/edit",
-                                web::post().to(services::comment::data_update::edit_comment_handler)
+                                web::post()
+                                    .to(services::comment::data_update::edit_comment_handler),
                             )
                             .route(
                                 "/delete",
-                                web::post().to(services::comment::data_update::delete_comment_handler)
-                            )
+                                web::post()
+                                    .to(services::comment::data_update::delete_comment_handler),
+                            ),
                     )
                     .service(
                         web::scope("/query")
                             .route(
                                 "/by_post",
-                                web::post().to(services::comment::data_query::get_comments_by_post_handler)
+                                web::post().to(
+                                    services::comment::data_query::get_comments_by_post_handler,
+                                ),
                             )
                             .route(
                                 "/by_user",
-                                web::post().to(services::comment::data_query::get_comments_by_user_handler)
-                            )
-                    )
+                                web::post().to(
+                                    services::comment::data_query::get_comments_by_user_handler,
+                                ),
+                            ),
+                    ),
             )
             .service(
                 actix_files::Files::new("/static", &std::env::var("IMAGE_PATH").unwrap())

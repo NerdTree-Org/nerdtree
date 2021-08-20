@@ -18,14 +18,19 @@ pub fn get_post_by_uuid(post_uuid: Uuid, conn_pool: &Pool) -> Result<Vec<PostMod
 pub fn get_all_posts(conn_pool: &Pool) -> Result<Vec<PostModel>, Errors> {
     let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
 
-    posts.load::<PostModel>(&conn)
+    posts
+        .load::<PostModel>(&conn)
         .map_err(|_| Errors::InternalServerError)
 }
 
-pub fn get_posts_by_author_id(author_uuid: Uuid, conn_pool: &Pool) -> Result<Vec<PostModel>, Errors> {
+pub fn get_posts_by_author_id(
+    author_uuid: Uuid,
+    conn_pool: &Pool,
+) -> Result<Vec<PostModel>, Errors> {
     let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
 
-    posts.filter(post_author.eq(author_uuid))
+    posts
+        .filter(post_author.eq(author_uuid))
         .load::<PostModel>(&conn)
         .map_err(|_| Errors::InternalServerError)
 }

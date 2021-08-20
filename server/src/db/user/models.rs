@@ -12,7 +12,7 @@ pub struct UserModel {
     pub is_admin: bool,
     pub facebook_id: String,
     pub discord_token: uuid::Uuid,
-    pub is_discord_token_used: bool
+    pub is_discord_token_used: bool,
 }
 
 #[derive(Insertable)]

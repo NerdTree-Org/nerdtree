@@ -1,22 +1,22 @@
-use uuid::Uuid;
-use crate::db::{Pool, get_conn};
 use crate::db::comment::models::{CommentModel, NewComment};
-use crate::errors::Errors;
 use crate::db::schema::comments::dsl::*;
+use crate::db::{get_conn, Pool};
+use crate::errors::Errors;
 use diesel::prelude::*;
+use uuid::Uuid;
 
 pub fn insert_comment(
     comment_post_id: &Uuid,
     comment_author_id: &Uuid,
     comment_body: &str,
-    conn_pool: &Pool
+    conn_pool: &Pool,
 ) -> Result<CommentModel, Errors> {
     let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
 
     let new_comment = NewComment {
         post_id: comment_post_id,
         author_id: comment_author_id,
-        body: comment_body
+        body: comment_body,
     };
 
     diesel::insert_into(comments)
@@ -28,7 +28,7 @@ pub fn insert_comment(
 pub fn edit_comment(
     comment_id: &Uuid,
     new_body: &str,
-    conn_pool: &Pool
+    conn_pool: &Pool,
 ) -> Result<CommentModel, Errors> {
     let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
 
@@ -38,10 +38,7 @@ pub fn edit_comment(
         .map_err(|_| Errors::InternalServerError)
 }
 
-pub fn delete_comment(
-    comment_id: &Uuid,
-    conn_pool: &Pool
-) -> Result<usize, Errors> {
+pub fn delete_comment(comment_id: &Uuid, conn_pool: &Pool) -> Result<usize, Errors> {
     let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
 
     diesel::delete(comments.filter(id.eq(comment_id)))

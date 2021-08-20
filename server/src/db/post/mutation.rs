@@ -80,7 +80,7 @@ pub fn delete_post(post_id: &Uuid, conn_pool: &Pool) -> Result<usize, Errors> {
 pub fn update_title(
     new_title: &str,
     post_id: &Uuid,
-    conn_pool: &Pool
+    conn_pool: &Pool,
 ) -> Result<PostModel, Errors> {
     let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
 

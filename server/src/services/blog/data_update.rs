@@ -1,10 +1,16 @@
-use crate::db::post::mutation::{delete_post, insert_post, update_approval_status, update_post_body, update_thumbnail, update_title};
+use crate::db::post::mutation::{
+    delete_post, insert_post, update_approval_status, update_post_body, update_thumbnail,
+    update_title,
+};
 use crate::db::post::query::get_post_by_uuid;
 use crate::db::Pool;
 use crate::errors::Errors;
 use crate::guards::admin_only::AdminOnly;
 use crate::guards::login_required::LoginRequired;
-use crate::services::blog::payload::{ApprovePostPayload, DeletePostPayload, NewPostPayload, StatusPayload, UpdateBodyPayload, UploadThumbnailForm, UpdateTitlePayload};
+use crate::services::blog::payload::{
+    ApprovePostPayload, DeletePostPayload, NewPostPayload, StatusPayload, UpdateBodyPayload,
+    UpdateTitlePayload, UploadThumbnailForm,
+};
 use actix_web::{
     web::{Data, Json},
     Responder,
@@ -106,7 +112,7 @@ pub async fn update_post_body_handler(
     // check if user is allowed to do that
     match post.post_author {
         Some(id) => {
-            if !id.eq(&user.user.id) && !user.user.is_admin  {
+            if !id.eq(&user.user.id) && !user.user.is_admin {
                 return Err(Errors::AccessForbidden);
             }
         }
@@ -156,7 +162,10 @@ pub async fn delete_post_handler(
     let post = post[0].clone();
 
     // check if user is allowed
-    return if post.post_author.is_some() && post.post_author.unwrap() != user.user.id && !user.user.is_admin {
+    return if post.post_author.is_some()
+        && post.post_author.unwrap() != user.user.id
+        && !user.user.is_admin
+    {
         Err(Errors::AccessForbidden)
     } else if !user.user.is_admin {
         Err(Errors::AccessForbidden)
@@ -169,7 +178,7 @@ pub async fn delete_post_handler(
 pub async fn update_post_title_handler(
     payload: Validate<UpdateTitlePayload>,
     user: LoginRequired,
-    conn_pool: Data<Pool>
+    conn_pool: Data<Pool>,
 ) -> Result<impl Responder, Errors> {
     let post = get_post_by_uuid(
         Uuid::from_str(&payload.post_id).map_err(|e| Errors::BadRequest(e.to_string()))?,
@@ -181,11 +190,18 @@ pub async fn update_post_title_handler(
     let post = post[0].clone();
 
     // check if user is allowed
-    return if post.post_author.is_some() && post.post_author.unwrap() != user.user.id && !user.user.is_admin {
+    return if post.post_author.is_some()
+        && post.post_author.unwrap() != user.user.id
+        && !user.user.is_admin
+    {
         Err(Errors::AccessForbidden)
     } else if !user.user.is_admin {
         Err(Errors::AccessForbidden)
     } else {
-        Ok(Json(update_title(&payload.new_title, &Uuid::from_str(&payload.post_id).map_err(|e| Errors::BadRequest(e.to_string()))?, &conn_pool)?))
-    }
+        Ok(Json(update_title(
+            &payload.new_title,
+            &Uuid::from_str(&payload.post_id).map_err(|e| Errors::BadRequest(e.to_string()))?,
+            &conn_pool,
+        )?))
+    };
 }

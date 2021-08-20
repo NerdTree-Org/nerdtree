@@ -1,7 +1,7 @@
+use crate::db::post::models::PostModel;
 use awmpde::{File, FromActixMultipart};
 use serde::{Deserialize, Serialize};
 use validator::Validate;
-use crate::db::post::models::PostModel;
 
 #[derive(Serialize, Deserialize, Validate)]
 pub struct NewPostPayload {
@@ -45,7 +45,7 @@ pub struct UpdateTitlePayload {
     #[validate(length(min = 3, max = 255))]
     pub new_title: String,
 
-    pub post_id: String
+    pub post_id: String,
 }
 
 #[derive(Serialize, Deserialize, Validate)]
@@ -54,37 +54,37 @@ pub struct PaginatePostsPayload {
     pub page: usize,
 
     #[validate(range(min = 1))]
-    pub per_page: usize
+    pub per_page: usize,
 }
 
 #[derive(Serialize, Deserialize)]
 pub struct PaginatePostsReturnPayload {
     pub current_page: usize,
     pub max_page: usize,
-    pub page: Vec<PostModel>
+    pub page: Vec<PostModel>,
 }
 
 #[derive(Serialize, Deserialize)]
 pub struct GetPostByIdPayload {
-    pub post_id: String
+    pub post_id: String,
 }
 
 #[derive(Serialize, Deserialize)]
 pub struct GetPostsByAuthorId {
-    pub author_id: String
+    pub author_id: String,
 }
 
 #[derive(Serialize, Deserialize)]
 pub struct AddUpvotePayload {
-    pub post_id: String
+    pub post_id: String,
 }
 
 #[derive(Serialize, Deserialize)]
 pub struct GetVotesPayload {
-    pub post_id: String
+    pub post_id: String,
 }
 
 #[derive(Serialize, Deserialize)]
 pub struct GetVotesReturnPayload {
-    pub votes: i64
+    pub votes: i64,
 }

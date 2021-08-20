@@ -107,7 +107,7 @@ pub fn delete_user(user_id: &uuid::Uuid, conn_pool: &Pool) -> Result<usize, Erro
 
 pub fn invalidate_discord_token(
     user_id: &uuid::Uuid,
-    conn_pool: &Pool
+    conn_pool: &Pool,
 ) -> Result<UserModel, Errors> {
     let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
 

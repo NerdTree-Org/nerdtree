@@ -3,12 +3,12 @@
 FROM ubuntu:16.04
 
 RUN apt update -y
-RUN apt install -y curl libssl-dev gcc pkg-config postgresql libpq-dev
+RUN apt install -y curl libssl-dev gcc pkg-config
 # install rustup
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh /dev/stdin -y
 ENV PATH="/root/.cargo/bin:${PATH}"
 
-WORKDIR server
+WORKDIR bot
 COPY Cargo.toml .
 COPY Cargo.lock .
 RUN mkdir src
@@ -20,11 +20,9 @@ RUN cargo build --release
 RUN rm -rf src/main.rs
 RUN rm -rf src
 
-COPY src src
-COPY migrations .
+COPY src/main.rs src/main.rs
 
-RUN rm -rf target/release/deps/nerdtree*
-
+RUN rm -rf target/release/deps/discord_bot*
 RUN cargo build --release
 
-CMD ["echo" , "Compilation is done!"]
+CMD ["echo", "Compilation Done!"]
