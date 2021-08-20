@@ -11,8 +11,7 @@ lto = true
 incremental = true
 
 [dependencies]
-actix-web = { version = "3", features = ["openssl"] }
-openssl = { version = "0.10", features = ["v110"] }
+actix-web = "3"
 derive_more = "0.99.0"
 serde = { version = "1", features = ["derive"] }
 dotenv = "0.15.0"
