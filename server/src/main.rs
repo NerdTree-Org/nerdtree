@@ -2,6 +2,7 @@
 extern crate diesel;
 use crate::db::create_db_pool;
 use actix_web::{web, App, HttpServer};
+use openssl::ssl::{SslAcceptor, SslMethod, SslFiletype};
 
 pub mod db;
 pub mod email;
@@ -17,14 +18,7 @@ async fn main() -> std::io::Result<()> {
     dotenv::dotenv().ok();
     env::check_env();
 
-    let port;
-    if std::env::var("PRODUCTION").is_ok() {
-        port = 80;
-    } else {
-        port = 8080
-    }
-
-    HttpServer::new(|| {
+    let server = HttpServer::new(|| {
         App::new()
             .data(create_db_pool())
             .service(
@@ -216,8 +210,20 @@ async fn main() -> std::io::Result<()> {
                 actix_files::Files::new("/static", &std::env::var("IMAGE_PATH").unwrap())
                     .show_files_listing(),
             )
-    })
-    .bind(format!("0.0.0.0:{}", port))?
-    .run()
-    .await
+    });
+    if std::env::var("PRODUCTION").is_ok() {
+        let mut builder = SslAcceptor::mozilla_intermediate(SslMethod::tls()).unwrap();
+        builder.set_private_key_file("privkey.pem", SslFiletype::PEM).unwrap();
+        builder.set_certificate_chain_file("fullchain.pem").unwrap();
+
+        server
+            .bind_openssl("0.0.0.0:8080", builder)?
+            .run()
+            .await
+    } else {
+        server
+            .bind("0.0.0.0:8080")?
+            .run()
+            .await
+    }
 }
