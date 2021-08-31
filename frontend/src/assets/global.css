@@ -1,0 +1,271 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&family=JetBrains+Mono:wght@300&display=swap');
+
+*
+{
+	box-sizing: border-box;
+	line-height: 1.35em;
+	font-family: "Inter", arial;
+}
+
+/* Scrollbar theming */
+::-webkit-scrollbar
+{
+	width: 12px; /* For vertical scrollbar */
+	height: 12px; /* For horizontal scrollbar */
+}
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb
+{
+	background-color: #888;
+	border: 2px solid transparent;
+	border-radius: 8px;
+	background-clip: padding-box;  
+}
+::-webkit-scrollbar-thumb:hover
+{
+	background-color: #aaa;
+	border: 1px solid transparent; 
+}
+
+::-webkit-scrollbar-thumb:active { background-color: #ccc; }
+
+html { scroll-behavior: smooth; }
+
+body
+{
+	margin: 0;
+	color: #eee;
+	background-color: #222;
+}
+
+a
+{
+	color: white;
+	text-decoration: none;
+}
+a:not(button a) { font-weight: bold; }
+a:hover:not(button a:hover) { text-decoration: underline; }
+
+button
+{
+	background-color: rgba(255,255,255,0.1);
+	border: 1px solid rgba(255,255,255,0.5);
+	border-radius: 8px;
+	padding: 7px 17px;
+	cursor: pointer;
+	transition: 0.15s;
+	font-size: 16px;
+}
+
+button:hover
+{
+	background-color: rgba(255,255,255,0.15);
+	border-color: rgba(255,255,255,0.6);
+}
+
+h1, h2 /* For titles and subtitles */
+{
+	margin: 7px 0;
+	font-weight: normal;
+}
+
+.side-scrollable /* The div which can be scrolled horizontally */
+{
+	overflow-y: auto;
+	white-space: nowrap;
+	padding: 20px;
+	margin: 20px 0;
+	border: 1px solid rgba(255,255,255,0.5);
+	background-color: rgba(255,255,255,0.1);
+	border-radius: 8px;
+}
+
+.side-scrollable::-webkit-scrollbar
+{
+	height: 16px; /* Make the scrollbar big enough so that the user can actually hold it */
+}
+.side-scrollable::-webkit-scrollbar-thumb
+{
+	border: 4px solid transparent; /* I've made the bg transparent so that the bg does not overlap the borders of the parent div. */
+	border-radius: 8px;
+}
+
+.card
+{
+	display: inline-block;
+	min-height: 30px;
+	min-width: 50px;
+	vertical-align: middle;
+	border: 1px solid rgba(255,255,255,0.5);
+	border-radius: 8px;
+	background-image: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.3));
+	margin: 10px;
+	padding: 25px;
+	cursor: pointer;
+	transition: 0.2s;
+}
+
+.card:hover
+{
+	background-color: rgba(255,255,255,0.1);
+	transform: scale(1.05);
+}
+
+.card .info, .card .author
+{
+	margin: 5px 0;
+	font-size: 14px;
+}
+
+.card img
+{
+	width: 500px;
+	height: auto;
+	border-radius: 8px;
+	box-shadow: 0 0 15px rgba(0,0,0,0.2);
+	margin: 5px 0;
+}
+
+
+/*			THE HEADER AND STUFFS			*/
+
+#header
+{
+	background-image: linear-gradient(45deg, #111, #222);
+	height: 100%;
+	width: 100%;
+	position: relative;
+	color: white;
+	box-shadow: 0 0 15px rgba(255,255,255,0.15);
+	padding: 35px;
+}
+
+#header-navbar { /*IDK*/ }
+#header-navbar a:not(#header-navbar button a), #header-navbar button { margin: 8px; }
+
+#logo-container /* The div which contains both the nerdtree intro text and the logo */
+{
+	padding: 6%;
+	width: 100%;
+	overflow: auto;
+	display: flex;
+	justify-content: space-between;
+}
+#logo-container #nerdtree /* The "NerdTree text" */
+{
+	font-size: 48px;
+	margin: 0;
+	font-family: "JetBrains Mono";
+}
+#logo-container #nerdtree:after
+{
+	content: "_"; /* Show an underscore after the NerdTree text, which will have a blinking effect */
+}
+
+#logo-container p /* The description of NerdTree */
+{
+	font-size: 18px;
+	font-family: "JetBrains Mono";
+}
+#logo /* The logo of NerdTree */
+{
+	/* Don't specify the height and width both at the same time as it may make the image look stretched */
+	height: 200px;
+	width: auto;
+}
+
+#logo-container .separator /* The divs which align the logo at the right and the text at the left of the screen */
+{
+	float: left;
+	width: 50%;
+	padding: 35px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#header-navbar-bottom
+{
+	position: absolute;
+	bottom: 5%;
+	left: 50%;
+    transform: translate(-50%, 0); /* Make it centered, please rewrite this code if you have any better approach for centering absolute positioned divs */
+
+    background-color: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 8px;
+    padding: 10px;
+}
+
+#header-navbar-bottom button
+{
+	background-color: transparent;
+	color: white;
+	border: none;
+	font-size: 16px;
+	margin: 0 7px;
+	padding: 6px 15px;
+	border: 1px solid transparent;
+	border-radius: 8px;
+	transition: 0.15s;
+}
+
+#header-navbar-bottom button:hover:not(.active)
+{
+	background-color: rgba(255,255,255,0.1);
+	border-color: rgba(255,255,255,0.5);
+}
+
+#header-navbar-bottom .active
+{
+	background-color: rgba(255,255,255,0.25);
+	border-color: rgba(255,255,255,0.5);
+}
+
+#header-navbar-bottom .active, #header-navbar-bottom .active a
+{
+	cursor: default;
+}
+
+
+
+/*				CONTAINER DIV FOR OTHER THINGIES				*/
+
+.container { padding: 5% 6%; }
+
+
+
+/*				FOOTER				*/
+
+#footer
+{
+	padding: 5% 6%;
+	border-top: 1px solid rgba(255,255,255,0.5);
+	background-image: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.2));
+
+	display: flex;
+	vertical-align: middle;
+	align-items: center;
+	justify-content: space-between;
+}
+
+#footer h1
+{
+	font-family: "JetBrains Mono";
+	margin: 0;
+}
+
+#footer a
+{
+	font-size: 36px;
+	margin: 5px;
+	color: rgba(255,255,255,0.8);
+	transition: 0.15s;
+}
+
+#footer a:hover
+{
+	text-decoration: none;
+	color: white;
+	text-shadow: 0 0 15px rgba(255,255,255,0.2);
+}
