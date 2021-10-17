@@ -63,6 +63,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "actix-cors"
+version = "0.5.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "36b133d8026a9f209a9aeeeacd028e7451bcca975f592881b305d37983f303d7"
+dependencies = [
+ "actix-web",
+ "derive_more",
+ "futures-util",
+ "log",
+ "once_cell",
+ "tinyvec",
+]
+
+[[package]]
 name = "actix-files"
 version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -488,7 +502,7 @@ dependencies = [
  "awmpde_derive",
  "awmpde_structs",
  "either",
- "env_logger",
+ "env_logger 0.8.4",
  "futures",
  "image",
  "mime",
@@ -1013,6 +1027,19 @@ name = "env_logger"
 version = "0.8.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a19187fea3ac7e84da7dacf48de0c45d63c6a76f9490dae389aead16c243fce3"
+dependencies = [
+ "atty",
+ "humantime",
+ "log",
+ "regex",
+ "termcolor",
+]
+
+[[package]]
+name = "env_logger"
+version = "0.9.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0b2cf0344971ee6c64c31be0d530793fba457d322dfec2810c453d0ef228f9c3"
 dependencies = [
  "atty",
  "humantime",
@@ -1693,6 +1720,7 @@ dependencies = [
 name = "nerdtree-backend-server"
 version = "0.1.0"
 dependencies = [
+ "actix-cors",
  "actix-files",
  "actix-multipart",
  "actix-ratelimit",
@@ -1703,6 +1731,7 @@ dependencies = [
  "derive_more",
  "diesel",
  "dotenv",
+ "env_logger 0.9.0",
  "futures-util",
  "image",
  "jsonwebtoken",

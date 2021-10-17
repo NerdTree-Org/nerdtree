@@ -2,6 +2,8 @@
 extern crate diesel;
 use crate::db::create_db_pool;
 use actix_web::{web, App, HttpServer};
+use actix_web::middleware::Logger;
+use actix_cors::Cors;
 
 pub mod db;
 pub mod email;
@@ -16,9 +18,18 @@ mod services;
 async fn main() -> std::io::Result<()> {
     dotenv::dotenv().ok();
     env::check_env();
+    env_logger::init();
 
     HttpServer::new(|| {
+        let cors = Cors::default()
+            .allowed_origin("http://localhost:3000")
+            .allowed_methods(vec!["GET", "POST"])
+            .max_age(None);
+
         App::new()
+            .wrap(cors)
+            .wrap(Logger::default())
+            .wrap(Logger::new("%a %{User-Agent}i"))
             .data(create_db_pool())
             .service(
                 web::scope("/auth")
