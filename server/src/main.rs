@@ -1,7 +1,7 @@
 #[macro_use]
 extern crate diesel;
 use crate::db::create_db_pool;
-use actix_web::{web, App, HttpServer};
+use actix_web::{web, App, HttpServer, http};
 use actix_web::middleware::Logger;
 use actix_cors::Cors;
 
@@ -21,10 +21,14 @@ async fn main() -> std::io::Result<()> {
     env_logger::init();
 
     HttpServer::new(|| {
-        let cors = Cors::default()
-            .allowed_origin("http://localhost:3000")
+        let mut cors = Cors::default()
             .allowed_methods(vec!["GET", "POST"])
+            .allowed_headers(vec![http::header::AUTHORIZATION, http::header::CONTENT_TYPE])
             .max_age(None);
+
+        if std::env::var("PRODUCTION").is_err() {
+            cors = cors.allowed_origin("http://localhost:3000");
+        }
 
         App::new()
             .wrap(cors)
