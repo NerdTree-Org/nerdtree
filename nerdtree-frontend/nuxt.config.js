@@ -51,5 +51,9 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-  }
+  },
+
+  env: {
+    NERDTREE_API_URL: process.env.NERDTREE_API_URL || 'http://127.0.0.1:8080'
+  },
 }

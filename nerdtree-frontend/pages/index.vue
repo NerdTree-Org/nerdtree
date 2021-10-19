@@ -1,31 +1,41 @@
 <template>
-  <div>
-    <h1>NerdTree Web</h1>
-    <NerdTreeButton  :button-type='ButtonType.DefaultButton'>Default button</NerdTreeButton>
-    <NerdTreeButton  :button-type='ButtonType.TransparentButton'>Transparent button</NerdTreeButton>
-    <NerdTreeButton  :button-type='ButtonType.BorderButton'>Border button</NerdTreeButton>
-    <NerdTreeButton  :button-type='ButtonType.FoggyButton'>Foggy button</NerdTreeButton>
-    <div class='flex flex-col content-start w-max' style='background: linear-gradient(180deg, #232323 10%, #0C0C0C 120%); height: 600px'>
-      <NerdTreeButton  :button-type='ButtonType.SidebarButton'>Sidebar button</NerdTreeButton>
-      <NerdTreeButton  :button-type='ButtonType.SidebarButtonActive'>Sidebar active button</NerdTreeButton>
-      <NerdTreeButton  :button-type='ButtonType.SidebarDangerButton'>Sidebar danger button</NerdTreeButton>
-      <NerdTreeButton  :button-type='ButtonType.SidebarDangerActiveButton'>Sidebar danger active button</NerdTreeButton>
-    </div>
+  <div class='h-screen w-screen banner'>
+    <form @submit='handleFormSubmit'>
+      <input v-model='username' name='username' type='text' placeholder='username'/>
+      <input v-model='password' name='password' type='password' placeholder='password'/>
+      <NerdtreeButton button-type='DefaultButton'>Log In</NerdtreeButton>
+      <p>Status: {{status}}</p>
+    </form>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import NerdTreeButton, { ButtonType } from '~/components/nerdtree-button.vue';
+import Vue from 'vue';
+import NerdtreeButton from '~/components/nerdtree-button.vue'
+import NerdTreeAPI from '~/api-wrapper';
+import { nerdtreeSession } from '~/utils/session-store-accessor'
 
 export default Vue.extend({
-  components: {
-    NerdTreeButton
-  },
+  components: { NerdtreeButton },
   data() {
     return {
-      ButtonType
+      username: '',
+      password: '',
+      status: {}
+    }
+  },
+  methods: {
+    async handleFormSubmit(e: Event) {
+      e.preventDefault();
+      this.status = await NerdTreeAPI.auth.Login(nerdtreeSession, this.username, this.password);
     }
   }
 })
 </script>
+
+<style scoped>
+.banner {
+  background: rgb(24,24,24);
+  background: linear-gradient(180deg, rgba(24,24,24,1) 0%, rgba(103,103,103,0) 100%);
+}
+</style>

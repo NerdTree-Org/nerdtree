@@ -8,7 +8,7 @@ module.exports = {
     },
     fontFamily: {
       monospace: ['JetBrains Mono', 'monospace'],
-      sansSerif: ['Inter', 'sans-serif']
+      sans: ['Inter', 'sans-serif']
     }
   },
   variants: {},
