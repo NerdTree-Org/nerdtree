@@ -3,15 +3,16 @@
     <form @submit='handleFormSubmit'>
       <input v-model='username' name='username' type='text' placeholder='username'/>
       <input v-model='password' name='password' type='password' placeholder='password'/>
-      <NerdtreeButton button-type='DefaultButton'>Log In</NerdtreeButton>
+      <NerdtreeButton :button-type='ButtonType.FoggyButton'>Log In</NerdtreeButton>
       <p>Status: {{status}}</p>
     </form>
+    <p>PaginatedPosts: {{posts}}</p>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import NerdtreeButton from '~/components/nerdtree-button.vue'
+import NerdtreeButton, { ButtonType } from '~/components/nerdtree-button.vue'
 import NerdTreeAPI from '~/api-wrapper';
 import { nerdtreeSession } from '~/utils/session-store-accessor'
 
@@ -21,13 +22,25 @@ export default Vue.extend({
     return {
       username: '',
       password: '',
-      status: {}
+      status: {},
+      posts: Object.create([]),
+      ButtonType,
     }
+  },
+  beforeMount() {
+    this.paginatePosts();
   },
   methods: {
     async handleFormSubmit(e: Event) {
       e.preventDefault();
       this.status = await NerdTreeAPI.auth.Login(nerdtreeSession, this.username, this.password);
+    },
+    async paginatePosts() {
+      const res = await NerdTreeAPI.blog.query.PaginatePosts(1, 5);
+      this.status = res;
+      if (res.value) {
+        this.posts = res.value;
+      }
     }
   }
 })
