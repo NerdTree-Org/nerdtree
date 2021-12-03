@@ -1,5 +1,7 @@
-import Auth from './auth';
+import Auth from './auth'
+import Blog from './blog'
 
 export default {
-  auth: Auth
+  auth: Auth,
+  blog: Blog
 };
