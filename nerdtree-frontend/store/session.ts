@@ -32,6 +32,7 @@ export default class NerdTreeSession extends VuexModule {
     this.accessToken = token;
   }
 
+  @Mutation
   updateRefreshToken(refreshToken: String) {
     Cookies.set('NERDTREE_AUTH_REFRESHTOKEN', refreshToken, {
       sameSite: 'strict',

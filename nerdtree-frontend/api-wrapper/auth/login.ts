@@ -34,10 +34,10 @@ export default async function Login(ctx: NerdTreeSession, username: string, pass
       }
     }
   }
-  catch {
+  catch(e) {
     return {
       success: false,
-      message: "Cannot connect to server",
+      message: e,
     }
   }
 }
