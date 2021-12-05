@@ -38,7 +38,7 @@ impl FromRequest for LoginRequired {
         }
 
         let raw_token = splitted_bearer[1].clone();
-        let token = match verify_token(&raw_token) {
+        let token = match verify_token(raw_token) {
             Ok(t) => t,
             Err(_) => return err(Errors::AccessForbidden),
         };
@@ -59,7 +59,7 @@ impl FromRequest for LoginRequired {
                 Ok(u) => u,
                 Err(_) => return err(Errors::AccessForbidden),
             };
-        if user.len() == 0 {
+        if user.is_empty() {
             return err(Errors::AccessForbidden);
         }
 

@@ -20,7 +20,7 @@ pub async fn get_user_by_id_handler(
         Uuid::from_str(&payload.id).map_err(|_| Errors::BadRequest("Invalid uuid".to_string()))?;
     let user = get_user_by_id(&user_id, &conn_pool)?;
 
-    if user.len() == 0 {
+    if user.is_empty() {
         return Err(Errors::BadRequest("No such user".to_string()));
     }
 
@@ -32,7 +32,7 @@ pub async fn get_user_by_email_handler(
     conn_pool: Data<Pool>,
 ) -> Result<impl Responder, Errors> {
     let user = get_users_by_email(&payload.email, &conn_pool)?;
-    if user.len() == 0 {
+    if user.is_empty() {
         return Err(Errors::BadRequest("No such user".to_string()));
     }
 
@@ -44,7 +44,7 @@ pub async fn get_user_by_username_handler(
     conn_pool: Data<Pool>,
 ) -> Result<impl Responder, Errors> {
     let user = get_users_by_username(&payload.username, &conn_pool)?;
-    if user.len() == 0 {
+    if user.is_empty() {
         return Err(Errors::BadRequest("No such user".to_string()));
     }
 

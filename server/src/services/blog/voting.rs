@@ -22,12 +22,12 @@ pub async fn get_user_vote_for_post(
 ) -> Result<impl Responder, Errors> {
     let post_id =
         Uuid::from_str(&payload.post_id).map_err(|e| Errors::BadRequest(e.to_string()))?;
-    let user_id = user.user.id.clone();
+    let user_id = user.user.id;
 
     let mut vote: i8 = 0;
-    if get_upvote_by_user_for_post(post_id, user_id, &conn_pool)?.len() != 0 {
+    if !get_upvote_by_user_for_post(post_id, user_id, &conn_pool)?.is_empty() {
         vote += 1;
-    } else if get_downvote_by_user_for_post(post_id, user_id, &conn_pool)?.len() != 0 {
+    } else if !get_downvote_by_user_for_post(post_id, user_id, &conn_pool)?.is_empty() {
         vote -= 1;
     }
 
@@ -41,16 +41,16 @@ pub async fn add_upvote_handler(
 ) -> Result<impl Responder, Errors> {
     let post_id =
         Uuid::from_str(&payload.post_id).map_err(|e| Errors::BadRequest(e.to_string()))?;
-    let user_id = user.user.id.clone();
+    let user_id = user.user.id;
 
     // check if there's already an upvote
-    if get_upvote_by_user_for_post(post_id, user_id, &conn_pool)?.len() != 0 {
+    if !get_upvote_by_user_for_post(post_id, user_id, &conn_pool)?.is_empty() {
         return Ok(Json(
             remove_upvote(user_id, post_id, &conn_pool).map(|_| StatusPayload { success: true })?,
         ));
     }
 
-    if get_downvote_by_user_for_post(post_id, user_id, &conn_pool)?.len() != 0 {
+    if !get_downvote_by_user_for_post(post_id, user_id, &conn_pool)?.is_empty() {
         remove_downvote(user_id, post_id, &conn_pool)?;
     }
 
@@ -65,17 +65,17 @@ pub async fn add_downvote_handler(
 ) -> Result<impl Responder, Errors> {
     let post_id =
         Uuid::from_str(&payload.post_id).map_err(|e| Errors::BadRequest(e.to_string()))?;
-    let user_id = user.user.id.clone();
+    let user_id = user.user.id;
 
     // check if there's already a downvote
-    if get_downvote_by_user_for_post(post_id, user_id, &conn_pool)?.len() != 0 {
+    if !get_downvote_by_user_for_post(post_id, user_id, &conn_pool)?.is_empty() {
         return Ok(Json(
             remove_downvote(user_id, post_id, &conn_pool)
                 .map(|_| StatusPayload { success: true })?,
         ));
     }
 
-    if get_upvote_by_user_for_post(post_id, user_id, &conn_pool)?.len() != 0 {
+    if !get_upvote_by_user_for_post(post_id, user_id, &conn_pool)?.is_empty() {
         remove_upvote(user_id, post_id, &conn_pool)?;
     }
 
@@ -92,7 +92,7 @@ pub async fn get_votes(
     let upvotes = get_upvotes_of_post(post_id, &conn_pool)?.len() as i64;
     let downvotes = get_downvotes_of_post(post_id, &conn_pool)?.len() as i64;
 
-    return Ok(Json(GetVotesReturnPayload {
+    Ok(Json(GetVotesReturnPayload {
         votes: upvotes - downvotes,
-    }));
+    }))
 }

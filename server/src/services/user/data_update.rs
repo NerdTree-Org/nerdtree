@@ -29,7 +29,7 @@ pub async fn update_firstname_handler(
     conn_pool: Data<Pool>,
 ) -> Result<impl Responder, Errors> {
     update_user_firstname(&user.user.id, &payload.firstname, &conn_pool)
-        .map_or_else(|e| Err(e), |_| Ok(Json(StatusPayload { success: true })))
+        .map_or_else(Err, |_| Ok(Json(StatusPayload { success: true })))
 }
 
 pub async fn update_lastname_handler(
@@ -38,7 +38,7 @@ pub async fn update_lastname_handler(
     conn_pool: Data<Pool>,
 ) -> Result<impl Responder, Errors> {
     update_user_lastname(&user.user.id, &payload.lastname, &conn_pool)
-        .map_or_else(|e| Err(e), |_| Ok(Json(StatusPayload { success: true })))
+        .map_or_else(Err, |_| Ok(Json(StatusPayload { success: true })))
 }
 
 pub async fn update_email_handler(
@@ -48,14 +48,12 @@ pub async fn update_email_handler(
 ) -> Result<impl Responder, Errors> {
     // first check if there's other users with same email
     let users = get_users_by_email(&payload.email, &conn_pool)?;
-    if users.len() >= 1 {
-        if users[0].id != user.user.id {
-            return Err(Errors::BadRequest("Invalid email".to_string()));
-        }
+    if !users.is_empty() && users[0].id != user.user.id {
+        return Err(Errors::BadRequest("Invalid email".to_string()));
     }
 
     update_user_email(&user.user.id, &payload.email, &conn_pool)
-        .map_or_else(|e| Err(e), |_| Ok(Json(StatusPayload { success: true })))
+        .map_or_else(Err, |_| Ok(Json(StatusPayload { success: true })))
 }
 
 pub async fn update_password_handler(
@@ -74,7 +72,7 @@ pub async fn update_password_handler(
         let hash = argon2::hash_encoded(payload.new_password.as_bytes(), &salt, &config)
             .map_err(|_| Errors::InternalServerError)?;
         update_user_password(&user.user.id, &hash, &conn_pool)
-            .map_or_else(|e| Err(e), |_| Ok(Json(StatusPayload { success: true })))
+            .map_or_else(Err, |_| Ok(Json(StatusPayload { success: true })))
     } else {
         Err(Errors::BadRequest("Wrong Password".to_string()))
     }

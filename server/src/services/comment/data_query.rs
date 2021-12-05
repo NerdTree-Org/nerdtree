@@ -36,7 +36,7 @@ pub async fn get_comments_by_post_handler(
             page: page
                 .unwrap()
                 .1
-                .into_iter()
+                .iter()
                 .map(|v| v.clone().clone())
                 .collect(),
         }))
@@ -68,7 +68,7 @@ pub async fn get_comments_by_user_handler(
             page: page
                 .unwrap()
                 .1
-                .into_iter()
+                .iter()
                 .map(|v| v.clone().clone())
                 .collect(),
         }))
