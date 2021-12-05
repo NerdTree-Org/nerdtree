@@ -23,7 +23,7 @@ pub async fn new_comment_handler(
 
     // check if post exists
     let post = get_post_by_uuid(post_id, &conn_pool)?;
-    if post.len() == 0 {
+    if post.is_empty() {
         return Err(Errors::BadRequest(String::from("Post doesn't exist!")));
     }
 
@@ -49,7 +49,7 @@ pub async fn edit_comment_handler(
         &conn_pool,
     )?;
 
-    if comment.len() == 0 {
+    if comment.is_empty() {
         return Err(Errors::BadRequest(String::from("No such comment")));
     }
     let comment = comment[0].clone();
@@ -82,7 +82,7 @@ pub async fn delete_comment_handler(
         &conn_pool,
     )?;
 
-    if comment.len() == 0 {
+    if comment.is_empty() {
         return Err(Errors::BadRequest(String::from("No such comment")));
     }
     let comment = comment[0].clone();

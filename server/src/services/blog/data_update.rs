@@ -52,7 +52,7 @@ pub async fn upload_thumbnail_thumbnail(
     )?;
 
     // check if post exists
-    if post.len() == 0 {
+    if post.is_empty() {
         return Err(Errors::BadRequest(String::from("No such post")));
     }
 
@@ -82,7 +82,7 @@ pub async fn upload_thumbnail_thumbnail(
     let image_path = std::path::Path::new(&image_path);
 
     image::load_from_memory(&inner)
-        .map_err(|e| Errors::BadRequest(String::from(e.to_string())))?
+        .map_err(|e| Errors::BadRequest(e.to_string()))?
         .save(image_path.join(&img_filename))
         .map_err(|_| Errors::InternalServerError)?;
 
@@ -103,7 +103,7 @@ pub async fn update_post_body_handler(
         Uuid::from_str(&payload.post_id).map_err(|e| Errors::BadRequest(e.to_string()))?,
         &conn_pool,
     )?;
-    if post.len() == 0 {
+    if post.is_empty() {
         return Err(Errors::BadRequest(String::from("No such post!")));
     }
 
@@ -135,7 +135,7 @@ pub async fn approve_post_handler(
         Uuid::from_str(&payload.post_id).map_err(|e| Errors::BadRequest(e.to_string()))?,
         &conn_pool,
     )?;
-    if post.len() == 0 {
+    if post.is_empty() {
         return Err(Errors::BadRequest(String::from("No such post!")));
     }
     let post = post[0].clone();
@@ -156,13 +156,13 @@ pub async fn delete_post_handler(
         Uuid::from_str(&payload.post_id).map_err(|e| Errors::BadRequest(e.to_string()))?,
         &conn_pool,
     )?;
-    if post.len() == 0 {
+    if post.is_empty() {
         return Err(Errors::BadRequest(String::from("No such post!")));
     }
     let post = post[0].clone();
 
     // check if user is allowed
-    return if post.post_author.is_some()
+    if post.post_author.is_some()
         && post.post_author.unwrap() != user.user.id
         && !user.user.is_admin
     {
@@ -172,7 +172,7 @@ pub async fn delete_post_handler(
     } else {
         // delete the post
         delete_post(&post.id, &conn_pool).map(|_| Json(StatusPayload { success: true }))
-    };
+    }
 }
 
 pub async fn update_post_title_handler(
@@ -184,13 +184,13 @@ pub async fn update_post_title_handler(
         Uuid::from_str(&payload.post_id).map_err(|e| Errors::BadRequest(e.to_string()))?,
         &conn_pool,
     )?;
-    if post.len() == 0 {
+    if post.is_empty() {
         return Err(Errors::BadRequest(String::from("No such post!")));
     }
     let post = post[0].clone();
 
     // check if user is allowed
-    return if post.post_author.is_some()
+    if post.post_author.is_some()
         && post.post_author.unwrap() != user.user.id
         && !user.user.is_admin
     {
@@ -203,5 +203,5 @@ pub async fn update_post_title_handler(
             &Uuid::from_str(&payload.post_id).map_err(|e| Errors::BadRequest(e.to_string()))?,
             &conn_pool,
         )?))
-    };
+    }
 }

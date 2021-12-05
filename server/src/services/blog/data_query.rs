@@ -33,7 +33,7 @@ pub async fn paginate_posts_handler(
             page: page
                 .unwrap()
                 .1
-                .into_iter()
+                .iter()
                 .map(|v| v.clone().clone())
                 .collect(),
         }))

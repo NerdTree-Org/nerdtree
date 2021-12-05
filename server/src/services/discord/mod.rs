@@ -35,12 +35,12 @@ pub async fn verify_token(
 
     // find user with the provided username
     let user = get_users_by_username(&payload.username, &conn_pool)?;
-    if user.len() == 0 {
+    if user.is_empty() {
         return Err(Errors::BadRequest("No such user found with given nickname. Please make sure that your discord username is the exact same one as the one you provided in registration form".to_string()));
     }
     let user = user[0].clone();
 
-    return if user.discord_token.to_string() != payload.discord_token || user.is_discord_token_used
+    if user.discord_token.to_string() != payload.discord_token || user.is_discord_token_used
     {
         Err(Errors::BadRequest("Invalid discord token!".to_string()))
     } else {
@@ -48,5 +48,5 @@ pub async fn verify_token(
         invalidate_discord_token(&user.id, &conn_pool)?;
 
         Ok(Json(StatusPayload { success: true }))
-    };
+    }
 }

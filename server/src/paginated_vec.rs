@@ -4,7 +4,7 @@ pub struct PaginatedVec<'a, T: 'a> {
 }
 
 impl<'a, T> PaginatedVec<'a, T> {
-    pub fn from_vec(vec: &'a Vec<T>, per_page: usize) -> PaginatedVec<T> {
+    pub fn from_vec(vec: &'a [T], per_page: usize) -> PaginatedVec<T> {
         PaginatedVec {
             per_page,
             pages: vec

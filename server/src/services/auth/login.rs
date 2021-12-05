@@ -13,7 +13,7 @@ pub async fn login_handler(
     conn_pool: Data<Pool>,
 ) -> Result<impl Responder, Errors> {
     let users = get_users_by_username(&payload.username, &conn_pool)?;
-    if users.len() == 0 {
+    if users.is_empty() {
         return Err(Errors::BadRequest("Wrong Credentials".to_string()));
     }
 

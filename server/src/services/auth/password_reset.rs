@@ -23,7 +23,7 @@ pub async fn password_reset_request_handler(
 ) -> Result<impl Responder, Errors> {
     let users = get_users_by_email(&payload.email, &conn_pool)?;
 
-    if users.len() == 0 {
+    if users.is_empty() {
         // no such user with email
         return Err(Errors::BadRequest("No such user".to_string()));
     }
@@ -65,7 +65,7 @@ pub async fn password_reset_token_handler(
         &uuid::Uuid::from_str(&decoded_token.id).unwrap(),
         &conn_pool,
     )?;
-    if users.len() == 0 {
+    if users.is_empty() {
         // no such user
         return Err(Errors::BadRequest("Malformed token".to_string()));
     }
