@@ -9,6 +9,7 @@ authors = ["The NerdTree Root Node Developers"]
 [profile.release]
 lto = true
 incremental = true
+opt-level = 3
 
 [dependencies]
 actix-web = "3"
