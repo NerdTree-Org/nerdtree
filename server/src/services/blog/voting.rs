@@ -7,24 +7,38 @@ use crate::db::Pool;
 use crate::errors::Errors;
 use crate::guards::login_required::LoginRequired;
 use crate::services::blog::payload::{
-    AddUpvotePayload, GetVotesPayload, GetVotesReturnPayload, StatusPayload,
+    AddUpvotePayload, GetUserVoteForPostPayload, GetUserVoteForPostReturnPayload, GetVotesPayload,
+    GetVotesReturnPayload, StatusPayload,
 };
 use actix_web::web::{Data, Json};
 use actix_web::Responder;
 use std::str::FromStr;
 use uuid::Uuid;
 
-/// Checks if user already "upvoted" the post
-/// If they did, just fucking remove the upvote and return from the foking route
-/// If they didn't upvote but did downvote, remove the downvote and then continue
-/// and add a foking upvote into the database
-/// and pretend like nothing happened
+pub async fn get_user_vote_for_post(
+    payload: Json<GetUserVoteForPostPayload>,
+    conn_pool: Data<Pool>,
+    user: LoginRequired,
+) -> Result<impl Responder, Errors> {
+    let post_id =
+        Uuid::from_str(&payload.post_id).map_err(|e| Errors::BadRequest(e.to_string()))?;
+    let user_id = user.user.id.clone();
+
+    let mut vote: i8 = 0;
+    if get_upvote_by_user_for_post(post_id, user_id, &conn_pool)?.len() != 0 {
+        vote += 1;
+    } else if get_downvote_by_user_for_post(post_id, user_id, &conn_pool)?.len() != 0 {
+        vote -= 1;
+    }
+
+    Ok(Json(GetUserVoteForPostReturnPayload { vote }))
+}
+
 pub async fn add_upvote_handler(
     payload: Json<AddUpvotePayload>,
     conn_pool: Data<Pool>,
     user: LoginRequired,
 ) -> Result<impl Responder, Errors> {
-    // convert the ids from
     let post_id =
         Uuid::from_str(&payload.post_id).map_err(|e| Errors::BadRequest(e.to_string()))?;
     let user_id = user.user.id.clone();
@@ -36,34 +50,19 @@ pub async fn add_upvote_handler(
         ));
     }
 
-    // there's no foking upvote
-    // check for downvote
-    //       ||
-    //      \\//
-    //       \/
     if get_downvote_by_user_for_post(post_id, user_id, &conn_pool)?.len() != 0 {
         remove_downvote(user_id, post_id, &conn_pool)?;
     }
 
-    // now foking add an upvote
-    // ahhh, wasting so much time just foking commenting. This is the most I've commented on code
     add_upvote(user_id, post_id, &conn_pool)?;
     Ok(Json(StatusPayload { success: true }))
 }
 
-// replace("upvote").with("downvote")
-//      .and(replace("downvote").with("upvote"))
-/// Checks if user already "downvoted" the post
-/// If they did, just fucking remove the downvote and return from the foking route
-/// If they didn't downvote but did upvote, remove the upvote and then continue
-/// and add a foking downvote into the database
-/// and pretend like nothing happened
 pub async fn add_downvote_handler(
     payload: Json<AddUpvotePayload>,
     conn_pool: Data<Pool>,
     user: LoginRequired,
 ) -> Result<impl Responder, Errors> {
-    // convert the ids from
     let post_id =
         Uuid::from_str(&payload.post_id).map_err(|e| Errors::BadRequest(e.to_string()))?;
     let user_id = user.user.id.clone();
@@ -76,18 +75,10 @@ pub async fn add_downvote_handler(
         ));
     }
 
-    // there's no foking downvote
-    // check for upvote
-    //
-    //      /\
-    //     //\\
-    //      ||
     if get_upvote_by_user_for_post(post_id, user_id, &conn_pool)?.len() != 0 {
         remove_upvote(user_id, post_id, &conn_pool)?;
     }
 
-    // now foking add an downvote
-    // ahhh, wasting so much time just foking commenting. This is the most I've commented on code
     add_downvote(user_id, post_id, &conn_pool)?;
     Ok(Json(StatusPayload { success: true }))
 }

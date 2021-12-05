@@ -88,3 +88,14 @@ pub struct GetVotesPayload {
 pub struct GetVotesReturnPayload {
     pub votes: i64,
 }
+
+#[derive(Serialize, Deserialize)]
+pub struct GetUserVoteForPostPayload {
+    pub post_id: String,
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct GetUserVoteForPostReturnPayload {
+    /// -1 when downvote, 0 when no vote, 1 when there's upvote
+    pub vote: i8,
+}

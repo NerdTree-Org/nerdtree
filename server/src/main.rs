@@ -1,9 +1,9 @@
 #[macro_use]
 extern crate diesel;
 use crate::db::create_db_pool;
-use actix_web::{web, App, HttpServer, http};
-use actix_web::middleware::Logger;
 use actix_cors::Cors;
+use actix_web::middleware::Logger;
+use actix_web::{http, web, App, HttpServer};
 
 pub mod db;
 pub mod email;
@@ -23,7 +23,10 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         let mut cors = Cors::default()
             .allowed_methods(vec!["GET", "POST"])
-            .allowed_headers(vec![http::header::AUTHORIZATION, http::header::CONTENT_TYPE])
+            .allowed_headers(vec![
+                http::header::AUTHORIZATION,
+                http::header::CONTENT_TYPE,
+            ])
             .max_age(None);
 
         if std::env::var("PRODUCTION").is_err() {
@@ -178,7 +181,11 @@ async fn main() -> std::io::Result<()> {
                                 "/downvote",
                                 web::post().to(services::blog::voting::add_downvote_handler),
                             )
-                            .route("/votes", web::post().to(services::blog::voting::get_votes)),
+                            .route("/votes", web::post().to(services::blog::voting::get_votes))
+                            .route(
+                                "/by_current_user",
+                                web::post().to(services::blog::voting::get_user_vote_for_post),
+                            ),
                     ),
             )
             .service(
