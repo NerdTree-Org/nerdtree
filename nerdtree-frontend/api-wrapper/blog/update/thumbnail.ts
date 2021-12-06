@@ -13,7 +13,7 @@ export default async function Thumbnail(
       method: 'post',
       body,
       headers: {
-        'authorization': `bearer ${ctx.accessToken}`
+        'authorization': `bearer ${ctx.AccessToken}`
       },
     });
 

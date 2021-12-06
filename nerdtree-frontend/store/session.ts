@@ -8,8 +8,8 @@ import { User } from '~/api-wrapper/user'
   namespaced: true
 })
 export default class NerdTreeSession extends VuexModule {
-  user: User | null = null;
-  accessToken: String | null = null;
+  private user: User | null = null;
+  private accessToken: String | null = null;
 
   @Mutation
   updateUser(user: User) {

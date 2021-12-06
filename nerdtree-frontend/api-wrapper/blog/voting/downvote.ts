@@ -15,7 +15,7 @@ export default async function Downvote(
       body: JSON.stringify(payload),
       headers: {
         'content-type': 'application/json',
-        'authorization': `bearer ${ctx.accessToken}`
+        'authorization': `bearer ${ctx.AccessToken}`
       },
     });
     const jsonBody = await req.json();

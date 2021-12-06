@@ -25,7 +25,7 @@ export default async function GetUserVoteForPost(
       body: JSON.stringify(payload),
       headers: {
         'content-type': 'application/json',
-        'authorization': `bearer ${ctx.accessToken}`
+        'authorization': `bearer ${ctx.AccessToken}`
       },
     });
 

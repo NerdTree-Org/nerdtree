@@ -10,7 +10,7 @@ export default async function Current(
       method: 'post',
       headers: {
         'content-type': 'application/json',
-        'authorization': `bearer ${ctx.accessToken}`
+        'authorization': `bearer ${ctx.AccessToken}`
       },
     });
 

@@ -12,7 +12,7 @@ export default async function ProfilePic(
       method: 'post',
       body: formData,
       headers: {
-        'authorization': `bearer ${ctx.accessToken}`
+        'authorization': `bearer ${ctx.AccessToken}`
       },
     });
 

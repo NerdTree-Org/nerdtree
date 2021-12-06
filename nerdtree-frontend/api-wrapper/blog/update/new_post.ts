@@ -18,7 +18,7 @@ export default async function CreateNewPost(
       body: JSON.stringify(payload),
       headers: {
         'content-type': 'application/json',
-        'authorization': `bearer ${ctx.accessToken}`
+        'authorization': `bearer ${ctx.AccessToken}`
       },
     });
 
