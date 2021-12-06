@@ -7,6 +7,10 @@ import ChangeApproval from '~/api-wrapper/blog/update/change_approval'
 import Title from '~/api-wrapper/blog/update/title'
 import Body from '~/api-wrapper/blog/update/body'
 import Thumbnail from '~/api-wrapper/blog/update/thumbnail'
+import Upvote from '~/api-wrapper/blog/voting/upvote'
+import Downvote from '~/api-wrapper/blog/voting/downvote'
+import GetUserVoteForPost from '~/api-wrapper/blog/voting/get_user_vote'
+import GetVotes from '~/api-wrapper/blog/voting/get_votes'
 
 export type Post = {
   id: String,
@@ -33,5 +37,10 @@ export default {
     ByAuthor,
     PaginatePosts,
   },
-  voting: {},
+  voting: {
+    Upvote,
+    Downvote,
+    GetUserVoteForPost,
+    GetVotes,
+  },
 };
