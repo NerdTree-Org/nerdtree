@@ -18,8 +18,7 @@ export type PaginatedComments = {
   current_page: Number,
   // eslint-disable-next-line camelcase
   max_page: Number,
-  // eslint-disable-next-line camelcase
-  per_page: Number,
+  page: Comment[],
 }
 
 export default {
