@@ -1,17 +1,6 @@
 import { Module, Mutation, VuexModule } from 'vuex-module-decorators'
 import Cookies from 'js-cookie'
-
-type User = {
-  id: string,
-  username: string,
-  firstname: string,
-  lastname: string,
-  email: string,
-  profilePic: string,
-  facebookId: string,
-  discordToken: string,
-  isDiscordTokenUsed: boolean
-}
+import { User } from '~/api-wrapper/user'
 
 @Module({
   name: 'NerdTreeSession',
