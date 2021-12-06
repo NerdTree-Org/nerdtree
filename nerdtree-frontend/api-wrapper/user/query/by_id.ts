@@ -4,7 +4,6 @@ import { User } from '~/api-wrapper/user'
 
 export default async function ById(
   userId: String,
-  ctx: NerdTreeSession
 ): Promise<StatusPayload<User>> {
   const payload = {
     user_id: userId,
@@ -16,7 +15,6 @@ export default async function ById(
       body: JSON.stringify(payload),
       headers: {
         'content-type': 'application/json',
-        'authorization': `bearer ${ctx.accessToken}`
       },
     });
 
