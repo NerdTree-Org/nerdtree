@@ -14,13 +14,17 @@ import GetVotes from '~/api-wrapper/blog/voting/get_votes'
 
 export type Post = {
   id: String,
-  isApproved: boolean,
+  // eslint-disable-next-line camelcase
+  is_approved: boolean,
   title: String,
   thumbnail: String | null,
   body: String,
-  creationDate: Date,
-  approvalDate: Date,
-  postAuthor: Date,
+  // eslint-disable-next-line camelcase
+  creation_date: Date,
+  // eslint-disable-next-line camelcase
+  approval_date: Date,
+  // eslint-disable-next-line camelcase
+  post_author: Date,
 };
 
 export default {
