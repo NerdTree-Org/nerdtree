@@ -1,4 +1,3 @@
-import NerdTreeSession from '~/store/session'
 import { StatusPayload } from '~/api-wrapper/common'
 import { User } from '~/api-wrapper/user'
 
