@@ -13,19 +13,19 @@ import GetUserVoteForPost from '~/api-wrapper/blog/voting/get_user_vote'
 import GetVotes from '~/api-wrapper/blog/voting/get_votes'
 
 export type Post = {
-  id: String
+  id: String,
   // eslint-disable-next-line camelcase
-  is_approved: boolean
-  title: String
-  thumbnail: String | null
-  body: String
+  is_approved: boolean,
+  title: String,
+  thumbnail: String | null,
+  body: String,
   // eslint-disable-next-line camelcase
-  creation_date: Date
+  creation_date: Date,
   // eslint-disable-next-line camelcase
-  approval_date: Date
+  approval_date: Date,
   // eslint-disable-next-line camelcase
-  post_author: Date
-}
+  post_author: Date,
+};
 
 export default {
   update: {
@@ -47,4 +47,4 @@ export default {
     GetUserVoteForPost,
     GetVotes,
   },
-}
+};
