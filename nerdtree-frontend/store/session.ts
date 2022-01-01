@@ -5,45 +5,45 @@ import { User } from '~/api-wrapper/user'
 @Module({
   name: 'NerdTreeSession',
   stateFactory: true,
-  namespaced: true
+  namespaced: true,
 })
 export default class NerdTreeSession extends VuexModule {
-  private user: User | null = null;
-  private accessToken: String | null = null;
+  private user: User | null = null
+  private accessToken: String | null = null
 
   @Mutation
   updateUser(user: User) {
-    this.user = user;
+    this.user = user
   }
 
   @Mutation
   updateAccessToken(token: String) {
-    this.accessToken = token;
+    this.accessToken = token
   }
 
   @Mutation
   updateRefreshToken(refreshToken: String) {
     Cookies.set('NERDTREE_AUTH_REFRESHTOKEN', refreshToken, {
       sameSite: 'strict',
-      expires: Date.now() + 30
-    });
+      expires: Date.now() + 30,
+    })
   }
 
   get loggedIn(): boolean {
-    return !!this.user;
+    return !!this.user
   }
 
   get User(): User | null {
-    return this.user;
+    return this.user
   }
 
   get AccessToken(): String | null {
-    return this.accessToken;
+    return this.accessToken
   }
 
   get RefreshToken(): String | null {
-    const token = Cookies.get('NERDTREE_AUTH_REFRESHTOKEN');
+    const token = Cookies.get('NERDTREE_AUTH_REFRESHTOKEN')
 
-    return token || null;
+    return token || null
   }
 }

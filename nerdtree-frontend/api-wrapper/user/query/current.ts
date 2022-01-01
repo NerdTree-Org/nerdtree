@@ -6,33 +6,34 @@ export default async function Current(
   ctx: NerdTreeSession
 ): Promise<StatusPayload<User>> {
   try {
-    const req = await fetch(`${process.env.NERDTREE_API_URL}/user/query/current`, {
-      method: 'post',
-      headers: {
-        'content-type': 'application/json',
-        'authorization': `bearer ${ctx.AccessToken}`
-      },
-    });
+    const req = await fetch(
+      `${process.env.NERDTREE_API_URL}/user/query/current`,
+      {
+        method: 'post',
+        headers: {
+          'content-type': 'application/json',
+          authorization: `bearer ${ctx.AccessToken}`,
+        },
+      }
+    )
 
-    const jsonBody = await req.json();
+    const jsonBody = await req.json()
 
     if (req.status !== 200) {
       return {
         success: false,
         message: jsonBody.error,
       }
-    }
-    else {
+    } else {
       return {
         success: true,
-        value: jsonBody
+        value: jsonBody,
       }
     }
-  }
-  catch {
+  } catch {
     return {
       success: false,
-      message: "Cannot connect to server",
+      message: 'Cannot connect to server',
     }
   }
 }
