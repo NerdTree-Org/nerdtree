@@ -11,21 +11,21 @@ import Current from '~/api-wrapper/user/query/current'
 import DiscordToken from '~/api-wrapper/user/query/discord_token'
 
 export type User = {
-  id: String
-  username: String
-  firstname: String
-  lastname: String
-  email: String
+ id: String,
+ username: String,
+ firstname: String,
+ lastname: String,
+ email: String,
   // eslint-disable-next-line camelcase
-  profile_pic: String | null
+ profile_pic: String | null,
   // eslint-disable-next-line camelcase
-  is_admin: boolean
+ is_admin: boolean,
   // eslint-disable-next-line camelcase
-  facebook_id: String
+ facebook_id: String,
   // eslint-disable-next-line camelcase
-  discord_token: String
+ discord_token: String,
   // eslint-disable-next-line camelcase
-  is_discord_token_used: boolean
+ is_discord_token_used: boolean,
 }
 
 export default {
@@ -43,5 +43,5 @@ export default {
     ByUsername,
     Current,
     DiscordToken,
-  },
+  }
 }

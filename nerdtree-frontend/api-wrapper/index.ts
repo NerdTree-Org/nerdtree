@@ -8,4 +8,4 @@ export default {
   blog: Blog,
   user: User,
   comment: Comment,
-}
+};
