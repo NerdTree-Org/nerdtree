@@ -2,7 +2,7 @@ import { StatusPayload } from '~/api-wrapper/common'
 import { User } from '~/api-wrapper/user'
 
 export default async function ById(
-  userId: String,
+  userId: String
 ): Promise<StatusPayload<User>> {
   const payload = {
     user_id: userId,
@@ -15,27 +15,25 @@ export default async function ById(
       headers: {
         'content-type': 'application/json',
       },
-    });
+    })
 
-    const jsonBody = await req.json();
+    const jsonBody = await req.json()
 
     if (req.status !== 200) {
       return {
         success: false,
         message: jsonBody.error,
       }
-    }
-    else {
+    } else {
       return {
         success: true,
-        value: jsonBody
+        value: jsonBody,
       }
     }
-  }
-  catch {
+  } catch {
     return {
       success: false,
-      message: "Cannot connect to server",
+      message: 'Cannot connect to server',
     }
   }
 }
