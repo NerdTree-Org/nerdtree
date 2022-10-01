@@ -16,7 +16,6 @@ pub struct LoginRequired {
 impl FromRequest for LoginRequired {
     type Error = Errors;
     type Future = Ready<Result<Self, Self::Error>>;
-    type Config = ();
 
     fn from_request(req: &HttpRequest, _: &mut Payload) -> Self::Future {
         let header_bearer_token = match req.headers().get("authorization") {
@@ -70,12 +69,5 @@ impl FromRequest for LoginRequired {
 
     fn extract(req: &HttpRequest) -> Self::Future {
         Self::from_request(req, &mut Payload::None)
-    }
-
-    fn configure<F>(f: F) -> Self::Config
-    where
-        F: FnOnce(Self::Config) -> Self::Config,
-    {
-        f(())
     }
 }

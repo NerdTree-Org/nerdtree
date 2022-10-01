@@ -15,7 +15,7 @@ pub fn insert_user(
     user_facebook_id: &str,
     conn_pool: &Pool,
 ) -> Result<UserModel, Errors> {
-    let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
+    let mut conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
 
     let new_user = NewUser {
         username: user_username,
@@ -28,7 +28,7 @@ pub fn insert_user(
 
     diesel::insert_into(users)
         .values(&new_user)
-        .get_result::<UserModel>(&conn)
+        .get_result::<UserModel>(&mut conn)
         .map_or_else(|_| Err(Errors::InternalServerError), Ok)
 }
 
@@ -37,11 +37,11 @@ pub fn update_user_password(
     new_password: &str,
     conn_pool: &Pool,
 ) -> Result<UserModel, Errors> {
-    let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
+    let mut conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
 
     diesel::update(users.filter(id.eq(user_id)))
         .set(password.eq(new_password))
-        .get_result::<UserModel>(&conn)
+        .get_result::<UserModel>(&mut conn)
         .map_or_else(|_| Err(Errors::InternalServerError), Ok)
 }
 
@@ -50,11 +50,11 @@ pub fn update_user_firstname(
     new_firstname: &str,
     conn_pool: &Pool,
 ) -> Result<UserModel, Errors> {
-    let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
+    let mut conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
 
     diesel::update(users.filter(id.eq(user_id)))
         .set(firstname.eq(new_firstname))
-        .get_result::<UserModel>(&conn)
+        .get_result::<UserModel>(&mut conn)
         .map_or_else(|_| Err(Errors::InternalServerError), Ok)
 }
 
@@ -63,11 +63,11 @@ pub fn update_user_lastname(
     new_lastname: &str,
     conn_pool: &Pool,
 ) -> Result<UserModel, Errors> {
-    let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
+    let mut conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
 
     diesel::update(users.filter(id.eq(user_id)))
         .set(lastname.eq(new_lastname))
-        .get_result::<UserModel>(&conn)
+        .get_result::<UserModel>(&mut conn)
         .map_or_else(|_| Err(Errors::InternalServerError), Ok)
 }
 
@@ -76,11 +76,11 @@ pub fn update_user_email(
     new_email: &str,
     conn_pool: &Pool,
 ) -> Result<UserModel, Errors> {
-    let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
+    let mut conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
 
     diesel::update(users.filter(id.eq(user_id)))
         .set(email.eq(new_email))
-        .get_result::<UserModel>(&conn)
+        .get_result::<UserModel>(&mut conn)
         .map_or_else(|_| Err(Errors::InternalServerError), Ok)
 }
 
@@ -89,19 +89,19 @@ pub fn update_user_profile_pic(
     new_profile_pic: &str,
     conn_pool: &Pool,
 ) -> Result<UserModel, Errors> {
-    let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
+    let mut conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
 
     diesel::update(users.filter(id.eq(user_id)))
         .set(profile_pic.eq(new_profile_pic))
-        .get_result::<UserModel>(&conn)
+        .get_result::<UserModel>(&mut conn)
         .map_or_else(|_| Err(Errors::InternalServerError), Ok)
 }
 
 pub fn delete_user(user_id: &uuid::Uuid, conn_pool: &Pool) -> Result<usize, Errors> {
-    let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
+    let mut conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
 
     diesel::delete(users.filter(id.eq(user_id)))
-        .execute(&conn)
+        .execute(&mut conn)
         .map_err(|_| Errors::BadRequest("Failed to delete user as it may not exist".to_string()))
 }
 
@@ -109,10 +109,10 @@ pub fn invalidate_discord_token(
     user_id: &uuid::Uuid,
     conn_pool: &Pool,
 ) -> Result<UserModel, Errors> {
-    let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
+    let mut conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
 
     diesel::update(users.filter(id.eq(user_id)))
         .set(is_discord_token_used.eq(true))
-        .get_result::<UserModel>(&conn)
+        .get_result::<UserModel>(&mut conn)
         .map_err(|_| Errors::InternalServerError)
 }

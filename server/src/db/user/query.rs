@@ -5,11 +5,11 @@ use crate::errors::Errors;
 use diesel::prelude::*;
 
 pub fn get_users_by_email(user_email: &str, conn_pool: &Pool) -> Result<Vec<UserModel>, Errors> {
-    let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
+    let mut conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
 
     let results = users
         .filter(email.like(user_email))
-        .load::<UserModel>(&conn)
+        .load::<UserModel>(&mut conn)
         .map_err(|_| Errors::InternalServerError)?;
 
     Ok(results)
@@ -19,23 +19,23 @@ pub fn get_users_by_username(
     user_username: &str,
     conn_pool: &Pool,
 ) -> Result<Vec<UserModel>, Errors> {
-    let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
+    let mut conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
 
     let results = users
         .filter(username.like(user_username))
-        .load::<UserModel>(&conn)
+        .load::<UserModel>(&mut conn)
         .map_err(|_| Errors::InternalServerError)?;
 
     Ok(results)
 }
 
 pub fn get_user_by_id(user_id: &uuid::Uuid, conn_pool: &Pool) -> Result<Vec<UserModel>, Errors> {
-    let conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
+    let mut conn = get_conn(conn_pool).map_err(|_| Errors::InternalServerError)?;
 
     let results = users
         .filter(id.eq(user_id))
         .limit(1)
-        .load::<UserModel>(&conn)
+        .load::<UserModel>(&mut conn)
         .map_err(|_| Errors::InternalServerError)?;
 
     Ok(results)

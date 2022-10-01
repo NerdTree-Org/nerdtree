@@ -3,6 +3,7 @@ extern crate diesel;
 use crate::db::create_db_pool;
 use actix_cors::Cors;
 use actix_web::middleware::Logger;
+use actix_web::web::Data;
 use actix_web::{http, web, App, HttpServer};
 
 pub mod db;
@@ -37,7 +38,7 @@ async fn main() -> std::io::Result<()> {
             .wrap(cors)
             .wrap(Logger::default())
             .wrap(Logger::new("%a %{User-Agent}i"))
-            .data(create_db_pool())
+            .app_data(Data::new(create_db_pool()))
             .service(
                 web::scope("/auth")
                     .route(

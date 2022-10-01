@@ -1,7 +1,6 @@
 use super::claims::Token;
 use jsonwebtoken::{
-    dangerous_insecure_decode, decode, errors::Error, errors::Result, Algorithm, DecodingKey,
-    TokenData, Validation,
+    decode, errors::Error, errors::Result, Algorithm, DecodingKey, TokenData, Validation,
 };
 use std::env::var;
 
@@ -32,13 +31,6 @@ pub fn verify_token(token: &str) -> TokenReturnType {
 
 pub fn verify_token_with_custom_secret(token: &str, secret: &str) -> TokenReturnType {
     match __internal_verify_with_custom_secret(token, secret) {
-        Ok(cl) => Ok(cl.claims),
-        Err(e) => Err(e),
-    }
-}
-
-pub fn decode_without_secret(token: &str) -> TokenReturnType {
-    match dangerous_insecure_decode::<Token>(token) {
         Ok(cl) => Ok(cl.claims),
         Err(e) => Err(e),
     }

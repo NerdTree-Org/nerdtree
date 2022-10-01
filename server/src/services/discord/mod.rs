@@ -40,8 +40,7 @@ pub async fn verify_token(
     }
     let user = user[0].clone();
 
-    if user.discord_token.to_string() != payload.discord_token || user.is_discord_token_used
-    {
+    if user.discord_token.to_string() != payload.discord_token || user.is_discord_token_used {
         Err(Errors::BadRequest("Invalid discord token!".to_string()))
     } else {
         // invalidate the token and return success thing

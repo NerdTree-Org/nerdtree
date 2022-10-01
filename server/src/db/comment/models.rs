@@ -11,7 +11,7 @@ pub struct CommentModel {
 }
 
 #[derive(Insertable)]
-#[table_name = "comments"]
+#[diesel(table_name = comments)]
 pub struct NewComment<'a> {
     pub post_id: &'a Uuid,
     pub author_id: &'a Uuid,

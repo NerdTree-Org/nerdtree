@@ -1,11 +1,11 @@
 use crate::db::user::mutation::update_user_password;
-use crate::db::user::query::{get_user_by_id, get_users_by_email};
+use crate::db::user::query::get_users_by_email;
 use crate::db::Pool;
 use crate::email::send_email;
 use crate::errors::Errors;
 use crate::jwt::claims::TokenType;
 use crate::jwt::sign::generate_passwordresettoken;
-use crate::jwt::verify::{decode_without_secret, verify_token_with_custom_secret};
+use crate::jwt::verify::verify_token_with_custom_secret;
 use crate::services::auth::payloads::{
     PasswordResetRequestPayload, PasswordResetTokenPayload, StatusPayload,
 };
@@ -15,7 +15,6 @@ use actix_web::{
 };
 use argon2::Config;
 use rand::RngCore;
-use std::str::FromStr;
 
 pub async fn password_reset_request_handler(
     payload: Json<PasswordResetRequestPayload>,
@@ -52,19 +51,7 @@ pub async fn password_reset_token_handler(
     payload: Json<PasswordResetTokenPayload>,
     conn_pool: Data<Pool>,
 ) -> Result<impl Responder, Errors> {
-    let decoded_token =
-        decode_without_secret(&payload.reset_token).map_err(|_| Errors::InternalServerError)?;
-
-    // check if token type is password reset token
-    match decoded_token.token_type {
-        TokenType::PasswordResetToken => (),
-        _ => return Err(Errors::BadRequest("Invalid token".to_string())),
-    };
-
-    let users = get_user_by_id(
-        &uuid::Uuid::from_str(&decoded_token.id).unwrap(),
-        &conn_pool,
-    )?;
+    let users = get_users_by_email(&payload.email, &conn_pool)?;
     if users.is_empty() {
         // no such user
         return Err(Errors::BadRequest("Malformed token".to_string()));
@@ -76,7 +63,14 @@ pub async fn password_reset_token_handler(
         &payload.reset_token,
         &(user.password + &std::env::var("JWT_SECRET_KEY").unwrap()),
     )
-    .map_err(|_| Errors::BadRequest("Malformed token".to_string()))?;
+    .map_err(|e| Errors::BadRequest("Malformed token".to_string()))
+    .and_then(|t| {
+        if !matches!(t.token_type, TokenType::PasswordResetToken) {
+            Err(Errors::BadRequest("Malformed token".to_string()))
+        } else {
+            Ok(t)
+        }
+    })?;
 
     // now change the password
     let config = Config::default();

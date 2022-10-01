@@ -30,12 +30,7 @@ pub async fn paginate_posts_handler(
         Ok(Json(PaginatePostsReturnPayload {
             current_page: page.unwrap().0 + 1,
             max_page: pg_vec.get_max_pages(),
-            page: page
-                .unwrap()
-                .1
-                .iter()
-                .map(|v| v.clone().clone())
-                .collect(),
+            page: page.unwrap().1.iter().map(|v| v.clone().clone()).collect(),
         }))
     };
 }

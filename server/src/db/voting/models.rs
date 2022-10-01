@@ -18,14 +18,14 @@ pub struct DownvoteModel {
 }
 
 #[derive(Insertable)]
-#[table_name = "upvotes"]
+#[diesel(table_name = upvotes)]
 pub struct NewUpvote {
     pub post_id: Uuid,
     pub user_id: Uuid,
 }
 
 #[derive(Insertable)]
-#[table_name = "downvotes"]
+#[diesel(table_name = downvotes)]
 pub struct NewDownvote {
     pub post_id: Uuid,
     pub user_id: Uuid,
