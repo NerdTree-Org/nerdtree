@@ -12,6 +12,7 @@ use serenity::framework::standard::{
 use serenity::model::id::RoleId;
 
 use std::env;
+use serenity::prelude::GatewayIntents;
 
 #[group]
 #[commands(verify)]
@@ -31,7 +32,7 @@ async fn main() {
 
     // Login with a bot token from the environment
     let token = env::var("DISCORD_TOKEN").expect("token");
-    let mut client = Client::builder(token)
+    let mut client = Client::builder(token, GatewayIntents::all())
         .event_handler(Handler)
         .framework(framework)
         .await
