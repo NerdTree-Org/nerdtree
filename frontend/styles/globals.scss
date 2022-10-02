@@ -45,3 +45,24 @@ h3 {
   font-size: 25px;
   letter-spacing: -0.025em;
 }
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #606060;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #404040;
+
+  &:hover {
+    background: #303030;
+  }
+
+  &:active {
+    background: #202020;
+  }
+}
