@@ -1,0 +1,27 @@
+.button {
+  display: inline;
+  letter-spacing: -0.5px;
+  font-weight: 600;
+  font-size: 17px;
+  padding: 0.3em 1.5em;
+  user-select: none;
+  cursor: pointer;
+}
+
+.hazy-button {
+  background: linear-gradient(
+    100.35deg,
+    #535353 29%,
+    rgba(83, 83, 83, 0) 100.36%
+  );
+  background-size: 130%;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 5px;
+  transition: 200ms;
+
+  &:active {
+    background-position-x: 100%;
+    background-position-y: 100%;
+    background-size: 200%;
+  }
+}
