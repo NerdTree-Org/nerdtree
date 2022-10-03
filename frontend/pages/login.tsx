@@ -38,6 +38,7 @@ const Login: NextPage = () => {
           <div className={styles["input-container"]}>
             <label className={"block"}>Email</label>
             <input
+              className={errors.email && styles["contains-error"]}
               type={"email"}
               placeholder={"user@example.com"}
               {...register("email", {
@@ -52,6 +53,7 @@ const Login: NextPage = () => {
           <div className={styles["input-container"]}>
             <label className={"block"}>Password</label>
             <input
+              className={errors.password && styles["contains-error"]}
               type={"password"}
               placeholder={"Your Password"}
               {...register("password", { required: true })}
