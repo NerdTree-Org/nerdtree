@@ -1,7 +1,5 @@
 import type { NextPage } from "next";
 import styles from "../styles/Index.module.scss";
-import { useDispatch, useSelector } from "react-redux";
-import { selectAuthUser } from "../store/authSlice";
 import Logo from "../public/logo.png";
 import Link from "next/link";
 import BlogCard from "../components/blog_card";
@@ -10,11 +8,9 @@ import HorizontalScroll from "../components/horizontal_scroll";
 import RepoCard from "../components/repo_card";
 import Footer from "../components/footer";
 import Head from "next/head";
+import AuthStatus from "../components/auth_status";
 
 const Home: NextPage = () => {
-  const user = useSelector(selectAuthUser);
-  const dispatch = useDispatch();
-
   return (
     <div>
       <Head>
@@ -23,30 +19,8 @@ const Home: NextPage = () => {
       <div
         className={`${styles["toplevel"]} flex flex-col items-center min-w-screen min-h-screen justify-between`}
       >
-        <div
-          className={`${styles["account-links"]} flex justify-end p-4 w-screen`}
-        >
-          {user ? (
-            <div>
-              <Link href={`/profile/${user.username}`}>
-                <span className={styles["link"]}>
-                  {user.firstname + " " + user.lastname}
-                </span>
-              </Link>
-            </div>
-          ) : (
-            <div className="flex gap-3">
-              <Link href="/login">
-                <span className={styles["link"]}>Log In</span>
-              </Link>
-              <span className="font-extralight p-2">or</span>
-              <Link href="/register">
-                <span className={styles["link"]} id={styles["register"]}>
-                  Register
-                </span>
-              </Link>
-            </div>
-          )}
+        <div className={"flex justify-end p-4 w-screen"}>
+          <AuthStatus />
         </div>
         <div className={`${styles["greeting-container"]} w-full`}>
           <div>
