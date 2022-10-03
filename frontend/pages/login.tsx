@@ -3,6 +3,7 @@ import styles from "../styles/authform.module.scss";
 import Logo from "../public/logo.png";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Link from "next/link";
+import Head from "next/head";
 
 interface IFormInputs {
   email: string;
@@ -19,6 +20,9 @@ const Login: NextPage = () => {
 
   return (
     <div className={"flex justify-center items-center h-screen"}>
+      <Head>
+        <title>Log In - NerdTree</title>
+      </Head>
       <div className={styles["login-form"]}>
         <div>
           <img

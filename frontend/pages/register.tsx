@@ -4,6 +4,7 @@ import Logo from "../public/logo.png";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Link from "next/link";
 import { useState } from "react";
+import Head from "next/head";
 
 interface IFormInputs {
   firstName: string;
@@ -27,6 +28,9 @@ const Register: NextPage = () => {
 
   return (
     <div className={"flex justify-center items-center h-screen"}>
+      <Head>
+        <title>Register - NerdTree</title>
+      </Head>
       <div className={styles["login-form"]}>
         <div>
           <img
