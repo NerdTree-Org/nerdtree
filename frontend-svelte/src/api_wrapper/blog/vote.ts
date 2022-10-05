@@ -1,4 +1,4 @@
-import { makeRequest, RequestResult, StatusPayload } from '../common/request';
+import { makeRequest, type RequestResult, type StatusPayload } from '../common/request';
 
 interface AddUpvotePayload {
     post_id: string;
