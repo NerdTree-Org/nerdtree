@@ -66,12 +66,14 @@ interface UpdateProfilePicPayload {
     form_data: FormData;
 }
 
+const UPDATE_PROFILE_PIC_ROUTE = "user/update/profile_pic";
+
 export default async function updateProfilePic(
     payload: UpdateProfilePicPayload
 ): Promise<StatusPayload> {
     let req;
     try {
-        req = await fetch(`${ENV.api_address}/update/profile_pic`, {
+        req = await fetch(`${ENV.api_address}/${UPDATE_PROFILE_PIC_ROUTE}`, {
             method: 'POST',
             body: payload.form_data,
             headers: {
