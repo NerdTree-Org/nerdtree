@@ -19,6 +19,8 @@ import {
     updateThumbnail,
     updateTitle
 } from './blog/update';
+import { getPostById, getPostsByAuthorId, paginatePosts } from './blog/query';
+import {addDownvote, addUpvote, getUserVoteForPost, getVotes} from './blog/vote';
 
 export const API = {
     auth: {
@@ -28,6 +30,27 @@ export const API = {
         password_reset: {
             request: passwordResetRequest,
             token: passwordResetToken
+        }
+    },
+    post: {
+        update: {
+            new: newPost,
+            thumbnail: updateThumbnail,
+            body: updatePostBody,
+            title: updateTitle,
+            update_approval: updateApproval,
+            delete: deletePost
+        },
+        query: {
+            paginate: paginatePosts,
+            id: getPostById,
+            author_id: getPostsByAuthorId
+        },
+        vote: {
+            upvote: addUpvote,
+            downvote: addDownvote,
+            votes: getVotes,
+            by_current_user: getUserVoteForPost,
         }
     },
     user: {
