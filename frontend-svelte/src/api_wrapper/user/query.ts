@@ -1,5 +1,5 @@
 import { makeRequest, type RequestResult } from '../common/request';
-import type {User} from "../../interfaces/user";
+import type { User } from '../../interfaces/user';
 
 interface GetUserByIdPayload {
     id: string;

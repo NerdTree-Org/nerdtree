@@ -66,7 +66,7 @@ interface UpdateProfilePicPayload {
     form_data: FormData;
 }
 
-const UPDATE_PROFILE_PIC_ROUTE = "user/update/profile_pic";
+const UPDATE_PROFILE_PIC_ROUTE = 'user/update/profile_pic';
 
 export default async function updateProfilePic(
     payload: UpdateProfilePicPayload

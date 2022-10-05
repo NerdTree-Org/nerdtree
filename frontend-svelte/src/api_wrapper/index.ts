@@ -11,6 +11,14 @@ import updateProfilePic, {
 } from './user/update';
 import { getDiscordToken } from './user/get';
 import { deleteUser } from './user/delete';
+import {
+    deletePost,
+    newPost,
+    updateApproval,
+    updatePostBody,
+    updateThumbnail,
+    updateTitle
+} from './blog/update';
 
 export const API = {
     auth: {

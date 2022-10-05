@@ -1,5 +1,5 @@
-import {writable} from 'svelte/store';
-import type {User} from "../interfaces/user";
+import { writable } from 'svelte/store';
+import type { User } from '../interfaces/user';
 
 interface AuthInfo {
     user: User;
