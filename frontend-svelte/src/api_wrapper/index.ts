@@ -21,6 +21,8 @@ import {
 } from './blog/update';
 import { getPostById, getPostsByAuthorId, paginatePosts } from './blog/query';
 import { addDownvote, addUpvote, getUserVoteForPost, getVotes } from './blog/vote';
+import { deleteComment, editComment, newComment } from './comment/update';
+import { getCommentsByPost, getCommentsByUser } from './comment/query';
 
 export const API = {
     auth: {
@@ -51,6 +53,17 @@ export const API = {
             downvote: addDownvote,
             votes: getVotes,
             by_current_user: getUserVoteForPost
+        }
+    },
+    comment: {
+        update: {
+            new: newComment,
+            edit: editComment,
+            delete: deleteComment
+        },
+        query: {
+            by_post: getCommentsByPost,
+            by_user: getCommentsByUser
         }
     },
     user: {
