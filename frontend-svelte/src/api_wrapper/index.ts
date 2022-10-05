@@ -20,7 +20,7 @@ import {
     updateTitle
 } from './blog/update';
 import { getPostById, getPostsByAuthorId, paginatePosts } from './blog/query';
-import {addDownvote, addUpvote, getUserVoteForPost, getVotes} from './blog/vote';
+import { addDownvote, addUpvote, getUserVoteForPost, getVotes } from './blog/vote';
 
 export const API = {
     auth: {
@@ -50,7 +50,7 @@ export const API = {
             upvote: addUpvote,
             downvote: addDownvote,
             votes: getVotes,
-            by_current_user: getUserVoteForPost,
+            by_current_user: getUserVoteForPost
         }
     },
     user: {
