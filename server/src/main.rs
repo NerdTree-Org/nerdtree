@@ -31,7 +31,7 @@ async fn main() -> std::io::Result<()> {
             .max_age(None);
 
         if std::env::var("PRODUCTION").is_err() {
-            cors = cors.allowed_origin("http://localhost:3000");
+            cors = cors.allowed_origin("http://localhost:5173");
         }
 
         App::new()

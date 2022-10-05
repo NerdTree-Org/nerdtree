@@ -4,8 +4,8 @@ import type { User } from '../interfaces/user';
 interface AuthInfo {
     user: User;
     last_login: Date;
-    access_token: String;
-    refresh_token: String;
+    access_token: string;
+    refresh_token: string;
 }
 
 interface AuthState {
