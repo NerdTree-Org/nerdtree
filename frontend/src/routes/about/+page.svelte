@@ -6,9 +6,9 @@
     <title>About Us</title>
 </svelte:head>
 
-<div class="parent-container flex flex-col items-center justify-center p-20 h-screen">
-    <h1>About Us</h1>
-    <div class="about-container">
+<div class="parent-container flex flex-col justify-center gap-10 mt-10">
+    <h1 class="text-center">About Us</h1>
+    <div class="about-container p-5">
         <img class="bg-black rounded-2xl" src={Logo} alt="NerdTree Logo" />
         <div>
             <p class="inline text-2xl">
@@ -23,16 +23,16 @@
             </p>
         </div>
     </div>
-    <div class="contact-info grid p-10">
+    <div class="contact-info flex items-center flex-col">
         <h1 class="text-center">Want to contact us?</h1>
-        <h3>
+        <span class="text-center">
             Email:
             <a href="mailto:nerdtree.org@gmail.com"> nerdtree.org@gmail.com </a>
-        </h3>
-        <h3>
+        </span>
+        <span class="text-center">
             Facebook:
             <a href="https://facebook.com/nerdtree"> https://facebook.com/nerdtree </a>
-        </h3>
+        </span>
     </div>
 </div>
 
@@ -42,14 +42,12 @@
     }
     .about-container {
         display: flex;
-        padding: 1em;
-        gap: 5em;
         flex-wrap: wrap;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
-        margin-top: 5em;
         font-weight: 600;
         letter-spacing: -0.035em;
+        gap: 5em;
 
         div {
             max-width: 500px;
@@ -58,9 +56,14 @@
 
     .contact-info {
         display: grid;
-        padding: 5em;
+        margin-bottom: 2em;
 
+        span {
+            font-size: 1.2em;
+            font-weight: 600;
+        }
         a {
+            word-break: break-word;
             color: #4f95ff;
         }
     }
