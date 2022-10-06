@@ -5,15 +5,15 @@
     import { goto } from '$app/navigation';
     import '../../styles/authform.scss';
     import Logo from '../../images/logo.png';
-    import {AuthenticationStatus} from "../../stores/user";
+    import { AuthenticationStatus } from '../../stores/user';
 
-    AuthenticationStatus.subscribe(status => {
+    AuthenticationStatus.subscribe((status) => {
         if (status.info) {
-            goto("/", { replaceState: true });
+            goto('/', { replaceState: true });
         }
     });
 
-    let loginError = "";
+    let loginError = '';
     const { form, errors, isValid, handleSubmit, touched, isSubmitting } = createForm({
         initialValues: {
             Username: '',
@@ -30,7 +30,7 @@
             });
 
             if (result.success) {
-                await goto("/", { replaceState: true })
+                await goto('/', { replaceState: true });
             } else {
                 loginError = result.error;
             }

@@ -30,14 +30,14 @@
 }
 
 @media only screen and (max-width: 350px) {
-    .login-form {
+    .form-container {
         width: 100%;
         border-radius: 0;
     }
 }
 
 .input-container {
-    margin: 1em 0.5em 1em 0.5em;
+    margin: 0.7em 0.5em 0.7em 0.5em;
 
     label {
         font-size: 18px;
@@ -57,14 +57,6 @@
 
         &.contains-error {
             border-color: #ff2929;
-        }
-
-        &:-webkit-autofill,
-        &:-webkit-autofill:hover,
-        &:-webkit-autofill:focus,
-        &:-webkit-autofill:active {
-            -webkit-transition: 'color 999999s ease-out, background-color 999999s ease-out';
-            -webkit-transition-delay: 999999s;
         }
 
         &:focus {

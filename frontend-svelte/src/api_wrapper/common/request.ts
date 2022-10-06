@@ -29,7 +29,7 @@ export async function makeRequest<P, R>(
         req = await fetch(`${ENV.api_address}/${route}`, {
             method: 'POST',
             headers: requestHeaders,
-            body: JSON.stringify(payload),
+            body: JSON.stringify(payload)
         });
     } catch (e) {
         return {

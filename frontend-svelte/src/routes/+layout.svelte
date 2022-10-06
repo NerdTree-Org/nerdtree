@@ -8,7 +8,7 @@
         getAccessToken,
         getLastLogin,
         getRefreshToken,
-        storeAuthInfoCookie
+        removeAuthInfo
     } from '../api_wrapper/common/store_auth_info_cookie';
     import { API } from '../api_wrapper';
     import { AuthenticationStatus } from '../stores/user';
@@ -22,28 +22,27 @@
         // refresh accesstoken every 5 minutes if the user is logged in
         async function refresh_accesstoken() {
             const refresh_token = getRefreshToken();
-            if (refresh_token) {
-                let result = await API.auth.refresh_token({
-                    refresh_token
+            if (typeof refresh_token === 'undefined') return;
+            let result = await API.auth.refresh_token({
+                refresh_token
+            });
+
+            if (!result.success) {
+                // remove these so that we don't make unnecessary fetch requests
+                // when the authentication info is no longer valid
+                removeAuthInfo();
+            } else {
+                // update the user information
+                const current_user = await getCurrentUser();
+
+                AuthenticationStatus.set({
+                    info: {
+                        user: current_user.value,
+                        access_token: getAccessToken(),
+                        refresh_token: getRefreshToken(),
+                        last_login: getLastLogin()
+                    }
                 });
-
-                if (!result.success) {
-                    // remove these so that we don't make unnecessary fetch requests
-                    // when the authentication info is no longer valid
-                    storeAuthInfoCookie(undefined, undefined, undefined);
-                } else {
-                    // update the user information
-                    const current_user = await getCurrentUser();
-
-                    AuthenticationStatus.set({
-                        info: {
-                            user: current_user.value,
-                            access_token: getAccessToken(),
-                            refresh_token: getRefreshToken(),
-                            last_login: getLastLogin()
-                        }
-                    });
-                }
             }
         }
 
@@ -54,7 +53,7 @@
     });
 </script>
 
-{#if $page.url.pathname !== '/' && $page.url.pathname !== '/login' && $page.url.pathname !== 'register' }
+{#if $page.url.pathname !== '/' && $page.url.pathname !== '/login' && $page.url.pathname !== '/register'}
     <Header />
     <slot />
     <Footer />
