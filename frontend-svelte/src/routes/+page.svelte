@@ -20,7 +20,7 @@
                 <h1>We&apos;re NerdTree</h1>
                 <h2>An organization aiming to make a better programming community for students</h2>
             </div>
-            <img src={$Logo} alt="NerdTree Logo" />
+            <img src={Logo} alt="NerdTree Logo" />
         </div>
         <div class="nav-links-container">
             <button id="index">/</button>
