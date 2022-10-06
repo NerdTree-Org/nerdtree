@@ -63,7 +63,7 @@ pub async fn password_reset_token_handler(
         &payload.reset_token,
         &(user.password + &std::env::var("JWT_SECRET_KEY").unwrap()),
     )
-    .map_err(|e| Errors::BadRequest("Malformed token".to_string()))
+    .map_err(|_| Errors::BadRequest("Malformed token".to_string()))
     .and_then(|t| {
         if !matches!(t.token_type, TokenType::PasswordResetToken) {
             Err(Errors::BadRequest("Malformed token".to_string()))

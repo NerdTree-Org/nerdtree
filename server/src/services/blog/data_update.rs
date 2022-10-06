@@ -167,8 +167,6 @@ pub async fn delete_post_handler(
         && !user.user.is_admin
     {
         Err(Errors::AccessForbidden)
-    } else if !user.user.is_admin {
-        Err(Errors::AccessForbidden)
     } else {
         // delete the post
         delete_post(&post.id, &conn_pool).map(|_| Json(StatusPayload { success: true }))
@@ -194,8 +192,6 @@ pub async fn update_post_title_handler(
         && post.post_author.unwrap() != user.user.id
         && !user.user.is_admin
     {
-        Err(Errors::AccessForbidden)
-    } else if !user.user.is_admin {
         Err(Errors::AccessForbidden)
     } else {
         Ok(Json(update_title(

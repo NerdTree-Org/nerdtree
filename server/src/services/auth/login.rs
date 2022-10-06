@@ -20,7 +20,7 @@ pub async fn login_handler(
     let user = users[0].clone();
 
     let hashed_password = user.password;
-    let matches = argon2::verify_encoded(&hashed_password, (&payload.password).as_ref())
+    let matches = argon2::verify_encoded(&hashed_password, payload.password.as_ref())
         .map_err(|_| Errors::InternalServerError)?;
 
     if !matches {

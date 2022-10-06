@@ -33,7 +33,7 @@ pub async fn get_comments_by_post_handler(
         Ok(Json(PaginatedCommentsReturnPayload {
             current_page: page.unwrap().0 + 1,
             max_page: paginated_comments.get_max_pages(),
-            page: page.unwrap().1.iter().map(|v| v.clone().clone()).collect(),
+            page: page.unwrap().1.iter().map(|v| (*v).clone()).collect(),
         }))
     };
 }
@@ -60,7 +60,7 @@ pub async fn get_comments_by_user_handler(
         Ok(Json(PaginatedCommentsReturnPayload {
             current_page: page.unwrap().0 + 1,
             max_page: paginated_comments.get_max_pages(),
-            page: page.unwrap().1.iter().map(|v| v.clone().clone()).collect(),
+            page: page.unwrap().1.iter().map(|v| (*v).clone()).collect(),
         }))
     };
 }

@@ -36,7 +36,7 @@ impl FromRequest for AdminOnly {
             return err(Errors::AccessForbidden);
         }
 
-        let raw_token = splitted_bearer[1].clone();
+        let raw_token = splitted_bearer[1];
         let token = match verify_token(raw_token) {
             Ok(t) => t,
             Err(_) => return err(Errors::AccessForbidden),

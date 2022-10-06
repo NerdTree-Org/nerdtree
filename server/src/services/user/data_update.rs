@@ -118,7 +118,7 @@ pub async fn upload_profile_pic_handler(
     let img_dir = std::path::Path::new(&img_dir);
 
     // we should have all the bytes collected
-    let _ = image::load_from_memory(&file_bytes)
+    image::load_from_memory(&file_bytes)
         .map_err(|e| Errors::BadRequest(e.to_string()))?
         .save(img_dir.join(&img_filename))
         .map_err(|_| Errors::InternalServerError)?;
