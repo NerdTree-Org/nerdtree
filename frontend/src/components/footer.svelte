@@ -1,4 +1,4 @@
-<div class="footer flex items-center justify-between p-2 pl-5 pr-5">
+<div class="footer flex flex-wrap items-center justify-between p-2 pl-5 pr-5">
     <h1>NerdTree</h1>
     <div>
         <a href="https://github.com/NerdTree-Org/nerdtree">Github</a>
