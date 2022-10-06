@@ -5,7 +5,7 @@ import { getUserById } from '../user/query';
 import { storeAuthInfoCookie } from '../common/store_auth_info_cookie';
 
 interface LoginRequestPayload {
-    email: string;
+    username: string;
     password: string;
 }
 

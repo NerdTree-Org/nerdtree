@@ -9,7 +9,7 @@ interface RefreshAccessTokenReturnPayload {
     access_token: string;
 }
 
-const REFRESH_ACCESSTOKEN_ROUTE = 'auth/refresh_accesstoken';
+const REFRESH_ACCESSTOKEN_ROUTE = 'auth/refresh_token';
 
 export async function refreshAccessToken(
     payload: RefreshAccessTokenPayload

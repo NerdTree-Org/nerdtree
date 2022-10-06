@@ -26,11 +26,11 @@ export async function makeRequest<P, R>(
 
     let req;
     try {
-        req = await fetch({
+        req = await fetch(`${ENV.api_address}/${route}`, {
             method: 'POST',
-            url: `${ENV.api_address}/${route}`,
-            headers: requestHeaders
-        } as RequestInfo);
+            headers: requestHeaders,
+            body: JSON.stringify(payload),
+        });
     } catch (e) {
         return {
             value: null,
