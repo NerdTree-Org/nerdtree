@@ -54,7 +54,7 @@
     });
 </script>
 
-{#if $page.url.pathname !== '/'}
+{#if $page.url.pathname !== '/' && $page.url.pathname !== '/login' && $page.url.pathname !== 'register' }
     <Header />
     <slot />
     <Footer />
