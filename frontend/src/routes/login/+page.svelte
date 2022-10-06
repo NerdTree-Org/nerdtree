@@ -63,7 +63,7 @@
                     placeholder="user1234"
                     bind:value={$form.Username}
                 />
-                {#if $errors.Username && $touched.Username}
+                {#if $errors.Username}
                     <span class="error-info">{$errors.Username}</span>
                 {/if}
             </div>
@@ -77,7 +77,7 @@
                     placeholder="password1234"
                     bind:value={$form.Password}
                 />
-                {#if $errors.Password && $touched.Password}
+                {#if $errors.Password}
                     <span class="error-info">{$errors.Password}</span>
                 {/if}
             </div>
