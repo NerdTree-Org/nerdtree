@@ -10,11 +10,11 @@
 </script>
 
 <div class="account-links flex justify-end">
-    {#if user}
+    {#if $user}
         <div>
-            <a href={`/profile/${user.username}`}>
+            <a href={`/profile/${$user.username}`}>
                 <span class="link">
-                    {user.firstname + ' ' + user.lastname}
+                    {$user.firstname + ' ' + $user.lastname}
                 </span>
             </a>
         </div>

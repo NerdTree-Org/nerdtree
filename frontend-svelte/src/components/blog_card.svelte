@@ -24,16 +24,16 @@
 </script>
 
 <div class="blog-card">
-    <a href={`/u/${blog_author ? blog_author.username : 'deleted_user'}`}>
+    <a href={`/u/${$blog_author ? $blog_author.username : 'deleted_user'}`}>
         <h3>
-            u/{blog_author ? blog_author.username : 'deleted_user'}
+            u/{$blog_author ? $blog_author.username : 'deleted_user'}
         </h3>
     </a>
-    <a href={`/blogs/${blog_id}`}>
-        <h1>{blog_title}</h1>
+    <a href={`/blogs/${$blog_id}`}>
+        <h1>{$blog_title}</h1>
     </a>
-    <h4>{`${round_number(blog_votes)} upvotes`}</h4>
-    <img src={blog_image} alt={'Blog Thumbnail'} />
+    <h4>{`${round_number($blog_votes)} upvotes`}</h4>
+    <img src={$blog_image} alt={'Blog Thumbnail'} />
 </div>
 
 <style lang="scss">

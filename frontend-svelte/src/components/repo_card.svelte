@@ -14,17 +14,17 @@
     -->
     <img
         src={'https://opengraph.githubassets.com/e99ccd45d06538a422ca2012bb9e73f14e9a07ddeb56cc70f673f4fd8129e849/' +
-            repo}
+            $repo}
         alt="repo-preview"
     />
     <div>
-        <h3>{repo}</h3>
-        <h4>Maintainers: {maintainers.join(', ')}</h4>
+        <h3>{$repo}</h3>
+        <h4>Maintainers: {$maintainers.join(', ')}</h4>
         <div class={'flex gap-3.5'}>
-            <a href={link}>
+            <a href={$link}>
                 <NerdTreeButton type={ButtonType.Hazy}>Repo</NerdTreeButton>
             </a>
-            <a href={issues}>
+            <a href={$issues}>
                 <NerdTreeButton type={ButtonType.Hazy}>Issues</NerdTreeButton>
             </a>
         </div>
