@@ -1,3 +1,3 @@
 export const ENV = {
-    api_address: 'localhost:8080'
+    api_address: 'http://localhost:8080'
 };
