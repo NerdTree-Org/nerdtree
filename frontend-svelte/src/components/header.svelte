@@ -32,7 +32,7 @@
         <div />
     </div>
 </div>
-<div style={{ height: '50px' }} />
+<div style="height: 50px"></div>
 
 <style lang="scss">
     .generic-header {
