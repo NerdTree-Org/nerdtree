@@ -2,6 +2,7 @@
     import AuthStatus from '../components/auth_status.svelte';
     import HorizontalScroll from '../components/horizontal_scroll.svelte';
     import RepoCard from '../components/repo_card.svelte';
+    import Footer from '../components/footer.svelte';
     import Logo from '../images/logo.png';
 </script>
 
@@ -55,6 +56,7 @@
             />
         </HorizontalScroll>
     </div>
+    <Footer />
 </div>
 
 <style lang="scss">

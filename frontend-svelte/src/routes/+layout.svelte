@@ -60,5 +60,4 @@
     <Footer />
 {:else}
     <slot />
-    <Footer />
 {/if}
