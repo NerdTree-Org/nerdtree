@@ -198,7 +198,7 @@
                     {/if}
                 </div>
                 <div class="flex justify-end">
-                    <button class="action-button" on:click|preventDefault={() => firstPart = true}
+                    <button class="action-button" on:click|preventDefault={() => (firstPart = true)}
                         >Back</button
                     >
                     <input

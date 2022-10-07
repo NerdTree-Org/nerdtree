@@ -4,8 +4,8 @@
     import { createForm } from 'svelte-forms-lib';
     import * as yup from 'yup';
     import { API } from '../../api_wrapper';
-    import {AuthenticationStatus} from "../../stores/user";
-    import {goto} from '$app/navigation';
+    import { AuthenticationStatus } from '../../stores/user';
+    import { goto } from '$app/navigation';
 
     AuthenticationStatus.subscribe((status) => {
         if (status.info) {
@@ -16,30 +16,29 @@
     let requestDone = false;
     let requestMessage = '';
     let requestFailed = false;
-    const { form, errors, handleSubmit, isSubmitting } =
-        createForm({
-            initialValues: {
-                Email: ''
-            },
-            validationSchema: yup.object({
-                Email: yup.string().email().required()
-            }),
-            onSubmit: async (values) => {
-                const result = await API.auth.password_reset.request({
-                    email: values.Email
-                });
+    const { form, errors, handleSubmit, isSubmitting } = createForm({
+        initialValues: {
+            Email: ''
+        },
+        validationSchema: yup.object({
+            Email: yup.string().email().required()
+        }),
+        onSubmit: async (values) => {
+            const result = await API.auth.password_reset.request({
+                email: values.Email
+            });
 
-                requestDone = true;
-                requestFailed = !result.success;
+            requestDone = true;
+            requestFailed = !result.success;
 
-                if (!requestFailed) {
-                    requestMessage =
-                        'Successfully sent password reset request. Please check your inbox including spam.';
-                } else {
-                    requestMessage = result.error;
-                }
+            if (!requestFailed) {
+                requestMessage =
+                    'Successfully sent password reset request. Please check your inbox including spam.';
+            } else {
+                requestMessage = result.error;
             }
-        });
+        }
+    });
 </script>
 
 <svelte:head>

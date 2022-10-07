@@ -11,7 +11,7 @@
     </a>
     <div class="actions {isSidebarVisible && 'actions-visible'}">
         <div class="cross-container flex w-full justify-end">
-            <div class="cross" on:click={() => isSidebarVisible = false}>
+            <div class="cross" on:click={() => (isSidebarVisible = false)}>
                 <div />
                 <div />
             </div>
@@ -21,12 +21,14 @@
                 <span class="action-link" on:click={() => (isSidebarVisible = false)}> Blogs </span>
             </a>
             <a href={'/about'}>
-                <span class="action-link" on:click={() => (isSidebarVisible = false)}> About Us </span>
+                <span class="action-link" on:click={() => (isSidebarVisible = false)}>
+                    About Us
+                </span>
             </a>
         </div>
         <AuthStatus />
     </div>
-    <div class="breadcrumb" on:click={() => isSidebarVisible = true}>
+    <div class="breadcrumb" on:click={() => (isSidebarVisible = true)}>
         <div />
         <div />
         <div />

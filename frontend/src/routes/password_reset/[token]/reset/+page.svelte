@@ -2,13 +2,13 @@
     import '../../../../styles/authform.scss';
     import { page } from '$app/stores';
     import Logo from '../../../../images/logo.png';
-    import {createForm} from "svelte-forms-lib";
-    import * as yup from "yup";
-    import {API} from "../../../../api_wrapper";
-    import {getUserIdFromAccessToken} from "../../../../api_wrapper/common/jwt";
-    import {get} from "svelte/store";
-    import {AuthenticationStatus} from "../../../../stores/user";
-    import {goto} from '$app/navigation';
+    import { createForm } from 'svelte-forms-lib';
+    import * as yup from 'yup';
+    import { API } from '../../../../api_wrapper';
+    import { getUserIdFromAccessToken } from '../../../../api_wrapper/common/jwt';
+    import { get } from 'svelte/store';
+    import { AuthenticationStatus } from '../../../../stores/user';
+    import { goto } from '$app/navigation';
 
     AuthenticationStatus.subscribe((status) => {
         if (status.info) {
@@ -23,21 +23,21 @@
         createForm({
             initialValues: {
                 Password: '',
-                ConfirmPassword: '',
+                ConfirmPassword: ''
             },
             validationSchema: yup.object({
                 Password: yup.string().min(8).max(80).required(),
-                ConfirmPassword: yup.string().min(8).max(80).required(),
+                ConfirmPassword: yup.string().min(8).max(80).required()
             }),
             onSubmit: async (values) => {
                 if (values.Password != values.ConfirmPassword) {
-                    get(errors).ConfirmPassword = "Must be equal to 'Password' field"
+                    get(errors).ConfirmPassword = "Must be equal to 'Password' field";
                 }
 
                 const result = await API.auth.password_reset.token({
                     user_id: getUserIdFromAccessToken(reset_token),
                     password: values.Password,
-                    reset_token: reset_token,
+                    reset_token: reset_token
                 });
 
                 requestDone = true;
