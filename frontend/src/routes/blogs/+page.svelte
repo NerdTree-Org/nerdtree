@@ -53,6 +53,7 @@
                 <BlogCard
                     blog_id={post.id}
                     blog_author={post.post_author}
+                    blog_post_time={new Date(post.creation_date)}
                     blog_title={post.title}
                     blog_image={post.thumbnail}
                 />

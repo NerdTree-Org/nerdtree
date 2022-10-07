@@ -5,6 +5,7 @@
 
     export let blog_id: string;
     export let blog_title: string;
+    export let blog_post_time: Date;
     export let blog_image: string | null;
     export let blog_author: string | null;
 
@@ -58,6 +59,7 @@
     <a href={`/blogs/${blog_id}`}>
         <h1>{blog_title}</h1>
     </a>
+    <h4>{blog_post_time.toDateString()}</h4>
     <h4>{`${round_number(blog_votes)} upvotes`}</h4>
     <img
         src={blog_image ? blog_image : 'https://via.placeholder.com/600x400'}
