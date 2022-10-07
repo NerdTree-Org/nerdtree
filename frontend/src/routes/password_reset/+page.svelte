@@ -4,6 +4,14 @@
     import { createForm } from 'svelte-forms-lib';
     import * as yup from 'yup';
     import { API } from '../../api_wrapper';
+    import {AuthenticationStatus} from "../../stores/user";
+    import {goto} from '$app/navigation';
+
+    AuthenticationStatus.subscribe((status) => {
+        if (status.info) {
+            goto('/', { replaceState: true });
+        }
+    });
 
     let requestDone = false;
     let requestMessage = '';

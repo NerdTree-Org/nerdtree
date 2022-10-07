@@ -7,7 +7,14 @@
     import {API} from "../../../../api_wrapper";
     import {getUserIdFromAccessToken} from "../../../../api_wrapper/common/jwt";
     import {get} from "svelte/store";
+    import {AuthenticationStatus} from "../../../../stores/user";
+    import {goto} from '$app/navigation';
 
+    AuthenticationStatus.subscribe((status) => {
+        if (status.info) {
+            goto('/', { replaceState: true });
+        }
+    });
     let requestDone = false;
     let requestFailed = false;
     let requestMessage = '';
