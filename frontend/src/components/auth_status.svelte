@@ -1,5 +1,6 @@
 <script lang="ts">
     import { AuthenticationStatus } from '../stores/user.ts';
+    import {removeAuthInfo} from "../api_wrapper/common/store_auth_info_cookie";
 
     let user;
     AuthenticationStatus.subscribe((status) => {
@@ -9,16 +10,24 @@
             user = null;
         }
     });
+
+    function logoutUser() {
+        removeAuthInfo();
+        AuthenticationStatus.set({
+            info: null
+        });
+    }
 </script>
 
 <div class="account-links flex justify-end">
     {#if user}
-        <div>
+        <div class="user-dropdown-container flex justify-center items-center gap-5">
             <a href={`/profile/${user.username}`}>
                 <span class="link">
-                    {user.firstname + ' ' + user.lastname}
+                    {user.username}
                 </span>
             </a>
+            <button class="font-semibold cursor-pointer" on:click={() => logoutUser()}>Logout</button>
         </div>
     {:else}
         <div class="flex gap-3">
