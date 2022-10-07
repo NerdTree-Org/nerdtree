@@ -20,7 +20,7 @@
     setContext('setLayout', layout.set);
 
     onMount(() => {
-        // refresh accesstoken every 5 minutes if the user is logged in
+        // refresh accesstoken every 5 seconds if the user is logged in
         async function refresh_accesstoken() {
             const refresh_token = getRefreshToken();
             if (typeof refresh_token === 'undefined') {

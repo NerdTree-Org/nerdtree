@@ -25,13 +25,13 @@
         <div class="nav-links-container">
             <button id="index">/</button>
             <a href="/blogs">
-                <span class="nav-link">Blogs</span>
+                <span>Blogs</span>
             </a>
             <a href="/workshops">
-                <span class="nav-link">Workshops</span>
+                <span>Workshops</span>
             </a>
             <a href="/about">
-                <span class="nav-link">About us</span>
+                <span>About us</span>
             </a>
         </div>
     </div>
@@ -106,7 +106,6 @@
         margin: 1em;
         display: flex;
         flex-wrap: wrap;
-        align-items: center;
         gap: 10px;
 
         button {
@@ -117,7 +116,7 @@
             text-align: left;
         }
 
-        .nav-link {
+        a {
             padding: 0.5em 1em 0.5em 1em;
             font-weight: 600;
             font-size: 100%;
