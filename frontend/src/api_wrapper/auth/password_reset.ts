@@ -17,7 +17,7 @@ export async function passwordResetRequest(
 }
 
 interface PasswordResetTokenPayload {
-    email: string;
+    user_id: string;
     reset_token: string;
     password: string;
 }

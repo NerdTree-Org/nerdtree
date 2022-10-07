@@ -10,4 +10,5 @@ pub fn check_env() {
     var("SMTP_SERVER").expect("SMTP_SERVER is not found in the env");
     var("IMAGE_PATH").expect("IMAGE_PATH is not found in the env");
     var("DISCORD_BOT_TOKEN").expect("DISCORD_BOT_TOKEN is not found in the env");
+    var("WEBSITE_LINK").expect("WEBSITE_LINK is not found in the env");
 }

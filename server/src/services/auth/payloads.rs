@@ -56,7 +56,7 @@ pub struct PasswordResetRequestPayload {
 
 #[derive(Deserialize)]
 pub struct PasswordResetTokenPayload {
-    pub email: String,
+    pub user_id: String,
     pub reset_token: String,
     pub password: String,
 }

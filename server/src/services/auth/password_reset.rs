@@ -1,5 +1,5 @@
 use crate::db::user::mutation::update_user_password;
-use crate::db::user::query::get_users_by_email;
+use crate::db::user::query::{get_user_by_id, get_users_by_email};
 use crate::db::Pool;
 use crate::email::send_email;
 use crate::errors::Errors;
@@ -15,6 +15,7 @@ use actix_web::{
 };
 use argon2::Config;
 use rand::RngCore;
+use std::str::FromStr;
 
 pub async fn password_reset_request_handler(
     payload: Json<PasswordResetRequestPayload>,
@@ -34,7 +35,14 @@ pub async fn password_reset_request_handler(
     )
     .map_err(|_| Errors::InternalServerError)?;
 
-    let email_templ = format!("We've received a request for recovering password for user: {}. Copy this token and paste it into correct place. DO NOT SHARE THIS TOKEN! Token: {}", user.username, password_reset_token);
+    let email_templ = format!(
+        "We've received a request for recovering password for user: {}. \
+        Visit the following link to continue resetting your password. \
+        DO NOT SHARE THIS LINK! Link: {}/password_reset/{}/reset",
+        user.username,
+        std::env::var("WEBSITE_LINK").unwrap(),
+        password_reset_token
+    );
 
     if !send_email(
         "Password Reset Request for NerdTree Account",
@@ -51,7 +59,7 @@ pub async fn password_reset_token_handler(
     payload: Json<PasswordResetTokenPayload>,
     conn_pool: Data<Pool>,
 ) -> Result<impl Responder, Errors> {
-    let users = get_users_by_email(&payload.email, &conn_pool)?;
+    let users = get_user_by_id(&uuid::Uuid::from_str(&payload.user_id).unwrap(), &conn_pool)?;
     if users.is_empty() {
         // no such user
         return Err(Errors::BadRequest("Malformed token".to_string()));
