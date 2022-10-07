@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { User } from '../interfaces/user';
-    import {onMount} from "svelte";
-    import {API} from "../api_wrapper";
+    import { onMount } from 'svelte';
+    import { API } from '../api_wrapper';
 
     export let blog_id: string;
     export let blog_title: string;
@@ -24,7 +24,7 @@
 
         {
             const result = await API.post.vote.votes({
-                post_id: blog_id,
+                post_id: blog_id
             });
 
             if (result.success) {
@@ -59,7 +59,10 @@
         <h1>{blog_title}</h1>
     </a>
     <h4>{`${round_number(blog_votes)} upvotes`}</h4>
-    <img src={blog_image ? blog_image : "https://via.placeholder.com/600x400" } alt={'Blog Thumbnail'} />
+    <img
+        src={blog_image ? blog_image : 'https://via.placeholder.com/600x400'}
+        alt={'Blog Thumbnail'}
+    />
 </div>
 
 <style lang="scss">

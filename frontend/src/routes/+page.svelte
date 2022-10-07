@@ -4,10 +4,10 @@
     import RepoCard from '../components/repo_card.svelte';
     import Footer from '../components/footer.svelte';
     import Logo from '../images/logo.png';
-    import {API} from "../api_wrapper";
-    import type {Post} from "../interfaces/post";
-    import {onMount} from "svelte";
-    import BlogCard from "../components/blog_card.svelte";
+    import { API } from '../api_wrapper';
+    import type { Post } from '../interfaces/post';
+    import { onMount } from 'svelte';
+    import BlogCard from '../components/blog_card.svelte';
 
     let posts: Post[] = [];
     async function loadBlogs() {
@@ -59,7 +59,12 @@
         <h2>Latest Blogs</h2>
         <HorizontalScroll>
             {#each posts as post}
-                <BlogCard blog_author={post.post_author} blog_title={post.title} blog_id={post.id} blog_image={post.thumbnail} />
+                <BlogCard
+                    blog_author={post.post_author}
+                    blog_title={post.title}
+                    blog_id={post.id}
+                    blog_image={post.thumbnail}
+                />
             {/each}
         </HorizontalScroll>
     </div>

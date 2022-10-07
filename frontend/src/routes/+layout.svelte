@@ -1,6 +1,6 @@
 <script lang="ts">
     import '../styles/app.scss';
-    import {get, writable} from 'svelte/store';
+    import { get, writable } from 'svelte/store';
     import { onMount, setContext } from 'svelte';
     import Header from '../components/header.svelte';
     import Footer from '../components/footer.svelte';

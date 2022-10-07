@@ -1,6 +1,6 @@
 <script lang="ts">
     import { AuthenticationStatus } from '../stores/user.ts';
-    import {removeAuthInfo} from "../api_wrapper/common/store_auth_info_cookie";
+    import { removeAuthInfo } from '../api_wrapper/common/store_auth_info_cookie';
 
     let user;
     AuthenticationStatus.subscribe((status) => {
@@ -27,7 +27,9 @@
                     {user.username}
                 </span>
             </a>
-            <button class="font-semibold cursor-pointer" on:click={() => logoutUser()}>Logout</button>
+            <button class="font-semibold cursor-pointer" on:click={() => logoutUser()}
+                >Logout</button
+            >
         </div>
     {:else}
         <div class="flex gap-3">
