@@ -81,14 +81,17 @@
                     <span class="error-info">{$errors.Password}</span>
                 {/if}
             </div>
-            <div class="flex justify-end">
+            <div class="flex justify-end items-center gap-2">
+                <a href="/password_reset">
+                    <span class="other-form-link cursor-pointer">Forgot Password?</span>
+                </a>
                 <input
                     class="action-button"
                     type="submit"
                     value={`${$isSubmitting ? 'Logging in...' : 'Log In'}`}
                 />
             </div>
-            <div class="flex justify-center">
+            <div class="flex justify-center mt-5">
                 <a href="/register">
                     <span class="other-form-link cursor-pointer">Join NerdTree</span>
                 </a>
