@@ -15,6 +15,7 @@
     import { getCurrentUser } from '../api_wrapper/user/query';
     import { page } from '$app/stores';
 
+    const excludeHeaders = ['/', '/login', '/register', '/password_reset', '/reset'];
     const layout = writable('default_layout');
     setContext('setLayout', layout.set);
 
@@ -53,7 +54,7 @@
     });
 </script>
 
-{#if $page.url.pathname !== '/' && $page.url.pathname !== '/login' && $page.url.pathname !== '/register'}
+{#if !excludeHeaders.includes('/' + $page.url.pathname.split('/').pop())}
     <Header />
     <slot />
     <Footer />
