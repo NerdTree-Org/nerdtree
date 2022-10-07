@@ -1,11 +1,37 @@
 <script lang="ts">
-    import { User } from '../interfaces/user';
+    import type { User } from '../interfaces/user';
+    import {onMount} from "svelte";
+    import {API} from "../api_wrapper";
 
     export let blog_id: string;
     export let blog_title: string;
-    export let blog_image: string;
-    export let blog_author: User | null;
-    export let blog_votes: number;
+    export let blog_image: string | null;
+    export let blog_author: string | null;
+
+    let blog_votes = 0;
+    let author: User | null = null;
+
+    onMount(async () => {
+        {
+            const result = await API.user.query.id({
+                id: blog_author
+            });
+
+            if (result.success) {
+                author = result.value;
+            }
+        }
+
+        {
+            const result = await API.post.vote.votes({
+                post_id: blog_id,
+            });
+
+            if (result.success) {
+                blog_votes = result.value.votes;
+            }
+        }
+    });
 
     function round_number(n: number): string {
         let abs_n = Math.abs(n);
@@ -24,16 +50,16 @@
 </script>
 
 <div class="blog-card">
-    <a href={`/u/${blog_author ? blog_author.username : 'deleted_user'}`}>
+    <a href={`/u/${author ? author.username : 'deleted_user'}`}>
         <h3>
-            u/{blog_author ? blog_author.username : 'deleted_user'}
+            u/{author ? author.username : 'deleted_user'}
         </h3>
     </a>
     <a href={`/blogs/${blog_id}`}>
         <h1>{blog_title}</h1>
     </a>
     <h4>{`${round_number(blog_votes)} upvotes`}</h4>
-    <img src={blog_image} alt={'Blog Thumbnail'} />
+    <img src={blog_image ? blog_image : "https://via.placeholder.com/600x400" } alt={'Blog Thumbnail'} />
 </div>
 
 <style lang="scss">

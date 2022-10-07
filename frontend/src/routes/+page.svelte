@@ -4,6 +4,26 @@
     import RepoCard from '../components/repo_card.svelte';
     import Footer from '../components/footer.svelte';
     import Logo from '../images/logo.png';
+    import {API} from "../api_wrapper";
+    import type {Post} from "../interfaces/post";
+    import {onMount} from "svelte";
+    import BlogCard from "../components/blog_card.svelte";
+
+    let posts: Post[] = [];
+    async function loadBlogs() {
+        const result = await API.post.query.paginate({
+            page: 1,
+            per_page: 5
+        });
+
+        if (result.success) {
+            posts = result.value.page;
+        }
+    }
+
+    onMount(async () => {
+        await loadBlogs();
+    });
 </script>
 
 <svelte:head>
@@ -37,7 +57,11 @@
     </div>
     <div class="p-5">
         <h2>Latest Blogs</h2>
-        <HorizontalScroll />
+        <HorizontalScroll>
+            {#each posts as post}
+                <BlogCard blog_author={post.post_author} blog_title={post.title} blog_id={post.id} blog_image={post.thumbnail} />
+            {/each}
+        </HorizontalScroll>
     </div>
     <div class="p-5">
         <h2>Github Projects</h2>
