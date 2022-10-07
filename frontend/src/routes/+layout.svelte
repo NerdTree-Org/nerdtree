@@ -1,6 +1,6 @@
 <script lang="ts">
     import '../styles/app.scss';
-    import { writable } from 'svelte/store';
+    import {get, writable} from 'svelte/store';
     import { onMount, setContext } from 'svelte';
     import Header from '../components/header.svelte';
     import Footer from '../components/footer.svelte';
@@ -23,7 +23,15 @@
         // refresh accesstoken every 5 minutes if the user is logged in
         async function refresh_accesstoken() {
             const refresh_token = getRefreshToken();
-            if (typeof refresh_token === 'undefined') return;
+            if (typeof refresh_token === 'undefined') {
+                if (get(AuthenticationStatus).info) {
+                    AuthenticationStatus.set({
+                        info: null
+                    });
+                }
+
+                return;
+            }
             let result = await API.auth.refresh_token({
                 refresh_token
             });
@@ -32,6 +40,9 @@
                 // remove these so that we don't make unnecessary fetch requests
                 // when the authentication info is no longer valid
                 removeAuthInfo();
+                AuthenticationStatus.set({
+                    info: null
+                });
             } else {
                 // update the user information
                 const current_user = await getCurrentUser();

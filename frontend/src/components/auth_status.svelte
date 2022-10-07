@@ -5,6 +5,8 @@
     AuthenticationStatus.subscribe((status) => {
         if (status.info) {
             user = status.info.user;
+        } else {
+            user = null;
         }
     });
 </script>
