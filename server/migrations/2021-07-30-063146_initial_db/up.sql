@@ -37,7 +37,7 @@ CREATE TABLE "comments"
     "id"            UUID PRIMARY KEY            DEFAULT uuid_generate_v1mc(),
     "post_id"       UUID                        NOT NULL,
     "author_id"     UUID,
-    "body"          VARCHAR(8000)                NOT NULL,
+    "body"          VARCHAR(8000)               NOT NULL,
 
     CONSTRAINT fk0_post
         FOREIGN KEY (post_id)
@@ -51,9 +51,9 @@ CREATE TABLE "comments"
 
 CREATE TABLE "upvotes"
 (
-    "id"            UUID PRIMARY KEY                    DEFAULT uuid_generate_v1mc(),
-    "post_id"       UUID                                NOT NULL,
-    "user_id"       UUID                                NOT NULL,
+    "id"            UUID PRIMARY KEY            DEFAULT uuid_generate_v1mc(),
+    "post_id"       UUID                        NOT NULL,
+    "user_id"       UUID                        NOT NULL,
 
     CONSTRAINT fk1_post
         FOREIGN KEY (post_id)
@@ -68,9 +68,9 @@ CREATE TABLE "upvotes"
 
 CREATE TABLE "downvotes"
 (
-    "id"            UUID PRIMARY KEY                    DEFAULT uuid_generate_v1mc(),
-    "post_id"       UUID                                NOT NULL,
-    "user_id"       UUID                                NOT NULL,
+    "id"            UUID PRIMARY KEY            DEFAULT uuid_generate_v1mc(),
+    "post_id"       UUID                        NOT NULL,
+    "user_id"       UUID                        NOT NULL,
 
     CONSTRAINT fk2_post
         FOREIGN KEY (post_id)
