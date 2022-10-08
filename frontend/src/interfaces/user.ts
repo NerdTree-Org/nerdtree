@@ -9,4 +9,5 @@ export interface User {
     facebook_id: string;
     discord_token: string;
     has_used_discord_token: boolean;
+    joined_date: string;
 }

@@ -13,6 +13,7 @@ pub struct UserModel {
     pub facebook_id: String,
     pub discord_token: uuid::Uuid,
     pub is_discord_token_used: bool,
+    pub joined_date: chrono::NaiveDateTime
 }
 
 #[derive(Insertable)]

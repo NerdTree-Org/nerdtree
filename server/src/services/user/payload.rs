@@ -27,6 +27,7 @@ pub struct QueriedUser {
     pub profile_pic: Option<String>,
     pub is_admin: bool,
     pub facebook_id: String,
+    pub joined_date: chrono::NaiveDateTime,
 }
 
 impl QueriedUser {
@@ -40,6 +41,7 @@ impl QueriedUser {
             facebook_id: unsafe_user.facebook_id,
             is_admin: unsafe_user.is_admin,
             profile_pic: unsafe_user.profile_pic,
+            joined_date: unsafe_user.joined_date,
         }
     }
 }
