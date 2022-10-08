@@ -42,7 +42,7 @@
     <h1 class="text-center block p-10">Blogs</h1>
     {#if is_loading}
         <div class="flex justify-center items-center">
-            <div class="spinner"></div>
+            <div class="spinner" />
         </div>
     {/if}
     {#if error}
@@ -60,7 +60,13 @@
             {/each}
         </div>
         <div class="p-10 flex justify-center">
-            <PaginationBar {current_page} max_page={max_page} callback={(page) => { loadPosts(10, page) }} />
+            <PaginationBar
+                {current_page}
+                {max_page}
+                callback={(page) => {
+                    loadPosts(10, page);
+                }}
+            />
         </div>
     {/if}
 </div>
@@ -76,7 +82,11 @@
     }
 
     @keyframes spin {
-        0% { transform: rotate(0deg) }
-        100% { transform: rotate(360deg) }
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
     }
 </style>
