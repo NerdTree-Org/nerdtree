@@ -27,7 +27,7 @@
 <div class="account-links flex justify-end">
     {#if user}
         <div class="user-dropdown-container flex justify-center items-center gap-5">
-            <a href={`/profile/${user.username}`}>
+            <a href={`/u/${user.username}`}>
                 <span class="link">
                     {user.username}
                 </span>
