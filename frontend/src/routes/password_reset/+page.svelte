@@ -6,8 +6,9 @@
     import { API } from '../../api_wrapper';
     import { AuthenticationStatus } from '../../stores/user';
     import { goto } from '$app/navigation';
+    import { onDestroy } from 'svelte';
 
-    AuthenticationStatus.subscribe((status) => {
+    const unsubscribe = AuthenticationStatus.subscribe((status) => {
         if (status.info) {
             goto('/', { replaceState: true });
         }
@@ -38,6 +39,10 @@
                 requestMessage = result.error;
             }
         }
+    });
+
+    onDestroy(() => {
+        unsubscribe();
     });
 </script>
 

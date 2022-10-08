@@ -7,6 +7,7 @@
     import * as yup from 'yup';
     import { get } from 'svelte/store';
     import { API } from '../../api_wrapper';
+    import { onDestroy } from 'svelte';
 
     let registrationInfo;
     let registrationError;
@@ -63,10 +64,14 @@
             }
         });
 
-    AuthenticationStatus.subscribe((status) => {
+    const unsubscribe = AuthenticationStatus.subscribe((status) => {
         if (status.info) {
             goto('/', { replaceState: true });
         }
+    });
+
+    onDestroy(() => {
+        unsubscribe();
     });
 </script>
 

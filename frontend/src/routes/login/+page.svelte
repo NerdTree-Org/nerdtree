@@ -6,8 +6,9 @@
     import '../../styles/authform.scss';
     import Logo from '../../images/logo.png';
     import { AuthenticationStatus } from '../../stores/user';
+    import { onDestroy } from 'svelte';
 
-    AuthenticationStatus.subscribe((status) => {
+    const unsubscribe = AuthenticationStatus.subscribe((status) => {
         if (status.info) {
             goto('/', { replaceState: true });
         }
@@ -35,6 +36,10 @@
                 loginError = result.error;
             }
         }
+    });
+
+    onDestroy(() => {
+        unsubscribe();
     });
 </script>
 

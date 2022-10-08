@@ -1,14 +1,19 @@
 <script lang="ts">
     import { AuthenticationStatus } from '../stores/user.ts';
     import { removeAuthInfo } from '../api_wrapper/common/store_auth_info_cookie';
+    import { onDestroy } from 'svelte';
 
     let user;
-    AuthenticationStatus.subscribe((status) => {
+    const unsubscribe = AuthenticationStatus.subscribe((status) => {
         if (status.info) {
             user = status.info.user;
         } else {
             user = null;
         }
+    });
+
+    onDestroy(() => {
+        unsubscribe();
     });
 
     function logoutUser() {

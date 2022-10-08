@@ -9,8 +9,9 @@
     import { get } from 'svelte/store';
     import { AuthenticationStatus } from '../../../../stores/user';
     import { goto } from '$app/navigation';
+    import { onDestroy } from 'svelte';
 
-    AuthenticationStatus.subscribe((status) => {
+    const unsubscribe = AuthenticationStatus.subscribe((status) => {
         if (status.info) {
             goto('/', { replaceState: true });
         }
@@ -51,6 +52,10 @@
                 }
             }
         });
+
+    onDestroy(() => {
+        unsubscribe();
+    });
 </script>
 
 <div class="flex justify-center items-center h-screen">
