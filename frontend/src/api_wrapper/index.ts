@@ -19,7 +19,14 @@ import {
     updateThumbnail,
     updateTitle
 } from './blog/update';
-import { getPostById, getPostsByAuthorId, paginatePosts } from './blog/query';
+import {
+    getPostById,
+    getPostByIdIncludingUnapproved,
+    getPostsByAuthorId,
+    getPostsByAuthorIdIncludingUnapproved,
+    paginatePosts,
+    paginatePostsIncludingUnapproved
+} from './blog/query';
 import { addDownvote, addUpvote, getUserVoteForPost, getVotes } from './blog/vote';
 import { deleteComment, editComment, newComment } from './comment/update';
 import { getCommentsByPost, getCommentsByUser } from './comment/query';
@@ -44,6 +51,11 @@ export const API = {
             delete: deletePost
         },
         query: {
+            unapproved: {
+                paginate: paginatePostsIncludingUnapproved,
+                id: getPostByIdIncludingUnapproved,
+                author_id: getPostsByAuthorIdIncludingUnapproved
+            },
             paginate: paginatePosts,
             id: getPostById,
             author_id: getPostsByAuthorId
