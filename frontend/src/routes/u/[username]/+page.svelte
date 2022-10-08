@@ -75,7 +75,9 @@
                     <h3 class="block mb-5">Joined: {new Date(user.joined_date).toDateString()}</h3>
                     {#if currentUser && currentUser.id === user.id}
                         <a href="/settings">
-                            <NerdTreeButton type={ButtonType.Smooth}>Account settings</NerdTreeButton>
+                            <NerdTreeButton type={ButtonType.Smooth}
+                                >Account settings</NerdTreeButton
+                            >
                         </a>
                     {/if}
                 </div>
