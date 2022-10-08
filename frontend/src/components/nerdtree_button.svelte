@@ -1,16 +1,19 @@
 <script lang="ts" context="module">
     export enum ButtonType {
-        Hazy = 'hazy-button'
+        Hazy = 'hazy-button',
+        Smooth = 'smooth-button'
     }
 </script>
 
 <script lang="ts">
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    export let on_click: () => void = () => {};
     export let type: ButtonType;
 </script>
 
-<span class={`button ${type}`}>
+<button class={`button ${type}`} on:click={on_click}>
     <slot />
-</span>
+</button>
 
 <style lang="scss">
     .button {
@@ -18,7 +21,7 @@
         letter-spacing: -0.5px;
         font-weight: 600;
         font-size: 17px;
-        padding: 0.3em 1.5em;
+        padding: 0.5em 1.5em;
         user-select: none;
         cursor: pointer;
     }
@@ -35,5 +38,11 @@
             background-position-y: 100%;
             background-size: 200%;
         }
+    }
+
+    .smooth-button {
+        background: linear-gradient(102.61deg, #4b4b4b 25.57%, rgba(75, 75, 75, 0) 108.53%);
+        border-radius: 9px;
+        color: white;
     }
 </style>
