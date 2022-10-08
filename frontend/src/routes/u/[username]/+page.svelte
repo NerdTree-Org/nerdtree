@@ -10,6 +10,7 @@
     import { AuthenticationStatus } from '../../../stores/user';
     import type { Post } from '../../../interfaces/post';
     import BlogCard from '../../../components/blog_card.svelte';
+    import {get} from "svelte/store";
 
     $: username = $page.params.username;
     let user: User | null;
@@ -35,9 +36,17 @@
             if (result.success) {
                 user = result.value;
 
-                const result2 = await API.post.query.author_id({
-                    author_id: user.id
-                });
+                let result2;
+
+                if (get(AuthenticationStatus).info?.user.id == user.id) {
+                    result2 = await API.post.query.unapproved.author_id({
+                        author_id: user.id
+                    });
+                } else {
+                    result2 = await API.post.query.author_id({
+                        author_id: user.id
+                    });
+                }
 
                 if (result2.success) {
                     posts = result2.value;
