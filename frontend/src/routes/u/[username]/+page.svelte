@@ -77,7 +77,11 @@
             />
             <div class="flex flex-1 flex-wrap items-center">
                 <div class="flex-1">
-                    <h1>{user.firstname + ' ' + user.lastname}</h1>
+                    <h1>{user.firstname + ' ' + user.lastname}
+                        {#if user.is_admin}
+                            <sup class="text-xl">Root</sup>
+                        {/if}
+                    </h1>
                     <h3 class="block">u/{user.username}</h3>
                 </div>
                 <div>
