@@ -48,6 +48,7 @@ pub async fn upload_thumbnail_thumbnail(
 
     let post = get_post_by_uuid(
         Uuid::from_str(&post_id).map_err(|e| Errors::BadRequest(e.to_string()))?,
+        true,
         &conn_pool,
     )?;
 
@@ -101,6 +102,7 @@ pub async fn update_post_body_handler(
 ) -> Result<impl Responder, Errors> {
     let post = get_post_by_uuid(
         Uuid::from_str(&payload.post_id).map_err(|e| Errors::BadRequest(e.to_string()))?,
+        true,
         &conn_pool,
     )?;
     if post.is_empty() {
@@ -133,6 +135,7 @@ pub async fn approve_post_handler(
 ) -> Result<impl Responder, Errors> {
     let post = get_post_by_uuid(
         Uuid::from_str(&payload.post_id).map_err(|e| Errors::BadRequest(e.to_string()))?,
+        true,
         &conn_pool,
     )?;
     if post.is_empty() {
@@ -154,6 +157,7 @@ pub async fn delete_post_handler(
 ) -> Result<impl Responder, Errors> {
     let post = get_post_by_uuid(
         Uuid::from_str(&payload.post_id).map_err(|e| Errors::BadRequest(e.to_string()))?,
+        true,
         &conn_pool,
     )?;
     if post.is_empty() {
@@ -180,6 +184,7 @@ pub async fn update_post_title_handler(
 ) -> Result<impl Responder, Errors> {
     let post = get_post_by_uuid(
         Uuid::from_str(&payload.post_id).map_err(|e| Errors::BadRequest(e.to_string()))?,
+        true,
         &conn_pool,
     )?;
     if post.is_empty() {

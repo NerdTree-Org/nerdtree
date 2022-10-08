@@ -158,6 +158,21 @@ async fn main() -> std::io::Result<()> {
                     )
                     .service(
                         web::scope("/query")
+                            .service(
+                                web::scope("/unapproved")
+                                    .route(
+                                        "/paginate",
+                                        web::post().to(services::blog::data_query::paginate_posts_handler_including_unapproved)
+                                    )
+                                    .route(
+                                        "/id",
+                                        web::post().to(services::blog::data_query::get_post_by_id_handler_including_unapproved),
+                                    )
+                                    .route(
+                                        "/author_id",
+                                        web::post().to(services::blog::data_query::get_posts_by_author_id_handler_including_unapproved)
+                                    )
+                            )
                             .route(
                                 "/paginate",
                                 web::post().to(services::blog::data_query::paginate_posts_handler),

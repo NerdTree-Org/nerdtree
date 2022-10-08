@@ -22,7 +22,7 @@ pub async fn new_comment_handler(
         Uuid::from_str(&payload.post_id).map_err(|e| Errors::BadRequest(e.to_string()))?;
 
     // check if post exists
-    let post = get_post_by_uuid(post_id, &conn_pool)?;
+    let post = get_post_by_uuid(post_id, false, &conn_pool)?;
     if post.is_empty() {
         return Err(Errors::BadRequest(String::from("Post doesn't exist!")));
     }
