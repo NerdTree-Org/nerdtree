@@ -33,11 +33,13 @@ pub fn get_all_posts(conn_pool: &Pool, show_unapproved: bool) -> Result<Vec<Post
 
     if show_unapproved {
         posts
+            .order(creation_date.desc())
             .load::<PostModel>(&mut conn)
             .map_err(|_| Errors::InternalServerError)
     } else {
         posts
             .filter(is_approved.eq(true))
+            .order(creation_date.desc())
             .load::<PostModel>(&mut conn)
             .map_err(|_| Errors::InternalServerError)
     }
@@ -53,12 +55,14 @@ pub fn get_posts_by_author_id(
     if show_unapproved {
         posts
             .filter(post_author.eq(author_uuid))
+            .order(creation_date.desc())
             .load::<PostModel>(&mut conn)
             .map_err(|_| Errors::InternalServerError)
     } else {
         posts
             .filter(post_author.eq(author_uuid))
             .filter(is_approved.eq(true))
+            .order(creation_date.desc())
             .load::<PostModel>(&mut conn)
             .map_err(|_| Errors::InternalServerError)
     }

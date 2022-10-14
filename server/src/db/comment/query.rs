@@ -13,6 +13,7 @@ pub fn get_comments_by_post(
 
     comments
         .filter(post_id.eq(comment_post_id))
+        .order(creation_date.desc())
         .load::<CommentModel>(&mut conn)
         .map_err(|_| Errors::InternalServerError)
 }
@@ -25,6 +26,7 @@ pub fn get_comments_by_author(
 
     comments
         .filter(author_id.eq(comment_author_id))
+        .order(creation_date.desc())
         .load::<CommentModel>(&mut conn)
         .map_err(|_| Errors::InternalServerError)
 }
