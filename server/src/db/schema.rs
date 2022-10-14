@@ -4,6 +4,7 @@ table! {
         post_id -> Uuid,
         author_id -> Nullable<Uuid>,
         body -> Varchar,
+        creation_date -> Timestamp,
     }
 }
 
