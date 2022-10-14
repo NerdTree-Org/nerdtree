@@ -34,11 +34,15 @@ async fn main() -> std::io::Result<()> {
             cors = cors.allowed_origin("http://localhost:5173");
         }
 
+        let json_config = web::JsonConfig::default()
+            .limit(1024 * 1024 * 10);
+
         App::new()
             .wrap(cors)
             .wrap(Logger::default())
             .wrap(Logger::new("%a %{User-Agent}i"))
             .app_data(Data::new(create_db_pool()))
+            .app_data(json_config)
             .service(
                 web::scope("/auth")
                     .route(
