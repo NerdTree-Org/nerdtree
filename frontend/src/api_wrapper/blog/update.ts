@@ -6,7 +6,6 @@ import { getAccessToken } from '../common/store_auth_info_cookie';
 interface NewPostPayload {
     title: string;
     body: string;
-    post_author: string;
 }
 
 const NEW_POST_ROUTE = 'post/update/new';

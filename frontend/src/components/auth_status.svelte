@@ -32,6 +32,11 @@
                     {user.username}
                 </span>
             </a>
+            <a href={`/blogs/new`}>
+                <span class="link">
+                    Create Blog
+                </span>
+            </a>
             <button class="font-semibold cursor-pointer" on:click={() => logoutUser()}
                 >Logout</button
             >
@@ -71,5 +76,14 @@
             border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 5px;
         }
+    }
+
+    .user-dropdown-container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    button {
+        background: none;
     }
 </style>

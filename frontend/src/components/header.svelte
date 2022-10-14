@@ -50,6 +50,7 @@
         top: 0;
         padding: 1em;
         width: 100vw;
+        z-index: 999999999999;
 
         .actions {
             display: flex;
@@ -71,7 +72,7 @@
         }
     }
 
-    @media only screen and (max-width: 450px) {
+    @media only screen and (max-width: 540px) {
         .actions-visible {
             display: flex !important;
             margin-top: 0 !important;

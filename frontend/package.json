@@ -34,6 +34,7 @@
     },
     "type": "module",
     "dependencies": {
+        "@toast-ui/editor": "^3.2.1",
         "svelte-forms-lib": "^2.0.1",
         "typescript-cookie": "^1.0.4",
         "yup": "^0.32.11"

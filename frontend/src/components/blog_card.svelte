@@ -2,6 +2,7 @@
     import type { User } from '../interfaces/user';
     import { onMount } from 'svelte';
     import { API } from '../api_wrapper';
+    import { ENV } from '../env';
 
     export let blog_id: string;
     export let blog_title: string;
@@ -62,7 +63,7 @@
     <h4>{blog_post_time.toDateString()}</h4>
     <h4>{`${round_number(blog_votes)} upvotes`}</h4>
     <img
-        src={blog_image ? blog_image : 'https://via.placeholder.com/600x400'}
+        src={blog_image ? `${ENV.api_address}/static/${blog_image}` : 'https://via.placeholder.com/600x400'}
         alt={'Blog Thumbnail'}
     />
 </div>
