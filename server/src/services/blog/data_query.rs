@@ -91,7 +91,7 @@ pub async fn get_post_by_id_handler_including_unapproved(
 ) -> Result<impl Responder, Errors> {
     let post = get_post_by_uuid(
         Uuid::from_str(&payload.post_id).map_err(|e| Errors::BadRequest(e.to_string()))?,
-        false,
+        true,
         &conn_pool,
     )?
     .get(0)

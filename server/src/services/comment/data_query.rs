@@ -21,7 +21,7 @@ pub async fn get_comments_by_post_handler(
     )?;
 
     let paginated_comments = PaginatedVec::from_vec(&comments, payload.per_page);
-    let page = paginated_comments.page(payload.page);
+    let page = paginated_comments.page(payload.page - 1);
 
     return if page.is_none() {
         Ok(Json(PaginatedCommentsReturnPayload {
@@ -48,7 +48,7 @@ pub async fn get_comments_by_user_handler(
     )?;
 
     let paginated_comments = PaginatedVec::from_vec(&comments, payload.per_page);
-    let page = paginated_comments.page(payload.page);
+    let page = paginated_comments.page(payload.page - 1);
 
     return if page.is_none() {
         Ok(Json(PaginatedCommentsReturnPayload {
