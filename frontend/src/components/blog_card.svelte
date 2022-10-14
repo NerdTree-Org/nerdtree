@@ -57,13 +57,15 @@
             u/{author ? author.username : 'deleted_user'}
         </h3>
     </a>
-    <a href={`/blogs/${blog_id}`}>
+    <a href={`/p/${blog_id}`}>
         <h1>{blog_title}</h1>
     </a>
     <h4>{blog_post_time.toDateString()}</h4>
     <h4>{`${round_number(blog_votes)} upvotes`}</h4>
     <img
-        src={blog_image ? `${ENV.api_address}/static/${blog_image}` : 'https://via.placeholder.com/600x400'}
+        src={blog_image
+            ? `${ENV.api_address}/static/${blog_image}`
+            : 'https://via.placeholder.com/600x400'}
         alt={'Blog Thumbnail'}
     />
 </div>

@@ -19,7 +19,7 @@ const ADD_DOWNVOTE_ROUTE = 'post/vote/downvote';
 export async function addDownvote(
     payload: AddDownvotePayload
 ): Promise<RequestResult<StatusPayload>> {
-    return await makeRequest<AddDownvotePayload, StatusPayload>(payload, ADD_UPVOTE_ROUTE, true);
+    return await makeRequest<AddDownvotePayload, StatusPayload>(payload, ADD_DOWNVOTE_ROUTE, true);
 }
 
 interface GetVotesPayload {

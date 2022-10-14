@@ -14,6 +14,7 @@
     "devDependencies": {
         "@sveltejs/adapter-auto": "next",
         "@sveltejs/kit": "next",
+        "@types/markdown-it": "^12.2.3",
         "@typescript-eslint/eslint-plugin": "^5.27.0",
         "@typescript-eslint/parser": "^5.27.0",
         "autoprefixer": "^10.4.12",
@@ -35,8 +36,11 @@
     "type": "module",
     "dependencies": {
         "@toast-ui/editor": "^3.2.1",
+        "highlight.js": "^11.6.0",
+        "markdown-it": "^13.0.1",
         "svelte-forms-lib": "^2.0.1",
         "typescript-cookie": "^1.0.4",
+        "xss": "^1.0.14",
         "yup": "^0.32.11"
     }
 }

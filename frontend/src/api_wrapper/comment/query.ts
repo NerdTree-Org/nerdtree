@@ -13,7 +13,7 @@ interface GetCommentsByPostPayload {
     per_page: number;
 }
 
-const GET_COMMENTS_BY_POST_ROUTE = 'comments/query/by_post';
+const GET_COMMENTS_BY_POST_ROUTE = 'comment/query/by_post';
 
 export async function getCommentsByPost(
     payload: GetCommentsByPostPayload
@@ -21,7 +21,7 @@ export async function getCommentsByPost(
     return await makeRequest<GetCommentsByPostPayload, PaginatedCommentsReturnPayload>(
         payload,
         GET_COMMENTS_BY_POST_ROUTE,
-        true
+        false
     );
 }
 
@@ -31,7 +31,7 @@ interface GetCommentsByUserPayload {
     per_page: number;
 }
 
-const GET_COMMENTS_BY_USER_ROUTE = 'comments/query/by_user';
+const GET_COMMENTS_BY_USER_ROUTE = 'comment/query/by_user';
 
 export async function getCommentsByUser(
     payload: GetCommentsByUserPayload

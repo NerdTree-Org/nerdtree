@@ -10,7 +10,7 @@
     import { AuthenticationStatus } from '../../../stores/user';
     import type { Post } from '../../../interfaces/post';
     import BlogCard from '../../../components/blog_card.svelte';
-    import {get} from "svelte/store";
+    import { get } from 'svelte/store';
 
     $: username = $page.params.username;
     let user: User | null;
@@ -77,7 +77,8 @@
             />
             <div class="flex flex-1 flex-wrap items-center">
                 <div class="flex-1">
-                    <h1>{user.firstname + ' ' + user.lastname}
+                    <h1>
+                        {user.firstname + ' ' + user.lastname}
                         {#if user.is_admin}
                             <sup class="text-xl">Root</sup>
                         {/if}
@@ -99,7 +100,7 @@
         {#if posts?.length > 0}
             <h1 class="block text-center p-5">Posts by this user</h1>
         {/if}
-        <div class="flex flex-wrap gap-2 w-screen p-2 justify-start items-center">
+        <div class="flex flex-wrap gap-2 w-screen p-2 justify-start">
             {#if posts?.length > 0}
                 {#each posts as post}
                     <BlogCard

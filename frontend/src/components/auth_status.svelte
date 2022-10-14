@@ -33,9 +33,7 @@
                 </span>
             </a>
             <a href={`/blogs/new`}>
-                <span class="link">
-                    Create Blog
-                </span>
+                <span class="link"> Create Blog </span>
             </a>
             <button class="font-semibold cursor-pointer" on:click={() => logoutUser()}
                 >Logout</button
