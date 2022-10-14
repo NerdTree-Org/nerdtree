@@ -62,10 +62,4 @@ joinable!(posts -> users (post_author));
 joinable!(upvotes -> posts (post_id));
 joinable!(upvotes -> users (user_id));
 
-allow_tables_to_appear_in_same_query!(
-    comments,
-    downvotes,
-    posts,
-    upvotes,
-    users,
-);
+allow_tables_to_appear_in_same_query!(comments, downvotes, posts, upvotes, users,);

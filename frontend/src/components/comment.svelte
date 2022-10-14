@@ -46,7 +46,8 @@
         background: #232323;
         border-radius: 15px;
 
-        a, p {
+        a,
+        p {
             color: #696969;
         }
 

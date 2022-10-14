@@ -226,13 +226,24 @@
                     </div>
                 {/if}
                 {#each comments as comment}
-                    <CommentComponent author_id={comment.author_id} body={comment.body} creation_date={new Date(comment.creation_date)} />
+                    <CommentComponent
+                        author_id={comment.author_id}
+                        body={comment.body}
+                        creation_date={new Date(comment.creation_date)}
+                    />
                 {/each}
                 {#if comments.length === 0}
                     <p>No comments available</p>
                 {:else}
                     <div class="flex justify-center">
-                        <PaginationBar callback={(page) => { current_comments_page = page; fetchCommentsAndUpvotes(); }} current_page={current_comments_page} max_page={max_pages} />
+                        <PaginationBar
+                            callback={(page) => {
+                                current_comments_page = page;
+                                fetchCommentsAndUpvotes();
+                            }}
+                            current_page={current_comments_page}
+                            max_page={max_pages}
+                        />
                     </div>
                 {/if}
             </div>
