@@ -32,6 +32,11 @@
                     {user.username}
                 </span>
             </a>
+            {#if user.is_admin}
+                <a href={`/admin`}>
+                    <span class="link"> Manage NerdTree </span>
+                </a>
+            {/if}
             <a href={`/blogs/new`}>
                 <span class="link"> Create Blog </span>
             </a>

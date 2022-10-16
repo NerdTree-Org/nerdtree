@@ -38,7 +38,7 @@
     <title>Blogs - NerdTree</title>
 </svelte:head>
 
-<div class="min-h-screen grid">
+<div class="min-h-screen flex flex-col">
     <h1 class="text-center block p-10">Blogs</h1>
     {#if is_loading}
         <div class="flex justify-center items-center">
@@ -48,7 +48,7 @@
     {#if error}
         <h2>{error}</h2>
     {:else}
-        <div class="p-10 flex flex-wrap gap-10 justify-center items-center">
+        <div class="p-10 flex flex-wrap gap-10">
             {#each posts as post}
                 <BlogCard
                     blog_id={post.id}

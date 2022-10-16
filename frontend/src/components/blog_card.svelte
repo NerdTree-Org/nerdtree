@@ -72,7 +72,7 @@
 
 <style lang="scss">
     .blog-card {
-        max-width: 400px;
+        min-width: min(400px, 100%);
         background: linear-gradient(
             223.22deg,
             rgba(109, 109, 109, 0.42) -23.79%,
@@ -91,6 +91,10 @@
         img {
             width: 100%;
             border-radius: 18px;
+        }
+
+        h1 {
+            overflow-wrap: break-word;
         }
 
         h1,

@@ -178,7 +178,7 @@
                         ? `${ENV.api_address}/static/${post.thumbnail}`
                         : 'https://via.placeholder.com/600x400'}
                 />
-                <div class="flex flex-col gap-2">
+                <div class="post-head-info flex flex-col gap-2">
                     <h1>{post.title}</h1>
                     <a href={`/u/${post_author ? post_author.username : 'deleted_user'}`}>
                         <p>by u/{post_author ? post_author.username : 'deleted_user'}</p>
@@ -255,7 +255,7 @@
 
 <style lang="scss">
     .top-container {
-        min-height: 85vh;
+        min-height: 87vh;
     }
 
     .post-container {
@@ -269,6 +269,14 @@
         flex-wrap: wrap;
         gap: 2em;
         margin-bottom: 3em;
+
+        .post-head-info {
+            max-width: 100%;
+        }
+
+        h1 {
+            overflow-wrap: break-word;
+        }
 
         img {
             width: min(100%, 350px);
@@ -291,6 +299,7 @@
         :global(p) {
             display: flex;
             flex-direction: column;
+            overflow-wrap: break-word;
             gap: 2em;
         }
         :global(img) {

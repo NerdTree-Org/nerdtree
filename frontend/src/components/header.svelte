@@ -72,7 +72,7 @@
         }
     }
 
-    @media only screen and (max-width: 540px) {
+    @media only screen and (max-width: 700px) {
         .actions-visible {
             display: flex !important;
             margin-top: 0 !important;
