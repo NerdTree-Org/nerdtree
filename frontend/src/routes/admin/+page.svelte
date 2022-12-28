@@ -1,20 +1,22 @@
 <script lang="ts">
-    import type {User} from "../../interfaces/user";
-    import {API} from "../../api_wrapper";
+    import type { User } from '../../interfaces/user';
+    import { API } from '../../api_wrapper';
     import DefaultAvatar from '../../images/default-avatar.png';
-    import {ENV} from "../../env.js";
-    import {onDestroy, onMount} from "svelte";
-    import {AuthenticationStatus} from "../../stores/user";
-    import {goto} from '$app/navigation';
-    import {browser} from '$app/environment';
-    import type {Post} from "../../interfaces/post";
+    import { ENV } from '../../env.js';
+    import { onDestroy, onMount } from 'svelte';
+    import { AuthenticationStatus } from '../../stores/user';
+    import { goto } from '$app/navigation';
+    import { browser } from '$app/environment';
+    import type { Post } from '../../interfaces/post';
     import BlogCard from '../../components/blog_card.svelte';
     import PaginationBar from '../../components/pagination_bar.svelte';
-    import {getAccessToken} from "../../api_wrapper/common/store_auth_info_cookie";
+    import { getAccessToken } from '../../api_wrapper/common/store_auth_info_cookie';
 
     let user_search_result: User | null = null;
 
-    let unsubscribe = () => {/**/};
+    let unsubscribe = () => {
+        /**/
+    };
 
     onDestroy(() => {
         unsubscribe();
@@ -27,7 +29,7 @@
     async function loadPosts() {
         const result = await API.post.query.unapproved.paginate({
             per_page: 10,
-            page: current_page,
+            page: current_page
         });
 
         if (result.success) {
@@ -39,13 +41,13 @@
     async function updateApproval(id: string, state: boolean) {
         const result = await API.post.update.update_approval({
             approval_state: state,
-            post_id: id,
+            post_id: id
         });
 
         if (result.success) {
             await loadPosts();
         } else {
-            alert(`Failed to change approval status: ${result.error}`)
+            alert(`Failed to change approval status: ${result.error}`);
         }
     }
 
@@ -58,12 +60,12 @@
             }
 
             if (!status.info) {
-                goto("/login");
+                goto('/login');
                 return;
             }
 
             if (!status.info.user.is_admin) {
-                goto("/");
+                goto('/');
                 return;
             }
         });
@@ -84,14 +86,16 @@
     }
 
     async function deleteUser() {
-        let confirmation = confirm("Are you sure want to delete this user?\nTHIS ACTION CANNOT BE UNDONE!");
-        if(confirmation) {
+        let confirmation = confirm(
+            'Are you sure want to delete this user?\nTHIS ACTION CANNOT BE UNDONE!'
+        );
+        if (confirmation) {
             const result = await API.user.delete.user({
                 user_id: user_search_result.id
             });
 
             if (result.success) {
-                alert("Successfully deleted the user");
+                alert('Successfully deleted the user');
                 await searchUser();
             } else {
                 alert(`Failed to delete the user: ${result.error}`);
@@ -110,15 +114,23 @@
         <div>
             <h2>Delete User</h2>
             <div class="users-list p-5">
-                <input id="search-input" on:change={searchUser} on:keyup={searchUser} placeholder="Enter username here" />
+                <input
+                    id="search-input"
+                    on:change={searchUser}
+                    on:keyup={searchUser}
+                    placeholder="Enter username here"
+                />
                 {#if user_search_result}
                     <div class="user-info">
                         <img
                             alt={`${user_search_result.username}'s profile picture`}
-                            src={user_search_result.profile_pic ?
-                                    `${ENV.api_address}/static/${user_search_result.profile_pic}` : DefaultAvatar }
-                            />
-                        <a href={`/u/${user_search_result.username}`}><span>u/{user_search_result.username}</span></a>
+                            src={user_search_result.profile_pic
+                                ? `${ENV.api_address}/static/${user_search_result.profile_pic}`
+                                : DefaultAvatar}
+                        />
+                        <a href={`/u/${user_search_result.username}`}
+                            ><span>u/{user_search_result.username}</span></a
+                        >
                         <button on:click={deleteUser}>Remove</button>
                     </div>
                 {/if}
@@ -129,7 +141,11 @@
             <div class="flex flex-wrap gap-10">
                 {#each posts as post}
                     <div class="blog-card-container">
-                        <button class="approval" on:click={() => updateApproval(post.id, !post.is_approved)}>{post.is_approved ? "Disapprove" : "Approve"}</button>
+                        <button
+                            class="approval"
+                            on:click={() => updateApproval(post.id, !post.is_approved)}
+                            >{post.is_approved ? 'Disapprove' : 'Approve'}</button
+                        >
                         <BlogCard
                             blog_id={post.id}
                             blog_author={post.post_author}
@@ -147,7 +163,7 @@
                     callback={(page) => {
                         current_page = page;
                         loadPosts();
-                }}
+                    }}
                 />
             </div>
         </div>
@@ -181,7 +197,7 @@
             display: flex;
             justify-content: space-evenly;
             align-items: center;
-            padding: .5em;
+            padding: 0.5em;
             background: #232323;
             border-radius: 10px;
             font-weight: 600;
@@ -193,7 +209,7 @@
             }
 
             button {
-                color: #FF4F4F;
+                color: #ff4f4f;
             }
         }
     }

@@ -1,21 +1,23 @@
 <script lang="ts">
     import SideBar from '../../../components/user_settings_sidebar.svelte';
-    import {createForm} from "svelte-forms-lib";
+    import { createForm } from 'svelte-forms-lib';
     import * as yup from 'yup';
-    import {get} from "svelte/store";
-    import {API} from "../../../api_wrapper";
-    import NerdTreeButton, {ButtonType} from "../../../components/nerdtree_button.svelte";
-    import {onDestroy, onMount} from "svelte";
-    import {AuthenticationStatus} from "../../../stores/user";
-    import {getAccessToken} from "../../../api_wrapper/common/store_auth_info_cookie";
-    import {goto} from "$app/navigation";
-    import {ENV} from "../../../env";
+    import { get } from 'svelte/store';
+    import { API } from '../../../api_wrapper';
+    import NerdTreeButton, { ButtonType } from '../../../components/nerdtree_button.svelte';
+    import { onDestroy, onMount } from 'svelte';
+    import { AuthenticationStatus } from '../../../stores/user';
+    import { getAccessToken } from '../../../api_wrapper/common/store_auth_info_cookie';
+    import { goto } from '$app/navigation';
+    import { ENV } from '../../../env';
 
-    let unsubscribe: () => void = () => {/**/};
+    let unsubscribe: () => void = () => {
+        /**/
+    };
     onMount(() => {
         unsubscribe = AuthenticationStatus.subscribe((status) => {
-            if (!status.info && typeof getAccessToken() === "undefined") {
-                goto("/");
+            if (!status.info && typeof getAccessToken() === 'undefined') {
+                goto('/');
             }
         });
     });
@@ -25,12 +27,12 @@
         initialValues: {
             OldPassword: '',
             NewPassword: '',
-            ConfirmPassword: '',
+            ConfirmPassword: ''
         },
         validationSchema: yup.object({
             OldPassword: yup.string().required(),
             NewPassword: yup.string().trim().min(8).max(80).required(),
-            ConfirmPassword: yup.string().trim().min(8).max(80).required(),
+            ConfirmPassword: yup.string().trim().min(8).max(80).required()
         }),
         onSubmit: async (values) => {
             updateError = '';
@@ -43,11 +45,11 @@
 
             const result = await API.user.update.password({
                 new_password: values.NewPassword,
-                old_password: values.OldPassword,
+                old_password: values.OldPassword
             });
 
             if (result.success) {
-                alert("Successfully updated your password!");
+                alert('Successfully updated your password!');
                 $form = {};
             } else {
                 updateError = `Failed to update password: ${result.error}`;
@@ -71,21 +73,36 @@
         <div class="input-container">
             <label for="old_password">Old password</label>
             <span class="error">{$errors.OldPassword}</span>
-            <input id="old_password" type="password" bind:value={$form.OldPassword} placeholder="Enter previous password" />
+            <input
+                id="old_password"
+                type="password"
+                bind:value={$form.OldPassword}
+                placeholder="Enter previous password"
+            />
         </div>
         <div class="input-container">
             <label for="new_password">New password</label>
             <span class="error">{$errors.NewPassword}</span>
-            <input id="new_password" type="password" bind:value={$form.NewPassword} placeholder="Enter a strong 8 character password" />
+            <input
+                id="new_password"
+                type="password"
+                bind:value={$form.NewPassword}
+                placeholder="Enter a strong 8 character password"
+            />
         </div>
         <div class="input-container">
             <label for="confirm_password">Confirm password</label>
             <span class="error">{$errors.ConfirmPassword}</span>
-            <input id="confirm_password" type="password" bind:value={$form.ConfirmPassword} placeholder="Type the same password again" />
+            <input
+                id="confirm_password"
+                type="password"
+                bind:value={$form.ConfirmPassword}
+                placeholder="Type the same password again"
+            />
         </div>
         <div class="p-10 pl-0">
             <NerdTreeButton type={ButtonType.Smooth}>
-                {$isSubmitting ? 'Updating...' : 'Update' }
+                {$isSubmitting ? 'Updating...' : 'Update'}
             </NerdTreeButton>
         </div>
     </form>
@@ -103,14 +120,14 @@
 
     .error {
         color: #ff2929;
-        padding: .5em 0;
+        padding: 0.5em 0;
     }
 
     .input-container {
         width: 100%;
         display: flex;
         flex-direction: column;
-        gap: .2em;
+        gap: 0.2em;
         max-width: min(700px, 100%);
 
         label {
@@ -152,7 +169,6 @@
             background-size: 150%;
         }
     }
-
 
     @media only screen and (min-width: 650px) {
         .root-nodes-list {

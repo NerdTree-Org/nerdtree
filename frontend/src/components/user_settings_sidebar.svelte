@@ -22,11 +22,11 @@
             text-align: left;
 
             &.selected {
-                background: #0C0C0C;
+                background: #0c0c0c;
             }
 
             &.red {
-                color: #FF3232;
+                color: #ff3232;
             }
         }
     }

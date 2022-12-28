@@ -90,6 +90,6 @@ export default async function updateProfilePic(
 
     return {
         success: true,
-        message: undefined,
+        message: undefined
     };
 }

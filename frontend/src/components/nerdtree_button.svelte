@@ -44,6 +44,6 @@
         background: linear-gradient(102.61deg, #4b4b4b 25.57%, rgba(75, 75, 75, 0) 108.53%);
         border-radius: 9px;
         color: white;
-        padding: .5em 3em;
+        padding: 0.5em 3em;
     }
 </style>

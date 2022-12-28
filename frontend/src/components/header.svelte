@@ -18,7 +18,9 @@
         </div>
         <div class="actions-links">
             <a href="/blogs">
-                <button class="action-link" on:click={() => (isSidebarVisible = false)}> Blogs </button>
+                <button class="action-link" on:click={() => (isSidebarVisible = false)}>
+                    Blogs
+                </button>
             </a>
             <a href={'/about'}>
                 <button class="action-link" on:click={() => (isSidebarVisible = false)}>

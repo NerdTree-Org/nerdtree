@@ -1,15 +1,17 @@
 <script lang="ts">
     import SideBar from '../../../components/user_settings_sidebar.svelte';
-    import {onDestroy, onMount} from "svelte";
-    import {AuthenticationStatus} from "../../../stores/user";
-    import {getAccessToken} from "../../../api_wrapper/common/store_auth_info_cookie";
-    import {goto} from "$app/navigation";
+    import { onDestroy, onMount } from 'svelte';
+    import { AuthenticationStatus } from '../../../stores/user';
+    import { getAccessToken } from '../../../api_wrapper/common/store_auth_info_cookie';
+    import { goto } from '$app/navigation';
 
-    let unsubscribe: () => void = () => {/**/};
+    let unsubscribe: () => void = () => {
+        /**/
+    };
     onMount(() => {
         unsubscribe = AuthenticationStatus.subscribe((status) => {
-            if (!status.info && typeof getAccessToken() === "undefined") {
-                goto("/");
+            if (!status.info && typeof getAccessToken() === 'undefined') {
+                goto('/');
             }
         });
     });
@@ -30,9 +32,7 @@
             Leaving NerdTree is *not* an automatic process. You have to contact one of the root
             nodes to request membership removal
         </p>
-        <p>
-            Root Nodes:
-        </p>
+        <p>Root Nodes:</p>
         <div class="root-nodes-list">
             <p style="color: #969696;">u/n00b_shanto(SHANTO on Discord)</p>
             <p style="color: #969696;">u/mehedirm</p>
@@ -42,8 +42,8 @@
         </div>
         <p>
             DM one of the root nodes on Discord to request membership removal. Membership removal
-            will be done within 24 hours in the best case scenario. Keep in mind that you have to be a
-            member for at least 1 week before requesting membership removal.
+            will be done within 24 hours in the best case scenario. Keep in mind that you have to be
+            a member for at least 1 week before requesting membership removal.
         </p>
     </div>
 </div>
