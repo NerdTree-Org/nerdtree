@@ -20,6 +20,8 @@
     const unsubscribe = AuthenticationStatus.subscribe((value) => {
         if (value.info) {
             currentUser = value.info.user;
+        } else {
+            currentUser = null;
         }
     });
 

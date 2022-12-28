@@ -128,7 +128,7 @@
             <h2>Manage Posts</h2>
             <div class="flex flex-wrap gap-10">
                 {#each posts as post}
-                    <div>
+                    <div class="blog-card-container">
                         <button class="approval" on:click={() => updateApproval(post.id, !post.is_approved)}>{post.is_approved ? "Disapprove" : "Approve"}</button>
                         <BlogCard
                             blog_id={post.id}
@@ -198,6 +198,9 @@
         }
     }
 
+    .blog-card-container {
+        max-width: min(400px, 100%);
+    }
 
     .approval {
         padding: 1em;

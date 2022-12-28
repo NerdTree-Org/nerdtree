@@ -10,15 +10,14 @@
     import {ENV} from "../../env.js";
     import NerdTreeButton, {ButtonType} from '../../components/nerdtree_button.svelte';
     import * as yup from 'yup';
+    import {API} from "../../api_wrapper";
 
     let user: User | null = null;
     let has_selected_profile_pic = false;
     let profile_pic_file_name = '';
     let profile_pic = '';
-    let firstname_error = '';
-    let lastname_error = '';
-    let email_error = '';
     let is_updating = false;
+    let errors = null;
 
     let unsubscribe: () => void = () => {/**/};
     onMount(() => {
@@ -46,14 +45,101 @@
             Lastname: yup.string().trim().min(3).max(255).required(),
             Email: yup.string().trim().email().required(),
         });
+        let validation;
         try {
-            let validation = await schema.validate({
+            validation = await schema.validate({
                 Firstname: firstname,
                 Lastname: lastname,
                 Email: email,
             });
+            errors = null;
         } catch (e) {
-            alert(JSON.stringify(e));
+            errors = e;
+        }
+
+        const firstname_validated = validation.Firstname;
+        const lastname_validated = validation.Lastname;
+        const email_validated = validation.Email;
+
+        try {
+            {
+                const result = await API.user.update.firstname({
+                    firstname: firstname_validated
+                });
+
+                if (!result.success) {
+                    errors = {
+                        errors: [
+                            result.error
+                        ]
+                    }
+                    return;
+                }
+            }
+
+            {
+                const result = await API.user.update.lastname({
+                    lastname: lastname_validated
+                });
+
+                if (!result.success) {
+                    errors = {
+                        errors: [
+                            result.error
+                        ]
+                    }
+                    return;
+                }
+            }
+
+            {
+                const result = await API.user.update.email({
+                    email: email_validated
+                });
+
+                if (!result.success) {
+                    errors = {
+                        errors: [
+                            result.error
+                        ]
+                    }
+                    return;
+                }
+            }
+
+            {
+                if (has_selected_profile_pic) {
+                    let profile_pic_input = document.querySelector<HTMLInputElement>("#profile-pic-selector");
+                    let profile_pic = profile_pic_input.files?.item(0);
+                    let form_data = new FormData();
+                    form_data.append('profile_pic', profile_pic);
+
+                    const result = await API.user.update.profile_pic({
+                        form_data,
+                    });
+
+                    if (!result.success) {
+                        alert(JSON.stringify(result));
+                        errors = {
+                            errors: [
+                                result.message
+                            ]
+                        }
+                        return;
+                    }
+                }
+            }
+        } catch (e) {
+            errors = {
+                errors: [
+                    `Failed to update information: ${e}`
+                ]
+            }
+        }
+
+        if (!errors) {
+            alert("Successfully updated information!");
+            location.reload();
         }
 
         is_updating = false;
@@ -108,24 +194,26 @@
                 </div>
             </div>
         </div>
+        {#if errors}
+            {#each errors?.errors as error}
+                <span class="error">{error}</span>
+            {/each}
+        {/if}
         <div class="inputs p-5 flex flex-col gap-10">
             <div class="input-container">
                 <label for="firstname">First Name</label>
                 <input id="firstname" value={user?.firstname} placeholder="John" />
-                <span class="error-container">{firstname_error}</span>
             </div>
             <div class="input-container">
                 <label for="lastname">Last Name</label>
                 <input id="lastname" value={user?.lastname} placeholder="Doe" />
-                <span class="error-container">{lastname_error}</span>
             </div>
             <div class="input-container">
                 <label for="email">Email</label>
                 <input id="email" value={user?.email} placeholder="johndoe@example.com" />
-                <span class="error-container">{email_error}</span>
             </div>
         </div>
-        <div class="flex items-center justify-center p-10">
+        <div class="p-10 pl-5">
             <NerdTreeButton on_click={updateInfo} type={ButtonType.Smooth}>
                 {is_updating ? 'Updating...' : 'Update'}
             </NerdTreeButton>
@@ -138,11 +226,19 @@
        min-height: 87vh;
    }
 
+   .error {
+       display: block;
+       margin: 1em;
+       padding: 1em 1em;
+       background: #ff2929;
+       border-radius: .5em;
+   }
+
    .profile-pic-upload {
        background: linear-gradient(100.75deg, #2F2F2F 30.53%, rgba(47, 47, 47, 0) 108%);
        border-radius: 20px;
-       width: 100%;
        padding: 2em;
+       margin: 1em;
 
        img {
            height: 200px;
@@ -196,8 +292,11 @@
            font-weight: 600;
            letter-spacing: -2.5%;
            font-family: 'Poppins', sans-serif;
+           border: 2px solid #282828;
            border-bottom: 5px solid #303030;
            transition: 200ms;
+           padding: 0.6em 1em 0.6em 1em;
+           border-radius: 9px;
 
            &:focus {
                border-bottom: 5px solid #606060;
