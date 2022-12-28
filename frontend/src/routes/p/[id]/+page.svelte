@@ -18,8 +18,9 @@
     import PaginationBar from '../../../components/pagination_bar.svelte';
 
     $: post_id = $page.params.id;
-    let post: Post | null;
-    let post_author: User | null;
+    export let data;
+    let post: Post | null = data.post;
+    let post_author: User | null = data.post_author;
     let is_unapproved = false;
     let post_body_ref = -1;
     let comments: Comment[] = [];
@@ -29,9 +30,11 @@
     let has_upvoted = false;
     let has_downvoted = false;
 
-    $: (async () => {
+    $: fetchPost();
+
+    async function fetchPost() {
         const result = await API.post.query.id({
-            post_id
+            post_id: $page.params.id,
         });
 
         if (result.success) {
@@ -48,7 +51,8 @@
                 await fetchCommentsAndUpvotes();
             }
         }
-    })();
+    }
+    fetchPost();
 
     async function submitComment() {
         const body = document.querySelector<HTMLTextAreaElement>('#comment-container').value;

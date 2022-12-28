@@ -13,9 +13,10 @@
     import { get } from 'svelte/store';
 
     $: username = $page.params.username;
-    let user: User | null;
+    export let data;
+    let user: User | null = data.user;
     let currentUser: User | null;
-    let posts: Post[];
+    let posts: Post[] = data.posts;
 
     const unsubscribe = AuthenticationStatus.subscribe((value) => {
         if (value.info) {
