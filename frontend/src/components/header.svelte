@@ -11,28 +11,28 @@
     </a>
     <div class="actions {isSidebarVisible && 'actions-visible'}">
         <div class="cross-container flex w-full justify-end">
-            <div class="cross" on:click={() => (isSidebarVisible = false)}>
+            <button class="cross" on:click={() => (isSidebarVisible = false)}>
                 <div />
                 <div />
-            </div>
+            </button>
         </div>
         <div class="actions-links">
             <a href="/blogs">
-                <span class="action-link" on:click={() => (isSidebarVisible = false)}> Blogs </span>
+                <button class="action-link" on:click={() => (isSidebarVisible = false)}> Blogs </button>
             </a>
             <a href={'/about'}>
-                <span class="action-link" on:click={() => (isSidebarVisible = false)}>
+                <button class="action-link" on:click={() => (isSidebarVisible = false)}>
                     About Us
-                </span>
+                </button>
             </a>
         </div>
         <AuthStatus />
     </div>
-    <div class="breadcrumb" on:click={() => (isSidebarVisible = true)}>
+    <button class="breadcrumb" on:click={() => (isSidebarVisible = true)}>
         <div />
         <div />
         <div />
-    </div>
+    </button>
 </div>
 <div style="height: 50px" />
 
@@ -126,7 +126,7 @@
             }
 
             &:nth-child(2) {
-                span {
+                button {
                     font-size: 1.5em;
                 }
             }

@@ -33,7 +33,6 @@
 
     @media only screen and (max-width: 1010px) {
         .sidebar {
-            display: block;
             width: 100%;
             height: max-content;
             padding-top: 0;
