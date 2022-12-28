@@ -47,9 +47,6 @@
             <a href="/blogs">
                 <span>Blogs</span>
             </a>
-            <a href="/workshops">
-                <span>Workshops</span>
-            </a>
             <a href="/about">
                 <span>About us</span>
             </a>
