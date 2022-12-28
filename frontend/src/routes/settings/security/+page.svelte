@@ -67,7 +67,7 @@
 </svelte:head>
 
 <div class="top-container flex flex-wrap">
-    <SideBar idx="1" />
+    <SideBar idx="2" />
     <form class="flex gap-7 flex-col p-10 flex-1 max-w-full" on:submit={handleSubmit}>
         <span class="error">{updateError}</span>
         <div class="input-container">

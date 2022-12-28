@@ -4,16 +4,25 @@
     import { AuthenticationStatus } from '../../../stores/user';
     import { getAccessToken } from '../../../api_wrapper/common/store_auth_info_cookie';
     import { goto } from '$app/navigation';
+    import { API } from '../../../api_wrapper';
 
+    let token = '';
     let unsubscribe: () => void = () => {
         /**/
     };
-    onMount(() => {
+    onMount(async () => {
         unsubscribe = AuthenticationStatus.subscribe((status) => {
             if (!status.info && typeof getAccessToken() === 'undefined') {
                 goto('/');
             }
         });
+
+        const result = await API.user.get.discord_token();
+        if (result.success) {
+            token = result.value;
+        } else {
+            alert(`Failed to get discord token: ${result.error}`);
+        }
     });
 
     onDestroy(() => {
@@ -26,25 +35,10 @@
 </svelte:head>
 
 <div class="top-container flex flex-wrap">
-    <SideBar idx="3" />
+    <SideBar idx="1" />
     <div class="flex gap-5 flex-col p-10 flex-1 max-w-full">
-        <p>
-            Leaving NerdTree is *not* an automatic process. You have to contact one of the root
-            nodes to request membership removal
-        </p>
-        <p>Root Nodes:</p>
-        <div class="root-nodes-list">
-            <p style="color: #969696;">u/n00b_shanto(SHANTO on Discord)</p>
-            <p style="color: #969696;">u/mehedirm</p>
-            <p style="color: #969696;">u/uthsob_cb</p>
-            <p style="color: #969696;">u/jisangain</p>
-            <p style="color: #969696;">u/mdgaziur001</p>
-        </div>
-        <p>
-            DM one of the root nodes on Discord to request membership removal. Membership removal
-            will be done within 24 hours in the best case scenario. Keep in mind that you have to be
-            a member for at least 1 week before requesting membership removal.
-        </p>
+        <h2>Discord token: <code>{token}</code></h2>
+        <p>Note: this code is usable only once. Contact root nodes aka admins if you encounter any issue.</p>
     </div>
 </div>
 
