@@ -6,7 +6,7 @@ interface UpdateFirstnamePayload {
     firstname: string;
 }
 
-const UPDATE_FIRSTNAME_ROUTE = 'auth/user/update/firstname';
+const UPDATE_FIRSTNAME_ROUTE = 'user/update/firstname';
 
 export async function updateFirstName(
     payload: UpdateFirstnamePayload
@@ -22,7 +22,7 @@ interface UpdateLastnamePayload {
     lastname: string;
 }
 
-const UPDATE_LASTNAME_ROUTE = 'auth/user/update/lastname';
+const UPDATE_LASTNAME_ROUTE = 'user/update/lastname';
 
 export async function updateLastName(
     payload: UpdateLastnamePayload
@@ -38,7 +38,7 @@ interface UpdateEmailPayload {
     lastname: string;
 }
 
-const UPDATE_EMAIL_ROUTE = 'auth/user/update/email';
+const UPDATE_EMAIL_ROUTE = 'user/update/email';
 
 export async function updateEmail(
     payload: UpdateEmailPayload
@@ -47,10 +47,11 @@ export async function updateEmail(
 }
 
 interface UpdatePasswordPayload {
-    password: string;
+    old_password: string;
+    new_password: string;
 }
 
-const UPDATE_PASSWORD_ROUTE = 'auth/user/update/password';
+const UPDATE_PASSWORD_ROUTE = 'user/update/password';
 
 export async function updatePassword(
     payload: UpdatePasswordPayload
@@ -87,5 +88,8 @@ export default async function updateProfilePic(
         };
     }
 
-    return await req.json();
+    return {
+        success: true,
+        message: undefined,
+    };
 }
