@@ -30,9 +30,7 @@ async fn main() -> std::io::Result<()> {
             ])
             .max_age(None);
 
-        if std::env::var("PRODUCTION").is_err() {
-            cors = cors.allowed_origin("http://localhost:5173");
-        }
+        cors = cors.allowed_origin(&std::env::var("WEBSITE_LINK").unwrap());
 
         let json_config = web::JsonConfig::default()
             .limit(1024 * 1024 * 10);

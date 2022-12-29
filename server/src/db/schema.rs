@@ -1,4 +1,6 @@
-table! {
+// @generated automatically by Diesel CLI.
+
+diesel::table! {
     comments (id) {
         id -> Uuid,
         post_id -> Uuid,
@@ -8,7 +10,7 @@ table! {
     }
 }
 
-table! {
+diesel::table! {
     downvotes (id) {
         id -> Uuid,
         post_id -> Uuid,
@@ -16,7 +18,7 @@ table! {
     }
 }
 
-table! {
+diesel::table! {
     posts (id) {
         id -> Uuid,
         is_approved -> Bool,
@@ -29,7 +31,7 @@ table! {
     }
 }
 
-table! {
+diesel::table! {
     upvotes (id) {
         id -> Uuid,
         post_id -> Uuid,
@@ -37,7 +39,7 @@ table! {
     }
 }
 
-table! {
+diesel::table! {
     users (id) {
         id -> Uuid,
         username -> Varchar,
@@ -54,12 +56,18 @@ table! {
     }
 }
 
-joinable!(comments -> posts (post_id));
-joinable!(comments -> users (author_id));
-joinable!(downvotes -> posts (post_id));
-joinable!(downvotes -> users (user_id));
-joinable!(posts -> users (post_author));
-joinable!(upvotes -> posts (post_id));
-joinable!(upvotes -> users (user_id));
+diesel::joinable!(comments -> posts (post_id));
+diesel::joinable!(comments -> users (author_id));
+diesel::joinable!(downvotes -> posts (post_id));
+diesel::joinable!(downvotes -> users (user_id));
+diesel::joinable!(posts -> users (post_author));
+diesel::joinable!(upvotes -> posts (post_id));
+diesel::joinable!(upvotes -> users (user_id));
 
-allow_tables_to_appear_in_same_query!(comments, downvotes, posts, upvotes, users,);
+diesel::allow_tables_to_appear_in_same_query!(
+    comments,
+    downvotes,
+    posts,
+    upvotes,
+    users,
+);
